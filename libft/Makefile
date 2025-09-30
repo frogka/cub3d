@@ -8,6 +8,8 @@ LIBFT = ft_atoi.c\
     ft_isascii.c\
     ft_isdigit.c\
     ft_isprint.c\
+    ft_isspace.c\
+    ft_skip_spaces.c\
     ft_memchr.c\
     ft_memcmp.c\
     ft_memcpy.c\

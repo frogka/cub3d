@@ -6,23 +6,19 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 14:52:59 by jdutille          #+#    #+#             */
-/*   Updated: 2025/09/29 20:30:19 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/09/30 19:38:27 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include <fcntl.h>
+# include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-# include <math.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <fcntl.h>
-
 
 int					ft_isdigit(int i);
 int					ft_isalnum(int i);
@@ -80,8 +76,7 @@ void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 
-
-//GNL
+// GNL
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 5
@@ -91,9 +86,14 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 #  define FD_SIZE 52
 # endif
 
-char	*get_next_line(int fd);
-char	*extraction(int fd, char *stock);
-char	*print_line(char *stock);
-char	*reste(char *stock);
+char				*get_next_line(int fd);
+char				*extraction(int fd, char *stock);
+char				*print_line(char *stock);
+char				*reste(char *stock);
+
+// ADD FUNCTIONS
+
+int					ft_isspace(char *str);
+int					ft_skip_spaces(char *str);
 
 #endif
