@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_skip_spaces.c                                   :+:      :+:    :+:   */
+/*   free_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/30 19:34:42 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/01 20:28:15 by jdutille         ###   ########.fr       */
+/*   Created: 2025/10/01 15:51:49 by jdutille          #+#    #+#             */
+/*   Updated: 2025/10/01 15:53:24 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char ft_skip_spaces(char *str)
+void	free_split(char **tab)
 {
-    while(*str && ft_isspace(str))
-        str++;
-    return(*str);
+	int	i;
+
+	if (!tab)
+		return ;
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
 }

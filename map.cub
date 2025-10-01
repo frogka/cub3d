@@ -4,8 +4,3 @@
 100001
 111111
 
-//faire le parsing de la map
-//lecture 0 1 via gnl
-//mettre couleur sol et mur en scindant l'ecran en 2 dans la hauteur
-//ca permet d'avoir un faut 3d 
-//faire le raycasting

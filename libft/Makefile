@@ -8,8 +8,6 @@ LIBFT = ft_atoi.c\
     ft_isascii.c\
     ft_isdigit.c\
     ft_isprint.c\
-    ft_isspace.c\
-    ft_skip_spaces.c\
     ft_memchr.c\
     ft_memcmp.c\
     ft_memcpy.c\
@@ -38,7 +36,10 @@ LIBFT = ft_atoi.c\
     ft_putnbr_fd.c\
     ft_putstr_fd.c\
     get_next_line.c\
-    get_next_line_bonus.c
+    get_next_line_bonus.c\
+    ft_isspace.c\
+    ft_skip_spaces.c\
+    free_split.c
 
 LIBFT_BONUS =   ft_lstsize.c \
                 ft_lstlast.c\
