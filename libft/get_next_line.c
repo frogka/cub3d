@@ -6,14 +6,16 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:17:01 by jdutille          #+#    #+#             */
-/*   Updated: 2025/09/29 20:30:49 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/02 18:50:10 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+
 char	*extraction(int fd, char *stock)
 {
+	printf("gnl called\n");
 	char	*buf;
 	ssize_t	fd_read;
 
@@ -100,6 +102,8 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+	if (!stock)
+		stock = ft_strdup("");
 	stock = extraction(fd, stock);
 	if (!stock)
 		return (NULL);

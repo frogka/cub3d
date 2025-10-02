@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 14:52:59 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/01 20:27:01 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/02 15:39:19 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char				*reste(char *stock);
 // ADD FUNCTIONS
 
 int					ft_isspace(char *str);
-char				ft_skip_spaces(char *str);
+char				*ft_skip_spaces(char *str);
 void				free_split(char **tab);
 
 #endif

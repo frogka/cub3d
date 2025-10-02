@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/01 20:32:22 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/02 19:14:24 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,20 @@
 int count_map_lines(int fd, t_map *map)
 {
    char *line;
-   int count = 0;
-   
+   int len;
+   int count;
+
+   len = 0;
+   count = 0;
    while ((line = get_next_line(fd)) != NULL)
    {
-      if (ft_strchr(line, '1') || ft_strchr(line, '0'))
+      if (is_map_line(line))
+      {
          count++;
+         len = ft_strlen(line);
+         if (len > map->width)
+            map->width = len;
+      }
       free(line);
    }
    map->height = count;
@@ -38,7 +46,7 @@ char **fill_map(int fd, t_map *map)
    i = 0;
    while ((line = get_next_line(fd)) != NULL)
    {
-      if (ft_strchr(line, '1') || ft_strchr(line, '0'))
+      if (is_map_line(line))
       {
          grid[i] = ft_strdup(line);
          i++;
@@ -89,6 +97,7 @@ int is_config_line(char *line)
 }
 
 //fonction qui atttribut les config a la structure
+// ajout d'un char temporaire ??
 void parse_config(t_config *config, char *line)
 {
    int i;
@@ -142,7 +151,7 @@ int check_colors(char *line)
    g = ft_atoi(colors[1]);
    b = ft_atoi(colors[2]);
    free_split(colors);
-   if ((check_valid_numbers(r, g, b)) == 0)
+   if (check_valid_numbers(r, g, b) == 1)
       return (xrgb(r, g, b));
    return (-1);
    //message d'erreur sur la validite des nombres
@@ -151,8 +160,8 @@ int check_colors(char *line)
 int check_valid_numbers(int r, int g, int b)
 {
    if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
-      return(1);
-   return (0);
+      return(0);
+   return (1);
 }
 
 
@@ -162,7 +171,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
-	dst = data->img.addr + (y * data->img.line_len + x * (data->img.bits_par_pix
+	dst = data->img.addr + (y * data->img.line_len + x * (data->img.bpp
 				/ 8));
 	*(unsigned int *)dst = color;
 }
@@ -171,13 +180,47 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 int main ()
 {
+   int fd;
+   char *line;
    t_data data;
+   t_map *map;
 
+   line = NULL;
+   map = malloc(sizeof(t_map));
+   printf("after malloc: map = %p\n", map);
+   if (!map) 
+      exit(1);
+   fd = open("map.cub", O_RDONLY);
+  // printf("after open: fd = %d\n", fd);
+  // while ((line = get_next_line(fd)))
+  // {
+  //    printf("%s\n", line);
+  //    if (is_map_line(line))
+  //    {
+  //       free(line);
+  //       break;
+  //    }
+  //    free(line);
+  // }
+   count_map_lines(fd, map);
+   printf("height: %d\n", map->height);
+   close(fd);
+   fd = open("map.cub", O_RDONLY);
+   //fill_map(fd, map);
+   map->grid = fill_map(fd, map);
+   if (!map->grid)
+{
+    perror("fill_map failed");
+    return (1);
+}
+   printf("map->grid: %p\n", map->grid);
    data.mlx_ptr = mlx_init();
    data.win_ptr = mlx_new_window(data.mlx_ptr, LARGEUR, HAUTEUR
 , "test");
 data.img.img_ptr = mlx_new_image(data.mlx_ptr, LARGEUR, HAUTEUR);
 data.img.addr = mlx_get_data_addr(data.img.img_ptr , &data.img.bpp, &data.img.line_len, &data.img.endian);
+draw_map(map, &data, 0, 0);
+mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.img_ptr, 0, 0);
 mlx_loop(data.mlx_ptr);
 }
 

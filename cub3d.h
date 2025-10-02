@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/01 20:22:29 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/02 19:19:02 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 # include "libft/libft.h"
 # include "minilibx-linux/mlx.h"
 
-//taille de l'ecran
+// taille de l'ecran
 # define LARGEUR 1200
 # define HAUTEUR 800
 
-# define TILE 10
+# define TILE 100
 
 // definir les couleurs
 # define RED 0xFF0000
@@ -63,12 +63,24 @@ typedef struct s_config
 	int		ceiling;
 }			t_config;
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
+int			check_valid_numbers(int r, int g, int b);
+int			check_colors(char *line);
+int			xrgb(int r, int g, int b);
+void		parse_config(t_config *config, char *line);
+int			is_config_line(char *line);
+int			is_map_line(char *line);
+char		**fill_map(int fd, t_map *map);
+int			count_map_lines(int fd, t_map *map);
 
-//faire le parsing de la map
-//lecture 0 1 via gnl
-//mettre couleur sol et mur en scindant l'ecran en 2 dans la hauteur
-//ca permet d'avoir un faut 3d 
-//faire le raycasting
+///////////MAP.C/////////////
+void draw_square(t_data *data, char c, int x, int y);
+void draw_map(t_map *map, t_data *data, int x, int y);
+
+// faire le parsing de la map
+// lecture 0 1 via gnl
+// mettre couleur sol et mur en scindant l'ecran en 2 dans la hauteur
+// ca permet d'avoir un faut 3d
+// faire le raycasting
 
 #endif

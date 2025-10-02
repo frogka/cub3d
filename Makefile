@@ -2,7 +2,8 @@
 NAME = cub3d
 
 # Fichiers sources
-SRCS = cub3d.c
+SRCS = cub3d.c\
+	   map.c
 
 # Compilateur
 CC = cc
