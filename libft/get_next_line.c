@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:17:01 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/02 18:50:10 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/03 18:58:56 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 char	*extraction(int fd, char *stock)
 {
-	printf("gnl called\n");
 	char	*buf;
 	ssize_t	fd_read;
 

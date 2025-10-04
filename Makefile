@@ -3,7 +3,8 @@ NAME = cub3d
 
 # Fichiers sources
 SRCS = cub3d.c\
-	   map.c
+	   map.c\
+	   player.c
 
 # Compilateur
 CC = cc

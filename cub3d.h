@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/02 19:19:02 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/03 23:49:12 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 # define LARGEUR 1200
 # define HAUTEUR 800
 
-# define TILE 100
+# define TILE 64
+# define PI 3.14
 
 // definir les couleurs
 # define RED 0xFF0000
@@ -50,6 +51,10 @@ typedef struct s_map
 	char	**grid;
 	int		height;
 	int		width;
+	double	player_x;
+	double	player_y;
+	double	player_dir;
+	int		player_found;
 	// ajouter position du joueur
 }			t_map;
 
@@ -74,8 +79,13 @@ char		**fill_map(int fd, t_map *map);
 int			count_map_lines(int fd, t_map *map);
 
 ///////////MAP.C/////////////
-void draw_square(t_data *data, char c, int x, int y);
-void draw_map(t_map *map, t_data *data, int x, int y);
+void		draw_square(t_data *data, char c, int x, int y);
+void		draw_map(t_map *map, t_data *data, int x, int y);
+
+///////////PLAYER//////////////////
+void check_numb_player(t_map *map, char *line, int x, int y);
+void player_position(t_map *map, char c, int x, int y);
+
 
 // faire le parsing de la map
 // lecture 0 1 via gnl

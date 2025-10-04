@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/02 19:14:24 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/03 23:50:14 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ char **fill_map(int fd, t_map *map)
    {
       if (is_map_line(line))
       {
-         grid[i] = ft_strdup(line);
+         grid[i] = ft_strdup(line); //raison pour laquelle grid[y][x]
+         if (check_numb_player(map, line, ))
          i++;
       }
       free(line);
@@ -77,15 +78,15 @@ int is_config_line(char *line)
    int i;
 
    i = 0;
-   while (ft_isspace(&line[i]))
+   while (ft_isspace(&line[i])) // mettre les \n et \0 ??
       i++;
-   if (ft_strncmp(line, "NO", 2) == 0 && ft_isspace(&line[2]))
+   if (ft_strncmp(line, "NO", 2) == 0 && ft_isspace(&line[i + 2]))
       return (1);
-   else if (ft_strncmp(line, "EA", 2) == 0 && ft_isspace(&line[2]))
+   else if (ft_strncmp(line, "EA", 2) == 0 && ft_isspace(&line[i + 2]))
       return (1);
-   else if (ft_strncmp(line, "WE", 2) == 0 && ft_isspace(&line[2]))
+   else if (ft_strncmp(line, "WE", 2) == 0 && ft_isspace(&line[i + 2]))
       return (1);
-   else if (ft_strncmp(line, "SO", 2) == 0 && ft_isspace(&line[2]))
+   else if (ft_strncmp(line, "SO", 2) == 0 && ft_isspace(&line[i + 2]))
       return (1);
    else if (line[i] == 'C' && ft_isspace(&line[i + 1]))
       return (1);
@@ -105,13 +106,13 @@ void parse_config(t_config *config, char *line)
    i = 0;
    while (ft_isspace(&line[i]))
      i++;
-   if (ft_strncmp(&line[i], "NO", 2) == 0 && ft_isspace(&line[2]))
+   if (ft_strncmp(&line[i], "NO", 2) == 0 && ft_isspace(&line[i + 2]))
       config->no_text = ft_strdup(ft_skip_spaces(&line[i + 2]));
-   else if (ft_strncmp(&line[i], "EA", 2) == 0 && ft_isspace(&line[2]))
+   else if (ft_strncmp(&line[i], "EA", 2) == 0 && ft_isspace(&line[i + 2]))
       config->ea_text = ft_strdup(ft_skip_spaces(&line[i + 2]));
-   else if (ft_strncmp(&line[i], "WE", 2) == 0 && ft_isspace(&line[2]))
+   else if (ft_strncmp(&line[i], "WE", 2) == 0 && ft_isspace(&line[i + 2]))
       config->we_text = ft_strdup(ft_skip_spaces(&line[i + 2]));
-   else if (ft_strncmp(line + i, "SO", 2) == 0 && ft_isspace(&line[2]))
+   else if (ft_strncmp(line + i, "SO", 2) == 0 && ft_isspace(&line[i + 2]))
       config->so_text = ft_strdup(ft_skip_spaces(&line[i + 2]));
    else if (line[i] == 'C' && ft_isspace(&line[i + 1]))
       config->ceiling = check_colors(ft_skip_spaces(&line[i + 1]));
