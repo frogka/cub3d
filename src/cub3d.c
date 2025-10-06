@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/04 17:06:03 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/06 20:52:33 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,17 +196,17 @@ int main ()
    if (!map) 
       exit(1);
    fd = open("map.cub", O_RDONLY);
-  // printf("after open: fd = %d\n", fd);
-  // while ((line = get_next_line(fd)))
-  // {
-  //    printf("%s\n", line);
-  //    if (is_map_line(line))
-  //    {
-  //       free(line);
-  //       break;
-  //    }
-  //    free(line);
-  // }
+      // printf("after open: fd = %d\n", fd);
+      // while ((line = get_next_line(fd)))
+      // {
+         //    printf("%s\n", line);
+         //    if (is_map_line(line))
+         //    {
+            //       free(line);
+            //       break;
+            //    }
+            //    free(line);
+            // }
    count_map_lines(fd, map);
    printf("height: %d\n", map->height);
    close(fd);
@@ -214,10 +214,14 @@ int main ()
    //fill_map(fd, map);
    map->grid = fill_map(fd, map);
    if (!map->grid)
-{
-    perror("fill_map failed");
-    return (1);
-}
+   {
+      perror("fill_map failed");
+      return (1);   
+   }
+   player_position(map);
+   printf("%lf\n", map->player_x);
+   printf("%lf\n", map->player_y);
+   printf("%lf\n", map->player_dir);
    printf("map->grid: %p\n", map->grid);
    data.mlx_ptr = mlx_init();
    data.win_ptr = mlx_new_window(data.mlx_ptr, LARGEUR, HAUTEUR

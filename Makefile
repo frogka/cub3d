@@ -2,9 +2,9 @@
 NAME = cub3d
 
 # Fichiers sources
-SRCS = cub3d.c\
-	   map.c\
-	   player.c
+SRCS = src/cub3d.c \
+       src/map.c \
+       src/player.c
 
 # Compilateur
 CC = cc
@@ -18,8 +18,11 @@ RESET = \033[0m
 # Flags
 CFLAGS = -Wall -Wextra -Werror -g
 
+# Dossier pour les .o
+OBJ_DIR = obj
+
 # Fichiers objets générés
-OBJS = $(SRCS:.c=.o)
+OBJS = $(patsubst src/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
 # Répertoires des bibliothèques
 LIBFT_DIR = ./libft
@@ -29,45 +32,49 @@ MLX_DIR = ./minilibx-linux
 LIBFT = $(LIBFT_DIR)/libft.a
 MLX_LIB = $(MLX_DIR)/libmlx_Linux.a
 
+# --- Règles principales ---
 
-# Règle par défaut pour créer le programme final
+all: $(NAME)
+
 $(NAME): $(MLX_LIB) $(LIBFT) $(OBJS)
-	@$(CC) $(CFLAGS) -lm -lXext -lX11 -o $@ $(OBJS) $(LIBFT) $(MLX_LIB)
+	@echo "$(CYAN)Édition des liens...$(RESET)"
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX_LIB) -lm -lXext -lX11 -o $(NAME)
+	@echo "$(GREEN)✅ Compilation terminée !$(RESET)"
 
 # Règle pour compiler la MiniLibX
 $(MLX_LIB):
-	@echo "$(GREEN)Compilation de la MiniLibX...$(RESET)"
+	@echo "$(GREEN)🔨 Compilation de la MiniLibX...$(RESET)"
 	@$(MAKE) -C $(MLX_DIR) --silent
 
 # Règle pour compiler la Libft
 $(LIBFT):
-	@echo "$(GREEN)Compilation de la Libft...$(RESET)"
+	@echo "$(GREEN)🔨 Compilation de la Libft...$(RESET)"
 	@$(MAKE) -C $(LIBFT_DIR) --silent
 
-# Règle générique pour compiler les fichiers .c en .o
-%.o: %.c
-	@echo "$(GREEN)Compilation de $<...$(RESET)"
-	@$(CC) $(CFLAGS) -c $< -o $@ -I .
+# Crée le dossier obj si nécessaire
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
 
-# Règle par défaut pour compiler le programme
-all: $(NAME)
+# Compilation des .c en .o
+$(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
+	@echo "$(GREEN)🔨 Compilation de $<...$(RESET)"
+	@$(CC) $(CFLAGS) -I. -c $< -o $@
 
-# Nettoyage des fichiers objets
+# Nettoyage des objets
 clean:
-	@echo "$(RED)Nettoyage des objets...$(RESET)"
+	@echo "$(RED)🗑️  Nettoyage des objets...$(RESET)"
 	@$(MAKE) clean -C $(LIBFT_DIR) --silent
 	@$(MAKE) clean -C $(MLX_DIR) --silent
-	@rm -f $(OBJS)
+	@rm -rf $(OBJ_DIR)
 
-# Nettoyage complet (objets + programme)
+# Nettoyage complet
 fclean: clean
-	@echo "$(RED)Nettoyage complet...$(RESET)"
+	@echo "$(RED)🗑️  Nettoyage complet...$(RESET)"
 	@$(MAKE) fclean -C $(LIBFT_DIR) --silent
 	@$(MAKE) fclean -C $(MLX_DIR) --silent	
 	@rm -f $(NAME)
 
-# Règle pour tout refaire (nettoyage complet + recompilation)
+# Recompile tout
 re: fclean all
 
-# Déclaration des cibles sans fichiers associés
 .PHONY: all clean fclean re

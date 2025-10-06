@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 18:24:28 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/03 23:47:32 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/06 19:19:03 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void draw_map(t_map *map, t_data *data, int x, int y)
                 c = map->grid[col][row];
                 px = row * TILE;
                 py = col * TILE;
-                if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
-                    player_position(map, c, row, col);
+                //if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+                //    player_position(map, c, row, col);
                 draw_square(data, c, px, py);
                 row++;
             }

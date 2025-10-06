@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/04 16:48:10 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/06 21:14:17 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,14 @@
 # define GREEN 0x00FF00
 # define BLACK 0x000000
 
+//keycode des touches clavier
+# define KEY_ESC 65307
+# define KEY_LEFT 65361
+# define KEY_RIGHT 65363
+# define KEY_UP 65362
+# define KEY_DOWN 65364
+
+// structure qui gere l'affichage
 typedef struct s_image
 {
 	void	*img_ptr;
@@ -38,6 +46,7 @@ typedef struct s_image
 	int		endian;
 }			t_image;
 
+//gere la connexion au server + l'image
 typedef struct s_data
 {
 	void	*mlx_ptr;
@@ -46,6 +55,7 @@ typedef struct s_data
 	t_image	img;
 }			t_data;
 
+//gere les infos de la map
 typedef struct s_map
 {
 	char	**grid;
@@ -58,6 +68,7 @@ typedef struct s_map
 	// ajouter position du joueur
 }			t_map;
 
+//gere les images et couleurs de la map
 typedef struct s_config
 {
 	char	*no_text;
@@ -68,6 +79,7 @@ typedef struct s_config
 	int		ceiling;
 }			t_config;
 
+///////////////CUB3D////////////////
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int			check_valid_numbers(int r, int g, int b);
 int			check_colors(char *line);
@@ -78,13 +90,13 @@ int			is_map_line(char *line);
 char		**fill_map(int fd, t_map *map);
 int			count_map_lines(int fd, t_map *map);
 
-///////////MAP.C/////////////
+///////////MAP/////////////
 void		draw_square(t_data *data, char c, int x, int y);
 void		draw_map(t_map *map, t_data *data, int x, int y);
 
 ///////////PLAYER//////////////////
 //void		check_numb_player(t_map *map, char *line, int x, int y);
-void		player_position(t_map *map, char c, int x, int y);
+void		player_position(t_map *map);
 int			is_one_player(t_map *map, char *line);
 
 // faire le parsing de la map

@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 17:43:48 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/04 16:55:54 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/06 20:55:07 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,37 @@ void check_numb_player(t_map *map, char *line, int x, int y)
     }
 }*/
 
-void player_position(t_map *map, char c, int x, int y)
+void player_position(t_map *map)
 {
-    //centre pour obtenir la pov
-    map->player_x = x * TILE + TILE / 2; 
-    map->player_y = y * TILE + TILE / 2;
+    int x;
+    int y;
 
-    if (c == 'N')
-        map->player_dir = 3 * PI / 2;        
-    else if (c == 'S')
-        map->player_dir = PI / 2;
-    else if (c == 'E')
-        map->player_dir = 0;
-    else if (c == 'W')
-        map->player_dir = PI;
+    y = 0;
+    while (y < map->height)
+    {
+        x = 0;
+        while (x < map->width)
+        {
+            if (map->grid[y][x] == 'N' || map->grid[y][x] == 'S' || map->grid[y][x] == 'E' || map->grid[y][x] == 'W')
+            {
+                if (map->grid[y][x] == 'N')
+                    map->player_dir = 3 * PI / 2;        
+                else if (map->grid[y][x] == 'S')
+                    map->player_dir = PI / 2;
+                else if (map->grid[y][x] == 'E')
+                    map->player_dir = 0;
+                else if (map->grid[y][x] == 'W')
+                    map->player_dir = PI;
+                map->player_x = x * TILE + TILE / 2; //centre pour la pov
+                map->player_y = y * TILE + TILE / 2;
+                //mettre map->grid[y][x] = '0';
+            }
+            x++;
+        }
+        y++;
+    }
 }
+
 
 int is_one_player(t_map *map, char *line)
 {
