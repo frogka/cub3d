@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/03 23:49:12 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/04 16:48:10 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ void		draw_square(t_data *data, char c, int x, int y);
 void		draw_map(t_map *map, t_data *data, int x, int y);
 
 ///////////PLAYER//////////////////
-void check_numb_player(t_map *map, char *line, int x, int y);
-void player_position(t_map *map, char c, int x, int y);
-
+//void		check_numb_player(t_map *map, char *line, int x, int y);
+void		player_position(t_map *map, char c, int x, int y);
+int			is_one_player(t_map *map, char *line);
 
 // faire le parsing de la map
 // lecture 0 1 via gnl

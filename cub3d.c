@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/03 23:50:14 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/04 17:06:03 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,11 @@ char **fill_map(int fd, t_map *map)
       if (is_map_line(line))
       {
          grid[i] = ft_strdup(line); //raison pour laquelle grid[y][x]
-         if (check_numb_player(map, line, ))
+         if (is_one_player(map, line) == 0)
+         {
+            free(line);
+            exit (-1);
+         }
          i++;
       }
       free(line);
@@ -65,8 +69,8 @@ int is_map_line(char *line)
    i = 0;
    while ((line[i] == '\n' || line[i] == '\0'))
    {
-      if (line[i] != '1' && line[i] != '0' && line[i] != ' ' && line[i] != 'N' && line[i] != 'S' && line[i] != 'E' && line[i] != 'W')
-         return 0;
+      if (line[i] != '1' || line[i] != '0' || line[i] != ' ' || line[i] != 'N' || line[i] != 'S' || line[i] != 'E' || line[i] != 'W')
+         exit (-1);
       i++;
    }
    return(1);
@@ -182,11 +186,11 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 int main ()
 {
    int fd;
-   char *line;
+   //char *line;
    t_data data;
    t_map *map;
 
-   line = NULL;
+   //line = NULL;
    map = malloc(sizeof(t_map));
    printf("after malloc: map = %p\n", map);
    if (!map) 

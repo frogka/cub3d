@@ -6,12 +6,13 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 17:43:48 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/03 23:57:24 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/04 16:55:54 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+/*
 //fontion a mettre avant le dessin de la map??
 void check_numb_player(t_map *map, char *line, int x, int y)
 {
@@ -39,7 +40,7 @@ void check_numb_player(t_map *map, char *line, int x, int y)
             y++;
         }
     }
-}
+}*/
 
 void player_position(t_map *map, char c, int x, int y)
 {
@@ -64,10 +65,11 @@ int is_one_player(t_map *map, char *line)
     i = 0;
     while (line[i])
     {
-        if (line[i] == 'N' && line[i] == 'S' && line[i] == 'E' && line[i] == 'W')
+        if ((line[i] == 'N' || line[i] == 'S' || line[i] == 'E' || line[i] == 'W') && map->player_found == 0)
             map->player_found = 1;
-        else if (line[i] == 'N' && line[i] == 'S' && line[i] == 'E' && line[i] == 'W' && map->player_found == 1)
+        else if ((line[i] == 'N' || line[i] == 'S' || line[i] == 'E' || line[i] == 'W') && map->player_found == 1)
             return (0);
+        i++;
     }
     return (1);
 }
