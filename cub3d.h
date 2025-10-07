@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/06 21:14:17 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:32:06 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@
 # include "minilibx-linux/mlx.h"
 
 // taille de l'ecran
-# define LARGEUR 1200
-# define HAUTEUR 800
+# define WIDTH 1200
+# define HEIGHT 800
 
 # define TILE 64
 # define PI 3.14
+
+# define speed 0.1
 
 // definir les couleurs
 # define RED 0xFF0000
@@ -46,7 +48,7 @@ typedef struct s_image
 	int		endian;
 }			t_image;
 
-//gere la connexion au server + l'image
+//gere la connc'est quoi un angle radianexion au server + l'image
 typedef struct s_data
 {
 	void	*mlx_ptr;

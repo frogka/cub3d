@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/06 20:52:33 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:33:06 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,9 +224,9 @@ int main ()
    printf("%lf\n", map->player_dir);
    printf("map->grid: %p\n", map->grid);
    data.mlx_ptr = mlx_init();
-   data.win_ptr = mlx_new_window(data.mlx_ptr, LARGEUR, HAUTEUR
+   data.win_ptr = mlx_new_window(data.mlx_ptr, WIDTH, HEIGHT
 , "test");
-data.img.img_ptr = mlx_new_image(data.mlx_ptr, LARGEUR, HAUTEUR);
+data.img.img_ptr = mlx_new_image(data.mlx_ptr, WIDTH, HEIGHT);
 data.img.addr = mlx_get_data_addr(data.img.img_ptr , &data.img.bpp, &data.img.line_len, &data.img.endian);
 draw_map(map, &data, 0, 0);
 mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.img_ptr, 0, 0);

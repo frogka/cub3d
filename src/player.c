@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 17:43:48 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/06 20:55:07 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:28:57 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void player_position(t_map *map)
                     map->player_dir = PI;
                 map->player_x = x * TILE + TILE / 2; //centre pour la pov
                 map->player_y = y * TILE + TILE / 2;
+                //map->grid[y][x] = '0'; //stocker dans une variable
                 //mettre map->grid[y][x] = '0';
             }
             x++;

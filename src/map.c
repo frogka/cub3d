@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 18:24:28 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/06 19:19:03 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:32:24 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void draw_map(t_map *map, t_data *data, int x, int y)
     char c;
 
     col = 0;
-    if (x < LARGEUR && y < HAUTEUR)
+    if (x < WIDTH && y < HEIGHT)
     {
         while (col < map->height)
         {
