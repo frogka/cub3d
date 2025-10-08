@@ -6,13 +6,13 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 18:24:28 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/07 17:32:24 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/08 02:41:02 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void draw_map(t_map *map, t_data *data, int x, int y)
+void draw_map(t_map *map, t_data *data)
 {
     int row;
     int col;
@@ -21,8 +21,8 @@ void draw_map(t_map *map, t_data *data, int x, int y)
     char c;
 
     col = 0;
-    if (x < WIDTH && y < HEIGHT)
-    {
+    //if (x < WIDTH && y < HEIGHT)
+    //{
         while (col < map->height)
         {
             row = 0;
@@ -38,7 +38,8 @@ void draw_map(t_map *map, t_data *data, int x, int y)
             }
             col++;
         }
-    }
+        draw_square(data, 'P', map->player_x - TILE / 2, map->player_y - TILE / 2);
+    //}
 }
 
 
@@ -59,6 +60,8 @@ void draw_square(t_data *data, char c, int px, int py)
                 my_mlx_pixel_put(data, tx + px, ty + py, BLUE);
             else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
                 my_mlx_pixel_put(data, tx + px, ty + py, BLACK);
+            else if (c == 'P')
+                my_mlx_pixel_put(data, tx + px, ty + py, GREEN);
             tx++;
         }
         ty++;

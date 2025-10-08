@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/07 17:33:06 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/08 02:32:07 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int count_map_lines(int fd, t_map *map)
       {
          count++;
          len = ft_strlen(line);
+         printf("%d\n", len);
          if (len > map->width)
             map->width = len;
       }
@@ -40,6 +41,7 @@ char **fill_map(int fd, t_map *map)
    char *line;
    char **grid;
 
+   printf("1width = %d, height = %d\n", map->width, map->height);
    grid = malloc(sizeof(char *) * (map->height + 1));
    if (!grid)
       return(NULL);
@@ -49,6 +51,7 @@ char **fill_map(int fd, t_map *map)
       if (is_map_line(line))
       {
          grid[i] = ft_strdup(line); //raison pour laquelle grid[y][x]
+         printf("%s", line);
          if (is_one_player(map, line) == 0)
          {
             free(line);
@@ -59,6 +62,8 @@ char **fill_map(int fd, t_map *map)
       free(line);
    }
    grid[i] = NULL;
+   printf("2width = %d, height = %d\n", map->width, map->height);
+   printf("%s\n", grid[i]);
    return(grid);
 }
 
@@ -192,7 +197,11 @@ int main ()
 
    //line = NULL;
    map = malloc(sizeof(t_map));
-   printf("after malloc: map = %p\n", map);
+   map->height = 0;
+   map->width = 0;
+   map->player_found = 0;
+   data.map = map;
+   printf("map addr main = %p\n", map);
    if (!map) 
       exit(1);
    fd = open("map.cub", O_RDONLY);
@@ -208,7 +217,7 @@ int main ()
             //    free(line);
             // }
    count_map_lines(fd, map);
-   printf("height: %d\n", map->height);
+   printf("width = %d, height = %d\n", map->width, map->height);
    close(fd);
    fd = open("map.cub", O_RDONLY);
    //fill_map(fd, map);
@@ -222,14 +231,17 @@ int main ()
    printf("%lf\n", map->player_x);
    printf("%lf\n", map->player_y);
    printf("%lf\n", map->player_dir);
-   printf("map->grid: %p\n", map->grid);
+   printf("adresse data = %p\n", &data);
+   printf("adresse map  = %p\n", data.map);
    data.mlx_ptr = mlx_init();
    data.win_ptr = mlx_new_window(data.mlx_ptr, WIDTH, HEIGHT
-, "test");
-data.img.img_ptr = mlx_new_image(data.mlx_ptr, WIDTH, HEIGHT);
+      , "test");
+   data.img.img_ptr = mlx_new_image(data.mlx_ptr , WIDTH, HEIGHT);
+   printf("FGASDFSDF\n");
 data.img.addr = mlx_get_data_addr(data.img.img_ptr , &data.img.bpp, &data.img.line_len, &data.img.endian);
-draw_map(map, &data, 0, 0);
+draw_map(map, &data);
 mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.img_ptr, 0, 0);
+init_hook(&data);
 mlx_loop(data.mlx_ptr);
 }
 

@@ -4,7 +4,9 @@ NAME = cub3d
 # Fichiers sources
 SRCS = src/cub3d.c \
        src/map.c \
-       src/player.c
+       src/player.c \
+	   src/hook.c \
+	   src/moove.c
 
 # Compilateur
 CC = cc
