@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/08 02:32:07 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/08 18:10:38 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,5 +243,6 @@ draw_map(map, &data);
 mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.img_ptr, 0, 0);
 init_hook(&data);
 mlx_loop(data.mlx_ptr);
+return (0);
 }
 

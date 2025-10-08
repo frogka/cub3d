@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 18:24:28 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/08 02:44:07 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/09 00:20:51 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void draw_map(t_map *map, t_data *data)
             col++;
         }
         draw_square(data, 'P', map->player_x - TILE / 2, map->player_y - TILE / 2);
+        
     //}
 }
 
@@ -62,9 +63,9 @@ void draw_square(t_data *data, char c, int px, int py)
                 my_mlx_pixel_put(data, tx + px, ty + py , RED);
             else if (c == '0')
                 my_mlx_pixel_put(data, tx + px, ty + py, BLUE);
-            else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
-                my_mlx_pixel_put(data, tx + px, ty + py, BLACK);
-            else if (c == 'P')
+            // else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+                // my_mlx_pixel_put(data, tx + px, ty + py, BLACK);
+            else if (c == 'P' )//&& tx < RAYON && ty < RAYON)
                 my_mlx_pixel_put(data, tx + px, ty + py, GREEN);
             tx++;
         }

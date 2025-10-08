@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/08 02:38:05 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/09 00:10:23 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@
 # define HEIGHT 800
 
 # define TILE 64
+# define RAYON TILE/3
 # define PI 3.14
 
-# define speed 0.3
+# define speed 2
 
 // definir les couleurs
 # define RED 0xFF0000
@@ -103,10 +104,13 @@ void				player_position(t_map *map);
 int					is_one_player(t_map *map, char *line);
 
 /////////////////MOOVE////////////////
-void				moove_v(int keycode, t_data *data );
+void				move_v(int keycode, t_data *data);
+void				move_h(int keycode, t_data *data);
+int	check_collision(t_data *data, double n_x, double n_y);
+
 
 //////////////////HOOK/////////////////
-int					handle_input(int keycode,t_data *data);
+int					handle_input(int keycode, t_data *data);
 void				init_hook(t_data *data);
 int					close_win(t_data *data);
 void				destroy(t_data *data);

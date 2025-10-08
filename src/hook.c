@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 20:54:05 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/08 02:33:07 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/08 21:33:11 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ int	handle_input(int keycode,t_data *data)
     printf("adresse data = %p\n", data);
 printf("adresse map  = %p\n", data->map);
 	if (keycode == KEY_UP || keycode == KEY_DOWN)
-		moove_v(keycode, data);
+		move_v(keycode, data);
+	if (keycode == KEY_LEFT || keycode == KEY_RIGHT)
+		move_h(keycode, data);
 	if (keycode == KEY_ESC)
 		destroy(data);
     printf("%d\n", keycode);

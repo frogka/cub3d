@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 17:43:48 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/07 17:28:57 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/08 20:37:13 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void player_position(t_map *map)
             if (map->grid[y][x] == 'N' || map->grid[y][x] == 'S' || map->grid[y][x] == 'E' || map->grid[y][x] == 'W')
             {
                 if (map->grid[y][x] == 'N')
-                    map->player_dir = 3 * PI / 2;        
+                    map->player_dir = 3 * PI / 2;       
                 else if (map->grid[y][x] == 'S')
                     map->player_dir = PI / 2;
                 else if (map->grid[y][x] == 'E')
@@ -65,7 +65,7 @@ void player_position(t_map *map)
                     map->player_dir = PI;
                 map->player_x = x * TILE + TILE / 2; //centre pour la pov
                 map->player_y = y * TILE + TILE / 2;
-                //map->grid[y][x] = '0'; //stocker dans une variable
+                map->grid[y][x] = '0'; //stocker dans une variable
                 //mettre map->grid[y][x] = '0';
             }
             x++;
