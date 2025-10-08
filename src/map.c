@@ -6,11 +6,15 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 18:24:28 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/08 02:41:02 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/08 02:44:07 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+//supp ancienne postiion jouer, carre colore qui reste
+//gerer deplacemetn horizontaux
+//
 
 void draw_map(t_map *map, t_data *data)
 {

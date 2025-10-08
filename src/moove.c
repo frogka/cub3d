@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 21:13:10 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/08 02:20:03 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/08 02:47:13 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void moove_v(int keycode, t_data *data)
 	grid_y = (int)(next_y / TILE);
 
 	printf("grid_x = %d, grid_y = %d, height = %d, width = %d\n", grid_x, grid_y, data->map->height, data->map->width);
+	//gere la distance aux murs
 	if (data->map->grid[grid_y][grid_x] != '1')
 	{
 		data->map->player_x = next_x;
