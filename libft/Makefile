@@ -39,7 +39,9 @@ LIBFT = ft_atoi.c\
     get_next_line_bonus.c\
     ft_isspace.c\
     ft_skip_spaces.c\
-    free_split.c
+    free_split.c\
+    ft_isalpha_low.c\
+    ft_isalpha_up.c
 
 LIBFT_BONUS =   ft_lstsize.c \
                 ft_lstlast.c\

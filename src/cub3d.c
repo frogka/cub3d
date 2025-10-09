@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/08 18:10:38 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/09 21:01:23 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,10 @@ int count_map_lines(int fd, t_map *map)
          printf("%d\n", len);
          if (len > map->width)
             map->width = len;
+         free(line);
       }
-      free(line);
+      else
+         free(line);
    }
    map->height = count;
    return (count);
@@ -56,6 +58,7 @@ char **fill_map(int fd, t_map *map)
          {
             free(line);
             exit (-1);
+            //faire une fosntion pour les erreurs
          }
          i++;
       }
@@ -67,15 +70,16 @@ char **fill_map(int fd, t_map *map)
    return(grid);
 }
 
+//pbl qunas joeur est a l'extremite +P quand la lettre est != du joueur
 int is_map_line(char *line)
 {
    int i;
 
    i = 0;
-   while ((line[i] == '\n' || line[i] == '\0'))
+   while (line[i] && line[i] != '\0')
    {
-      if (line[i] != '1' || line[i] != '0' || line[i] != ' ' || line[i] != 'N' || line[i] != 'S' || line[i] != 'E' || line[i] != 'W')
-         exit (-1);
+      if (line[i] != '1' && line[i] != '0' && line[i] != ' ' && line[i] != 'N' && line[i] != 'S' && line[i] != 'E' && line[i] != 'W' && line[i] != '\n')
+         return (0);
       i++;
    }
    return(1);
@@ -204,6 +208,7 @@ int main ()
    printf("map addr main = %p\n", map);
    if (!map) 
       exit(1);
+      //faire une condition qui ouvre seulement si .cub
    fd = open("map.cub", O_RDONLY);
       // printf("after open: fd = %d\n", fd);
       // while ((line = get_next_line(fd)))
@@ -227,7 +232,11 @@ int main ()
       perror("fill_map failed");
       return (1);   
    }
-   player_position(map);
+   if (player_position(map))
+   {
+      printf("MANGE T MORTS\n");
+      return 1;
+   }
    printf("%lf\n", map->player_x);
    printf("%lf\n", map->player_y);
    printf("%lf\n", map->player_dir);

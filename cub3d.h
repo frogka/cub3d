@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/09 00:10:23 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/09 19:14:06 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void				draw_map(t_map *map, t_data *data);
 
 ///////////PLAYER//////////////////
 // void		check_numb_player(t_map *map, char *line, int x, int y);
-void				player_position(t_map *map);
+int			player_position(t_map *map);
 int					is_one_player(t_map *map, char *line);
 
 /////////////////MOOVE////////////////
