@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/09 21:01:23 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/10 19:41:31 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int count_map_lines(int fd, t_map *map)
 char **fill_map(int fd, t_map *map)
 {
    int i;
+   int j;
    char *line;
    char **grid;
 
@@ -50,23 +51,34 @@ char **fill_map(int fd, t_map *map)
    i = 0;
    while ((line = get_next_line(fd)) != NULL)
    {
+      if (line[ft_strlen(line) - 1] == '\n')
+         line[ft_strlen(line) - 1] = '\0';
       if (is_map_line(line))
       {
-         grid[i] = ft_strdup(line); //raison pour laquelle grid[y][x]
-         printf("%s", line);
-         if (is_one_player(map, line) == 0)
-         {
-            free(line);
-            exit (-1);
-            //faire une fosntion pour les erreurs
-         }
+         grid[i] = ft_strdup(line);
+         is_one_player(map, line);
          i++;
       }
       free(line);
    }
    grid[i] = NULL;
+   if (map->player_found != 1)
+   {
+      printf("Nombre de joueurs %d\n", map->player_found);
+      printf("Erreur nombres de joueurs\n");
+      exit(-1);
+      //stope le programem pour void player position
+      //fonciton qui free grid; 
+   }
    printf("2width = %d, height = %d\n", map->width, map->height);
    printf("%s\n", grid[i]);
+   j = 0;
+   while (grid[j])
+   {
+      printf("%s\n", grid[j]);
+      printf("%zu\n", ft_strlen(grid[j]));
+      j++;
+   }
    return(grid);
 }
 
@@ -79,7 +91,11 @@ int is_map_line(char *line)
    while (line[i] && line[i] != '\0')
    {
       if (line[i] != '1' && line[i] != '0' && line[i] != ' ' && line[i] != 'N' && line[i] != 'S' && line[i] != 'E' && line[i] != 'W' && line[i] != '\n')
+      {
+         printf("Caractere non valable\n");
          return (0);
+         //fonction pour free grid et line et quitter le programme;
+      }
       i++;
    }
    return(1);
@@ -235,7 +251,7 @@ int main ()
    if (player_position(map))
    {
       printf("MANGE T MORTS\n");
-      return 1;
+      return (1);
    }
    printf("%lf\n", map->player_x);
    printf("%lf\n", map->player_y);
