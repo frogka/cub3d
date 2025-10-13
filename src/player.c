@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 17:43:48 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/10 19:39:55 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/11 17:33:26 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int player_position(t_map *map)
                 else if (map->grid[y][x] == 'W')
                     map->player_dir = PI;
                     //conditon si player dir != - 1 appel 
-                    //focniton et 3 lignes en desuus
+                    //focniton pour contenir 3 lignes en desuus
                     //gain de place
                 map->player_x = x * TILE + TILE / 2; //centre pour la pov
                 map->player_y = y * TILE + TILE / 2;

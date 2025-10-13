@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/10 19:41:31 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/12 18:09:25 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,13 @@ int count_map_lines(int fd, t_map *map)
    map->height = count;
    return (count);
 }
+
+
 char **fill_map(int fd, t_map *map)
 {
    int i;
    int j;
+   int len;
    char *line;
    char **grid;
 
@@ -49,12 +52,20 @@ char **fill_map(int fd, t_map *map)
    if (!grid)
       return(NULL);
    i = 0;
+   j = 0;
    while ((line = get_next_line(fd)) != NULL)
    {
       if (line[ft_strlen(line) - 1] == '\n')
          line[ft_strlen(line) - 1] = '\0';
       if (is_map_line(line))
       {
+         len = ft_strlen(line);
+         // while (line[ft_strlen(line)]++ < map->width)
+         //    line[j++] = ' ';
+         // line[j] = 0; 
+         while (len < map->width)
+            line[len++] = ' ';
+         line[len] = 0;
          grid[i] = ft_strdup(line);
          is_one_player(map, line);
          i++;
@@ -68,10 +79,12 @@ char **fill_map(int fd, t_map *map)
       printf("Erreur nombres de joueurs\n");
       exit(-1);
       //stope le programem pour void player position
+      //pour 25 lignes
       //fonciton qui free grid; 
    }
    printf("2width = %d, height = %d\n", map->width, map->height);
-   printf("%s\n", grid[i]);
+   // printf("%s\n", grid[i]);
+   
    j = 0;
    while (grid[j])
    {
@@ -81,6 +94,7 @@ char **fill_map(int fd, t_map *map)
    }
    return(grid);
 }
+
 
 //pbl qunas joeur est a l'extremite +P quand la lettre est != du joueur
 int is_map_line(char *line)

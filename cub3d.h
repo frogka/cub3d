@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/10 18:59:05 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:53:54 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define HEIGHT 800
 
 # define TILE 64
-# define RAYON TILE/3
+# define RAYON TILE / 3
 # define PI 3.14
 
 # define speed 2
@@ -93,6 +93,7 @@ int					is_config_line(char *line);
 int					is_map_line(char *line);
 char				**fill_map(int fd, t_map *map);
 int					count_map_lines(int fd, t_map *map);
+char				**map_space(t_map *map, char **grid);
 
 ///////////MAP/////////////
 void				draw_square(t_data *data, char c, int x, int y);
@@ -100,14 +101,13 @@ void				draw_map(t_map *map, t_data *data);
 
 ///////////PLAYER//////////////////
 // void		check_numb_player(t_map *map, char *line, int x, int y);
-int			player_position(t_map *map);
-void					is_one_player(t_map *map, char *line);
+int					player_position(t_map *map);
+void				is_one_player(t_map *map, char *line);
 
 /////////////////MOOVE////////////////
 void				move_v(int keycode, t_data *data);
 void				move_h(int keycode, t_data *data);
-int	check_collision(t_data *data, double n_x, double n_y);
-
+int					check_collision(t_data *data, double n_x, double n_y);
 
 //////////////////HOOK/////////////////
 int					handle_input(int keycode, t_data *data);

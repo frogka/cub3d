@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 21:13:10 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/09 00:12:30 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:25:34 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	move_v(int keycode, t_data *data)
 {
 	double	next_x;
 	double	next_y;
-	int		grid_x;
-	int		grid_y;
+	// int		grid_x;
+	// int		grid_y;
 
 	printf("adresse data = %p\n", data);
 	printf("adresse map  = %p\n", data->map);
@@ -31,10 +31,10 @@ void	move_v(int keycode, t_data *data)
 		next_x = data->map->player_x - cos(data->map->player_dir) * speed;
 		next_y = data->map->player_y - sin(data->map->player_dir) * speed;
 	}
-	grid_x = (int)(next_x / TILE); // ajout pour eviter colision murs
-	grid_y = (int)(next_y / TILE); // ajout pour eviter colision murs
-	printf("grid_x = %d, grid_y = %d, height = %d, width = %d\n", grid_x,
-		grid_y, data->map->height, data->map->width);
+	// grid_x = (int)(next_x / TILE); // ajout pour eviter colision murs
+	// grid_y = (int)(next_y / TILE); // ajout pour eviter colision murs
+	// printf("grid_x = %d, grid_y = %d, height = %d, width = %d\n", grid_x,
+	// 	grid_y, data->map->height, data->map->width);
 	// gere la distance aux murs
 	if ((check_collision(data, next_x, next_y)) == 0)
 	{
@@ -48,8 +48,8 @@ void	move_h(int keycode, t_data *data)
 {
 	double	next_x;
 	double	next_y;
-	int		grid_x;
-	int		grid_y;
+	// int		grid_x;
+	// int		grid_y;
 
 	if (keycode == KEY_RIGHT)
 	{
@@ -65,8 +65,8 @@ void	move_h(int keycode, t_data *data)
 		next_y = data->map->player_y - sin(data->map->player_dir - PI / 2)
 			* speed;
 	}
-	grid_x = (int)(next_x / TILE); // ajout pour eviter colision murs
-	grid_y = (int)(next_y / TILE); // ajout pour eviter colision murs
+	// grid_x = (int)(next_x / TILE); // ajout pour eviter colision murs
+	// grid_y = (int)(next_y / TILE); // ajout pour eviter colision murs
 	if ((check_collision(data, next_x, next_y)) == 0)
 	{
 		draw_map(data->map, data);
