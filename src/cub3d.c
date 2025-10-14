@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/12 18:09:25 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/13 17:12:15 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,14 @@ char **fill_map(int fd, t_map *map)
          line[ft_strlen(line) - 1] = '\0';
       if (is_map_line(line))
       {
+         //tout le if peut tenir dans une fontion pour < 25 lignes
          len = ft_strlen(line);
-         // while (line[ft_strlen(line)]++ < map->width)
-         //    line[j++] = ' ';
-         // line[j] = 0; 
+         grid[i] = malloc(sizeof(char) * (map->width + 1));
+         ft_memcpy(grid[i], line, len);
          while (len < map->width)
-            line[len++] = ' ';
-         line[len] = 0;
-         grid[i] = ft_strdup(line);
-         is_one_player(map, line);
+            grid[i][len++] = ' ';
+         grid[i][len] = '\0';
+         is_one_player(map, grid[i]);
          i++;
       }
       free(line);
