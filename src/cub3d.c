@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/13 17:12:15 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/14 18:49:00 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,7 @@ int main ()
       printf("MANGE T MORTS\n");
       return (1);
    }
+   flood_fill(copy_map(map->grid, map), map, map->player_x / TILE, map->player_y / TILE);
    printf("%lf\n", map->player_x);
    printf("%lf\n", map->player_y);
    printf("%lf\n", map->player_dir);

@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/11 19:53:54 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/14 18:28:32 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ int					count_map_lines(int fd, t_map *map);
 char				**map_space(t_map *map, char **grid);
 
 ///////////MAP/////////////
+void				flood_fill(char **cpy_grid, t_map *map, int x, int y);
+char				**copy_map(char **grid, t_map *map);
 void				draw_square(t_data *data, char c, int x, int y);
 void				draw_map(t_map *map, t_data *data);
 
