@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/15 16:03:32 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:58:45 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 # define HEIGHT 800
 
 # define TILE 64
-# define RAYON TILE / 3
+# define TILE_P TILE / 6 // pour un point + petit
+# define RAYON TILE / 6
 # define PI 3.14
 
 # define speed 2
@@ -101,6 +102,7 @@ int					flood_fill(char **cpy_grid, t_map *map, int x, int y);
 char				**copy_map(char **grid, t_map *map);
 void				draw_square(t_data *data, char c, int x, int y);
 void				draw_map(t_map *map, t_data *data);
+void				draw_player(t_map *map, t_data *data);
 
 ///////////PLAYER//////////////////
 // void		check_numb_player(t_map *map, char *line, int x, int y);

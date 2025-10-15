@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 18:24:28 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/15 15:39:31 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:55:55 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,26 +96,22 @@ void draw_map(t_map *map, t_data *data)
     char c;
 
     col = 0;
-    //if (x < WIDTH && y < HEIGHT)
-    //{
-        while (col < map->height)
+    while (col < map->height)
+    {
+        row = 0;
+        while (row < map->width)
         {
-            row = 0;
-            while (row < map->width)
-            {
-                c = map->grid[col][row];
-                px = row * TILE;
-                py = col * TILE;
-                //if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
-                //    player_position(map, c, row, col);
-                draw_square(data, c, px, py);
-                row++;
-            }
-            col++;
+            c = map->grid[col][row];
+            px = row * TILE;
+            py = col * TILE;
+            draw_square(data, c, px, py);
+            row++;
         }
-        draw_square(data, 'P', map->player_x - TILE / 2, map->player_y - TILE / 2);
+        col++;
+    }
+    // draw_square(data, 'P', map->player_x - TILE / 2, map->player_y - TILE / 2);
         // ajouter un joueur en forme de cercle 
-    //}
+        draw_player(map, data);
 }
 
 
@@ -141,5 +137,28 @@ void draw_square(t_data *data, char c, int px, int py)
             tx++;
         }
         ty++;
+    }
+}
+
+void draw_player(t_map *map, t_data *data)
+{
+    int x;
+    int y;
+    int cx;
+    int cy;
+
+    y = -TILE_P;
+    while (y < TILE_P)
+    {
+        x = -TILE_P;
+        while(x < TILE_P)
+        {
+            cx = map->player_x + x;
+            cy = map->player_y + y;
+            if (x * x + y * y <= TILE_P * TILE_P)
+                my_mlx_pixel_put(data, cx, cy, GREEN);
+            x++;
+        }
+        y++;
     }
 }
