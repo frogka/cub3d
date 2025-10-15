@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 17:47:40 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/11 20:19:51 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/15 16:05:10 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,31 +38,31 @@
 
 // boucler jusqua i NULL
 
-char **map_space(t_map *map, char **grid)
-{
-    int i;
-    int j;
-    int longueur;
+// char **map_space(t_map *map, char **grid)
+// {
+//     int i;
+//     int j;
+//     int longueur;
     
-   i = 0;
-   while (grid[i])
-   {
-      longueur = ft_strlen(grid[i]);
-      j = 0;
-      while (grid[i][j])
-      {
-         if (grid[i][j] == '\0' && longueur < map->width)
-         {
-            while (j++ < map->width)
-               grid[i][j] = ' ';
-            grid[i][j] = '\0';
-            i++;
-            break;
-         }
-         j++;
-      }
-   }
-   while (map->grid[i])
-      printf("Apres traitement %s\n", map->grid[i++]);
-   return (map->grid);
-}
+//    i = 0;
+//    while (grid[i])
+//    {
+//       longueur = ft_strlen(grid[i]);
+//       j = 0;
+//       while (grid[i][j])
+//       {
+//          if (grid[i][j] == '\0' && longueur < map->width)
+//          {
+//             while (j++ < map->width)
+//                grid[i][j] = ' ';
+//             grid[i][j] = '\0';
+//             i++;
+//             break;
+//          }
+//          j++;
+//       }
+//    }
+//    while (map->grid[i])
+//       printf("Apres traitement %s\n", map->grid[i++]);
+//    return (map->grid);
+// }

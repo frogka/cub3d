@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/14 18:28:32 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/15 16:03:32 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,17 @@ int					count_map_lines(int fd, t_map *map);
 char				**map_space(t_map *map, char **grid);
 
 ///////////MAP/////////////
-void				flood_fill(char **cpy_grid, t_map *map, int x, int y);
+int					check_map_closed(t_map *map);
+int					flood_fill(char **cpy_grid, t_map *map, int x, int y);
 char				**copy_map(char **grid, t_map *map);
 void				draw_square(t_data *data, char c, int x, int y);
 void				draw_map(t_map *map, t_data *data);
 
 ///////////PLAYER//////////////////
 // void		check_numb_player(t_map *map, char *line, int x, int y);
-int					player_position(t_map *map);
+void				set_player(t_map *map, int x, int y);
+int					check_num_player(t_map *map);
+void				player_position(t_map *map);
 void				is_one_player(t_map *map, char *line);
 
 /////////////////MOOVE////////////////

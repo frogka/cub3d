@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/14 18:49:00 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/15 16:09:13 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int count_map_lines(int fd, t_map *map)
    count = 0;
    while ((line = get_next_line(fd)) != NULL)
    {
-      if (is_map_line(line))
+      if (is_map_line(line) == 0)
       {
          count++;
          len = ft_strlen(line);
@@ -32,7 +32,10 @@ int count_map_lines(int fd, t_map *map)
          free(line);
       }
       else
+      {
          free(line);
+         return (-1);
+      }
    }
    map->height = count;
    return (count);
@@ -57,7 +60,7 @@ char **fill_map(int fd, t_map *map)
    {
       if (line[ft_strlen(line) - 1] == '\n')
          line[ft_strlen(line) - 1] = '\0';
-      if (is_map_line(line))
+      if (is_map_line(line) == 0)
       {
          //tout le if peut tenir dans une fontion pour < 25 lignes
          len = ft_strlen(line);
@@ -72,18 +75,7 @@ char **fill_map(int fd, t_map *map)
       free(line);
    }
    grid[i] = NULL;
-   if (map->player_found != 1)
-   {
-      printf("Nombre de joueurs %d\n", map->player_found);
-      printf("Erreur nombres de joueurs\n");
-      exit(-1);
-      //stope le programem pour void player position
-      //pour 25 lignes
-      //fonciton qui free grid; 
-   }
    printf("2width = %d, height = %d\n", map->width, map->height);
-   // printf("%s\n", grid[i]);
-   
    j = 0;
    while (grid[j])
    {
@@ -101,17 +93,17 @@ int is_map_line(char *line)
    int i;
 
    i = 0;
-   while (line[i] && line[i] != '\0')
+   while (line[i])
    {
       if (line[i] != '1' && line[i] != '0' && line[i] != ' ' && line[i] != 'N' && line[i] != 'S' && line[i] != 'E' && line[i] != 'W' && line[i] != '\n')
       {
          printf("Caractere non valable\n");
-         return (0);
+         return (1);
          //fonction pour free grid et line et quitter le programme;
       }
       i++;
    }
-   return(1);
+   return(0);
 }
 
 //fonction qui check la validite des config
@@ -250,23 +242,28 @@ int main ()
             //    }
             //    free(line);
             // }
-   count_map_lines(fd, map);
+   if (count_map_lines(fd, map) == -1)
+      return 1;
    printf("width = %d, height = %d\n", map->width, map->height);
    close(fd);
    fd = open("map.cub", O_RDONLY);
    //fill_map(fd, map);
    map->grid = fill_map(fd, map);
+   if (check_num_player(map))
+      return 1;
    if (!map->grid)
    {
       perror("fill_map failed");
       return (1);   
    }
-   if (player_position(map))
+   player_position(map);
+   if (check_map_closed(map))
    {
-      printf("MANGE T MORTS\n");
-      return (1);
+      free_split(map->grid);
+      free(map);
+      return 1;
    }
-   flood_fill(copy_map(map->grid, map), map, map->player_x / TILE, map->player_y / TILE);
+   // free_split(copy_map(map->grid, map));
    printf("%lf\n", map->player_x);
    printf("%lf\n", map->player_y);
    printf("%lf\n", map->player_dir);

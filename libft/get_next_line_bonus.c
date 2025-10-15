@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:44:27 by jdutille          #+#    #+#             */
-/*   Updated: 2025/09/29 20:30:30 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/15 16:48:41 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 char	*extraction(int fd, char *stock)
 {
 	char	*buf;
+	char *tmp;
 	ssize_t	fd_read;
 
 	buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
@@ -31,7 +32,9 @@ char	*extraction(int fd, char *stock)
 			return (NULL);
 		}
 		buf[fd_read] = '\0';
+		tmp = stock;
 		stock = ft_strjoin(stock, buf);
+		free(tmp);
 	}
 	free(buf);
 	return (stock);
@@ -97,6 +100,7 @@ char	*get_next_line(int fd)
 {
 	static char	*stock[FD_SIZE];
 	char		*line;
+	char *tmp;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || FD_SIZE < 0 || fd > FD_SIZE)
 		return (NULL);
@@ -104,6 +108,11 @@ char	*get_next_line(int fd)
 	if (!stock[fd])
 		return (NULL);
 	line = print_line(stock[fd]);
+	tmp = reste(stock[fd]);
+	if (!tmp)
+		stock[fd] = NULL;
+	else
+		stock[fd] = reste(stock[fd]);
 	stock[fd] = reste(stock[fd]);
 	return (line);
 }

@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 18:24:28 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/14 18:47:22 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/15 15:39:31 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,46 @@
 
 // void flood_fill(char **cpy, t_map *map, )
 
-void flood_fill(char **cpy_grid, t_map *map, int x, int y)
+int check_map_closed(t_map *map)
 {
-    if (x < 0 || x > map->width || y < 0 || y > map->height)
+    char **cpy_grid;
+
+    cpy_grid = copy_map(map->grid, map);
+    if (!cpy_grid)
+        return 1;
+    if (flood_fill(cpy_grid, map, map->player_x / TILE, map->player_y / TILE))
+    {
+        free_split(cpy_grid);
+        return 1;
+    }
+    free_split(cpy_grid);
+    return 0;
+}
+
+int flood_fill(char **cpy_grid, t_map *map, int x, int y)
+{
+    if (x < 0 || x >= map->width || y < 0 || y >= map->height)
     {
         printf("Playeur hors cadre\n");
-        exit(EXIT_FAILURE);
-    }//message d'erreur
+        return (1);
+    }
     if (cpy_grid[y][x] == ' ' || cpy_grid[y][x] == '\0')
     {
         printf("Map avec un trou\n");
-        exit(EXIT_FAILURE);
+        return (1);
     }
     if (cpy_grid[y][x] == '1' || cpy_grid[y][x] == 'V')
-        return;
+        return (0);
     cpy_grid[y][x] = 'V';
-    flood_fill(cpy_grid, map, x + 1, y);
-    flood_fill(cpy_grid, map, x - 1, y);
-    flood_fill(cpy_grid, map, x, y + 1);
-    flood_fill(cpy_grid, map, x, y - 1);
+    if (flood_fill(cpy_grid, map, x + 1, y) == 1)
+        return 1;
+    if (flood_fill(cpy_grid, map, x - 1, y) == 1)
+        return 1;
+    if (flood_fill(cpy_grid, map, x, y + 1) == 1)
+        return 1;
+    if (flood_fill(cpy_grid, map, x, y - 1) == 1)
+        return 1;
+    return (0);
 }
 
 char **copy_map(char **grid, t_map *map)
@@ -56,6 +77,7 @@ char **copy_map(char **grid, t_map *map)
     }
     cpy_grid[i] = NULL;
     i = 0;
+    printf("voici la copie\n");
     while(cpy_grid[i])
     {
         printf("%s\n", cpy_grid[i]);

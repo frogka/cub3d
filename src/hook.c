@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 20:54:05 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/13 16:39:07 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/15 16:45:43 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	init_hook(t_data *data)
 
 int	close_win(t_data *data)
 {
+	free_split(data->map->grid);
+	free(data->map);
 	mlx_destroy_image(data->mlx_ptr, data->img.img_ptr);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	mlx_destroy_display(data->mlx_ptr);
@@ -50,6 +52,8 @@ int	close_win(t_data *data)
 }
 void	destroy(t_data *data)
 {
+	free_split(data->map->grid);
+	free(data->map);
 	mlx_destroy_image(data->mlx_ptr, data->img.img_ptr);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	mlx_destroy_display(data->mlx_ptr);

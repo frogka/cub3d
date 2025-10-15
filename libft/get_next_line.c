@@ -6,16 +6,16 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:17:01 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/03 18:58:56 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/15 16:47:08 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-
 char	*extraction(int fd, char *stock)
 {
 	char	*buf;
+	char	*tmp;
 	ssize_t	fd_read;
 
 	buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
@@ -32,7 +32,9 @@ char	*extraction(int fd, char *stock)
 			return (NULL);
 		}
 		buf[fd_read] = '\0';
+		tmp = stock;
 		stock = ft_strjoin(stock, buf);
+		free(tmp);
 	}
 	free(buf);
 	return (stock);
@@ -98,6 +100,7 @@ char	*get_next_line(int fd)
 {
 	static char	*stock;
 	char		*line;
+	char		*tmp;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -107,7 +110,11 @@ char	*get_next_line(int fd)
 	if (!stock)
 		return (NULL);
 	line = print_line(stock);
-	stock = reste(stock);
+	tmp = reste(stock);
+	if (!tmp)
+		stock = NULL;
+	else
+		stock = tmp;
 	return (line);
 }
 /*
