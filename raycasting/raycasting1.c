@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 19:52:44 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/17 00:21:07 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/17 00:26:40 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	draw_rays(t_data *data)
 		// appel fonction pour 1 rayon
 		data->ray.ray_dir_x = cos(rays_angle);
 		data->ray.ray_dir_y = sin(rays_angle);
-        data->ray.ray_angle = rays_angle;
-        if (i % 10 == 0)
-		    draw_one_ray(data, i);
+		data->ray.ray_angle = rays_angle;
+		if (i % 10 == 0)
+			draw_one_ray(data, i);
 		rays_angle += FOV / NUM_RAYS;
 		i++;
 	}
@@ -69,29 +69,28 @@ void	dist_rays_wall(t_data *data)
 	double	dx;
 	double	dy;
 	double	dist;
-    // double dist_reel;
 
+	// double dist_reel;
 	dx = (data->ray.hit_x - data->map->player_x);
 	dy = (data->ray.hit_y - data->map->player_y);
 	dist = sqrt(dx * dx + dy * dy);
-    data->ray.dist_reel = dist * cos(data->map->player_dir - data->ray.ray_angle);
-    
-    printf("angle = %.2f°, distance brute = %.2f, corrigée = %.2f\n",
-       data->ray.ray_angle * (180 / PI), dist, data->ray.dist_reel);
+	data->ray.dist_reel = dist * cos(data->map->player_dir
+			- data->ray.ray_angle);
+	printf("angle = %.2f°, distance brute = %.2f, corrigée = %.2f\n",
+		data->ray.ray_angle * (180 / PI), dist, data->ray.dist_reel);
 }
 
-void draw_wall(t_data *data)
+void	draw_wall(t_data *data)
 {
-	double wall_h;
-	double y_start;
-	double y_end;
-	int col;
-	int y;
+	double	wall_h;
+	double	y_start;
+	double	y_end;
+	int		col;
+	int		y;
 
 	wall_h = (TILE / data->ray.dist_reel) * D_P_PROJECT;
 	y_start = (HEIGHT / 2) - (wall_h / 2);
-	y_end   = (HEIGHT / 2) + (wall_h / 2);
-
+	y_end = (HEIGHT / 2) + (wall_h / 2);
 	if (y_start < 0)
 		y_start = 0;
 	if (y_end > HEIGHT)
@@ -100,7 +99,6 @@ void draw_wall(t_data *data)
 	y = y_start;
 	while (y++ < y_end)
 		my_mlx_pixel_put(data, col, y, RED);
-
 }
 
 // hypotenuse = Va2 + b2;
