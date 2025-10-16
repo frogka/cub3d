@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/16 22:13:12 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/17 00:21:18 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define RAYON TILE / 6 // cahnger ca
 # define PI 3.1415926
 # define SPEED 2
+# define D_P_PROJECT 32795.157510769 // dist plqyer projection
 
 // definir les couleurs
 # define RED 0xFF0000
@@ -44,7 +45,7 @@
 # define KEY_B 65364
 
 // raycasting
-# define FOV 1.047197551 // 60 degres
+# define FOV 1.047197551 // 60 degres, PI/3
 # define NUM_RAYS 640
 
 // gere les points pour les collisions
@@ -73,6 +74,8 @@ typedef struct s_ray
 	double			ray_dir_x;
 	double			ray_dir_y;
 	double			ray_angle;
+	double			dist_reel;
+	int ray_id;
 
 }					t_ray;
 
@@ -152,8 +155,8 @@ void				destroy(t_data *data);
 
 /////////////////RAYCASTING/////////////////
 void				draw_rays(t_data *data);
-void				draw_one_ray(t_data *data);
-void				dist_rays(t_data *data);
+void				draw_one_ray(t_data *data, int ray_id);
+void				dist_rays_wall(t_data *data);
 
 // faire le parsing de la map
 // lecture 0 1 via gnl
