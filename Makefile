@@ -6,7 +6,8 @@ SRCS = src/cub3d.c \
        src/map.c \
        src/player.c \
 	   src/hook.c \
-	   src/moove.c
+	   src/moove.c \
+	   raycasting/raycasting1.c 
 
 # Compilateur
 CC = cc

@@ -6,17 +6,12 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 18:24:28 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/16 17:45:47 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/16 22:11:47 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-// supp ancienne postiion jouer, carre colore qui reste
-// gerer deplacemetn horizontaux
-//
-
-// void flood_fill(char **cpy, t_map *map, )
 
 int	check_map_closed(t_map *map)
 {
@@ -110,6 +105,8 @@ void	draw_map(t_map *map, t_data *data)
 	// draw_square(data, 'P', map->player_x - TILE / 2, map->player_y - TILE
 		// / 2);
 	// ajouter un joueur en forme de cercle
+    draw_rays(data);
+    dist_rays(data);
 	draw_player(map, data);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/16 17:42:45 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/16 22:13:12 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define TILE 64
 # define TILE_P 7       // 7 15 ou 11, uneven numbers
 # define RAYON TILE / 6 // cahnger ca
-# define PI 3.14
+# define PI 3.1415926
 # define SPEED 2
 
 // definir les couleurs
@@ -43,10 +43,11 @@
 # define KEY_D 65363
 # define KEY_B 65364
 
-# define FOV 1.047197551 //60 degres
+// raycasting
+# define FOV 1.047197551 // 60 degres
 # define NUM_RAYS 640
 
-//gere les points pour les collisions
+// gere les points pour les collisions
 typedef struct s_moves
 {
 	int				dx[4];
@@ -63,13 +64,26 @@ typedef struct s_image
 	int				endian;
 }					t_image;
 
-// gere la connc'est quoi un angle radianexion au server + l'image
+typedef struct s_ray
+{
+	// double			ray_x;
+	// double			ray_y;
+	double			hit_x;
+	double			hit_y;
+	double			ray_dir_x;
+	double			ray_dir_y;
+	double			ray_angle;
+
+}					t_ray;
+
+// gere la connexion au server + l'image
 typedef struct s_data
 {
 	void			*mlx_ptr;
 	void			*win_ptr;
 	t_image			img;
 	t_moves			moves;
+	t_ray			ray;
 	struct s_map	*map;
 	struct s_config	*config;
 }					t_data;
@@ -108,7 +122,7 @@ int					is_config_line(char *line);
 int					is_map_line(char *line);
 char				**fill_map(int fd, t_map *map);
 int					count_map_lines(int fd, t_map *map);
-char				**map_space(t_map *map, char **grid);
+// char				**map_space(t_map *map, char **grid);
 
 ///////////MAP/////////////
 int					check_map_closed(t_map *map);
@@ -135,6 +149,11 @@ int					handle_input(int keycode, t_data *data);
 void				init_hook(t_data *data);
 int					close_win(t_data *data);
 void				destroy(t_data *data);
+
+/////////////////RAYCASTING/////////////////
+void				draw_rays(t_data *data);
+void				draw_one_ray(t_data *data);
+void				dist_rays(t_data *data);
 
 // faire le parsing de la map
 // lecture 0 1 via gnl
