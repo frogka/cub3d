@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/15 18:58:45 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/16 17:42:45 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@
 # define HEIGHT 800
 
 # define TILE 64
-# define TILE_P TILE / 6 // pour un point + petit
-# define RAYON TILE / 6
+# define TILE_P 7       // 7 15 ou 11, uneven numbers
+# define RAYON TILE / 6 // cahnger ca
 # define PI 3.14
-
-# define speed 2
+# define SPEED 2
 
 // definir les couleurs
 # define RED 0xFF0000
@@ -39,6 +38,20 @@
 # define KEY_RIGHT 100
 # define KEY_UP 119
 # define KEY_DOWN 115
+# define KEY_G 65361
+# define KEY_H 65362
+# define KEY_D 65363
+# define KEY_B 65364
+
+# define FOV 1.047197551 //60 degres
+# define NUM_RAYS 640
+
+//gere les points pour les collisions
+typedef struct s_moves
+{
+	int				dx[4];
+	int				dy[4];
+}					t_moves;
 
 // structure qui gere l'affichage
 typedef struct s_image
@@ -56,6 +69,7 @@ typedef struct s_data
 	void			*mlx_ptr;
 	void			*win_ptr;
 	t_image			img;
+	t_moves			moves;
 	struct s_map	*map;
 	struct s_config	*config;
 }					t_data;

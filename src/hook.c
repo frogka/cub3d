@@ -6,39 +6,39 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 20:54:05 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/15 16:45:43 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/16 17:45:24 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	handle_input(int keycode,t_data *data)
+int	handle_input(int keycode, t_data *data)
 {
-	//if (keycode == KEY_LEFT || keycode == KEY_RIGHT)
-	//	moove_h(keycode, map, data);
-    printf("handle_input reçoit data = %p\n", data);
-    printf("adresse data = %p\n", data);
-printf("adresse map  = %p\n", data->map);
-	if (keycode == KEY_UP || keycode == KEY_DOWN)
+	printf("handle_input reçoit data = %p\n", data);
+	printf("adresse data = %p\n", data);
+	printf("adresse map  = %p\n", data->map);
+	if (keycode == KEY_UP || keycode == KEY_DOWN || keycode == KEY_H
+		|| keycode == KEY_B)
 		move_v(keycode, data);
-	if (keycode == KEY_LEFT || keycode == KEY_RIGHT)
+	if (keycode == KEY_LEFT || keycode == KEY_RIGHT || keycode == KEY_G
+		|| keycode == KEY_D)
 		move_h(keycode, data);
 	if (keycode == KEY_ESC)
 		destroy(data);
-    printf("%d\n", keycode);
+	printf("%d\n", keycode);
 	return (0);
 }
 
 void	init_hook(t_data *data)
 {
-    printf("init_hook reçoit un t_data* ? data = %p, &data = %p\n", data, &data);
-    printf("adresse data = %p\n", data);
-    printf("adresse map  = %p\n", data->map);
+	printf("init_hook reçoit un t_data* ? data = %p, &data = %p\n", data,
+		&data);
+	printf("adresse data = %p\n", data);
+	printf("adresse map  = %p\n", data->map);
 	mlx_hook(data->win_ptr, 17, 0, close_win, data);
 	mlx_hook(data->win_ptr, 02, 1L << 0, handle_input, data);
-	//mlx_mouse_hook(data->win_ptr, mouse_hook, data);
+	// mlx_mouse_hook(data->win_ptr, mouse_hook, data);
 }
-
 
 int	close_win(t_data *data)
 {
