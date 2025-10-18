@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 20:54:05 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/16 17:45:24 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/18 15:28:06 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,12 @@ int	handle_input(int keycode, t_data *data)
 	if (keycode == KEY_UP || keycode == KEY_DOWN || keycode == KEY_H
 		|| keycode == KEY_B)
 		move_v(keycode, data);
-	if (keycode == KEY_LEFT || keycode == KEY_RIGHT || keycode == KEY_G
-		|| keycode == KEY_D)
+	if (keycode == KEY_LEFT || keycode == KEY_RIGHT)
 		move_h(keycode, data);
+	if(keycode == KEY_G)
+		pov_left(data);
+	if (keycode == KEY_D)
+		pov_right(data);
 	if (keycode == KEY_ESC)
 		destroy(data);
 	printf("%d\n", keycode);

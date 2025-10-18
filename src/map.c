@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 18:24:28 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/16 23:53:44 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/18 16:36:46 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,16 +105,18 @@ void	draw_map(t_map *map, t_data *data)
 	// draw_square(data, 'P', map->player_x - TILE / 2, map->player_y - TILE
 		// / 2);
 	// ajouter un joueur en forme de cercle
-    draw_rays(data);
 	draw_player(map, data);
-    dist_rays_wall(data);
+    draw_rays(data);
+    // dist_rays_wall(data);
 }
 
 void	draw_square(t_data *data, char c, int px, int py)
 {
+	// double mini_scale;
 	int	tx;
 	int	ty;
 
+	// mini_scale = 0.2;
 	ty = 0;
 	while (ty < TILE)
 	{
@@ -122,9 +124,9 @@ void	draw_square(t_data *data, char c, int px, int py)
 		while (tx < TILE)
 		{
 			if (c == '1')
-				my_mlx_pixel_put(data, tx + px, ty + py, RED);
+				my_mlx_pixel_put(&data->img, tx + px, ty + py, RED);
 			else if (c == '0')
-				my_mlx_pixel_put(data, tx + px, ty + py, BLUE);
+				my_mlx_pixel_put(&data->img, tx + px, ty + py, BLUE);
 			// else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 			// my_mlx_pixel_put(data, tx + px, ty + py, BLACK);
 			// else if (c == 'P' )//&& tx < RAYON && ty < RAYON)
@@ -141,7 +143,9 @@ void	draw_player(t_map *map, t_data *data)
 	int	y;
 	int	cx;
 	int	cy;
+	// double mini_scale;
 
+	// mini_scale = 0.2;
 	y = -TILE_P;
 	while (y < TILE_P)
 	{
@@ -151,7 +155,7 @@ void	draw_player(t_map *map, t_data *data)
 			cx = map->player_x + x;
 			cy = map->player_y + y;
 			if (x * x + y * y <= TILE_P * TILE_P)
-				my_mlx_pixel_put(data, cx, cy, GREEN);
+				my_mlx_pixel_put(&data->img, cx, cy, GREEN);
 			x++;
 		}
 		y++;

@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 21:13:10 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/16 17:47:28 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/18 15:35:16 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,28 @@ void	move_h(int keycode, t_data *data)
 		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_ptr,
 			0, 0);
 	}
+}
+
+void pov_left(t_data *data)
+{
+	double next_pov;
+
+	next_pov = data->map->player_dir - 0.05;
+	data->map->player_dir = next_pov;
+	draw_map(data->map, data);
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_ptr,
+			0, 0);
+}
+
+void pov_right(t_data *data)
+{
+	double next_pov;
+
+	next_pov = data->map->player_dir + 0.05;
+	data->map->player_dir = next_pov;
+	draw_map(data->map, data);
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_ptr,
+			0, 0);
 }
 
 int	check_collision(t_data *data, double n_x, double n_y)

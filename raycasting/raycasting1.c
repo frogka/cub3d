@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 19:52:44 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/17 00:26:40 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/18 16:18:49 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,71 +16,79 @@ void	draw_rays(t_data *data)
 {
 	double	rays_angle;
 	int		i;
+	double ray_dir_x;
+	double ray_dir_y;
 
 	rays_angle = data->map->player_dir - FOV / 2;
 	i = 0;
 	while (i < NUM_RAYS)
 	{
 		// appel fonction pour 1 rayon
-		data->ray.ray_dir_x = cos(rays_angle);
-		data->ray.ray_dir_y = sin(rays_angle);
+		ray_dir_x = cos(rays_angle);
+		ray_dir_y = sin(rays_angle);
+		draw_one_ray(data, ray_dir_x, ray_dir_y);//, i);
 		data->ray.ray_angle = rays_angle;
-		if (i % 10 == 0)
-			draw_one_ray(data, i);
 		rays_angle += FOV / NUM_RAYS;
+		if (rays_angle < 0)
+			rays_angle += 2 * PI;
+		if (rays_angle > 2 * PI)
+			rays_angle -= 2 * PI;
+		// if (i % 10 == 0)
 		i++;
 	}
 }
 
-void	draw_one_ray(t_data *data, int ray_id)
+void	draw_one_ray(t_data *data, double ray_dx, double ray_dy)//, int ray_id)
 {
 	double	pos_x;
 	double	pos_y;
 	int		x;
 	int		y;
-	int		i;
+	int		step;
 
 	pos_x = data->map->player_x;
 	pos_y = data->map->player_y;
-	i = 0;
-	while (i < 300)
+	step = 0;
+	while (step < 300)
 	{
-		pos_x += data->ray.ray_dir_x * 1;
-		pos_y += data->ray.ray_dir_y * 1;
+		pos_x += ray_dx * 1;
+		pos_y += ray_dy * 1;
 		x = pos_x / TILE;
 		y = pos_y / TILE;
 		if (x < 0 || x >= data->map->width || y < 0 || y >= data->map->height)
 			return ;
 		if (data->map->grid[y][x] == '1')
 		{
-			data->ray.hit_x = pos_x;
-			data->ray.hit_y = pos_y;
-			data->ray.ray_id = ray_id;
+			// data->ray.hit_x = pos_x;
+			// data->ray.hit_y = pos_y;
+			// data->ray.ray_id = ray_id;
+			dist_rays_wall(data, pos_x, pos_y);//, ray_id);
 			return ;
 		}
 		else
-			my_mlx_pixel_put(data, pos_x, pos_y, BLACK);
-		i++;
+			my_mlx_pixel_put(&data->img, pos_x, pos_y, BLACK);
+		step++;
 	}
 }
 
-void	dist_rays_wall(t_data *data)
+void	dist_rays_wall(t_data *data, double hit_x, double hit_y) //int ray_id)
 {
 	double	dx;
 	double	dy;
 	double	dist;
+	double dist_reel;
 
-	// double dist_reel;
-	dx = (data->ray.hit_x - data->map->player_x);
-	dy = (data->ray.hit_y - data->map->player_y);
+	dx = (hit_x - data->map->player_x);
+	dy = (hit_y - data->map->player_y);
 	dist = sqrt(dx * dx + dy * dy);
-	data->ray.dist_reel = dist * cos(data->map->player_dir
+	dist_reel = dist * cos(data->map->player_dir
 			- data->ray.ray_angle);
+	// draw_wall(data, dist_reel, ray_id);
 	printf("angle = %.2f°, distance brute = %.2f, corrigée = %.2f\n",
-		data->ray.ray_angle * (180 / PI), dist, data->ray.dist_reel);
+		data->ray.ray_angle * (180 / PI), dist, dist_reel);
 }
 
-void	draw_wall(t_data *data)
+void	draw_wall(t_data *data, double dist_reel, int ray_id)
 {
 	double	wall_h;
 	double	y_start;
@@ -88,17 +96,27 @@ void	draw_wall(t_data *data)
 	int		col;
 	int		y;
 
-	wall_h = (TILE / data->ray.dist_reel) * D_P_PROJECT;
+	if (dist_reel < 0.1)
+		dist_reel = 0.1;
+	wall_h = (TILE / dist_reel) * D_P_PROJECT;
 	y_start = (HEIGHT / 2) - (wall_h / 2);
 	y_end = (HEIGHT / 2) + (wall_h / 2);
 	if (y_start < 0)
 		y_start = 0;
 	if (y_end > HEIGHT)
 		y_end = HEIGHT;
-	col = data->ray.ray_id * (WIDTH / NUM_RAYS);
+	col = ray_id * (WIDTH / NUM_RAYS);
 	y = y_start;
 	while (y++ < y_end)
-		my_mlx_pixel_put(data, col, y, RED);
+		my_mlx_pixel_put(&data->img3d, col, y, BLUE);
 }
 
 // hypotenuse = Va2 + b2;
+
+//Normaliser les mur si ca ondule
+// double diff = player_dir - ray_angle;
+// if (diff < 0)
+//     diff += 2 * PI;
+// if (diff > 2 * PI)
+//     diff -= 2 * PI;
+// dist_reel = dist * cos(diff);

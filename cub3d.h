@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/17 00:21:18 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/18 16:23:05 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,17 @@
 // taille de l'ecran
 # define WIDTH 1200
 # define HEIGHT 800
+# define WIDTH_M 300
+# define HEIGHT_M 200
 
 # define TILE 64
 # define TILE_P 7       // 7 15 ou 11, uneven numbers
 # define RAYON TILE / 6 // cahnger ca
 # define PI 3.1415926
 # define SPEED 2
-# define D_P_PROJECT 32795.157510769 // dist plqyer projection
+# define D_P_PROJECT \
+	((WIDTH / 2) / tan(FOV / 2)) // 32795.157510769
+									// dist plqyer projection
 
 // definir les couleurs
 # define RED 0xFF0000
@@ -69,13 +73,13 @@ typedef struct s_ray
 {
 	// double			ray_x;
 	// double			ray_y;
-	double			hit_x;
-	double			hit_y;
-	double			ray_dir_x;
-	double			ray_dir_y;
+	// double			hit_x;
+	// double			hit_y;
+	// double			ray_dir_x;
+	// double			ray_dir_y;
 	double			ray_angle;
-	double			dist_reel;
-	int ray_id;
+	// double			dist_reel;
+	// int				ray_id;
 
 }					t_ray;
 
@@ -85,6 +89,7 @@ typedef struct s_data
 	void			*mlx_ptr;
 	void			*win_ptr;
 	t_image			img;
+	t_image			img3d;
 	t_moves			moves;
 	t_ray			ray;
 	struct s_map	*map;
@@ -116,7 +121,7 @@ typedef struct s_config
 }					t_config;
 
 ///////////////CUB3D////////////////
-void				my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void				my_mlx_pixel_put(t_image *img, int x, int y, int color);
 int					check_valid_numbers(int r, int g, int b);
 int					check_colors(char *line);
 int					xrgb(int r, int g, int b);
@@ -145,6 +150,8 @@ void				is_one_player(t_map *map, char *line);
 /////////////////MOOVE////////////////
 void				move_v(int keycode, t_data *data);
 void				move_h(int keycode, t_data *data);
+void				pov_left(t_data *data);
+void				pov_right(t_data *data);
 int					check_collision(t_data *data, double n_x, double n_y);
 
 //////////////////HOOK/////////////////
@@ -155,8 +162,11 @@ void				destroy(t_data *data);
 
 /////////////////RAYCASTING/////////////////
 void				draw_rays(t_data *data);
-void				draw_one_ray(t_data *data, int ray_id);
-void				dist_rays_wall(t_data *data);
+void	draw_one_ray(t_data *data, double ray_dx, double ray_dy); //,
+																// int ray_id);
+void	dist_rays_wall(t_data *data, double hit_x, double hit_y); //,
+																// int ray_id);
+void				draw_wall(t_data *data, double dist_reel, int ray_id);
 
 // faire le parsing de la map
 // lecture 0 1 via gnl

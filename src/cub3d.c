@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/15 16:09:13 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/18 16:50:51 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,11 +202,11 @@ int check_valid_numbers(int r, int g, int b)
 
 
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void	my_mlx_pixel_put(t_image *img, int x, int y, int color)
 {
 	char	*dst;
 
-	dst = data->img.addr + (y * data->img.line_len + x * (data->img.bpp
+	dst = img->addr + (y * img->line_len + x * (img->bpp
 				/ 8));
 	*(unsigned int *)dst = color;
 }
@@ -271,14 +271,22 @@ int main ()
    printf("adresse map  = %p\n", data.map);
    data.mlx_ptr = mlx_init();
    data.win_ptr = mlx_new_window(data.mlx_ptr, WIDTH, HEIGHT
-      , "test");
-   data.img.img_ptr = mlx_new_image(data.mlx_ptr , WIDTH, HEIGHT);
+      , "CUB3D");
+
+//rendu 3d
+data.img3d.img_ptr = mlx_new_image(data.mlx_ptr, WIDTH, HEIGHT);
+data.img3d.addr = mlx_get_data_addr(data.img3d.img_ptr,
+        &data.img3d.bpp, &data.img3d.line_len,
+        &data.img3d.endian);
+
+//pour minimap
+   data.img.img_ptr = mlx_new_image(data.mlx_ptr , WIDTH / 4, HEIGHT / 4);
    printf("FGASDFSDF\n");
 data.img.addr = mlx_get_data_addr(data.img.img_ptr , &data.img.bpp, &data.img.line_len, &data.img.endian);
 draw_map(map, &data);
 mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.img_ptr, 0, 0);
 init_hook(&data);
-mlx_loop(data.mlx_ptr);
+mlx_loop(data.mlx_ptr); //focniton pour traiter les 2 buffers
 return (0);
 }
 
