@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/19 18:25:44 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/20 18:35:31 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@
 # define KEY_B 65364
 
 // raycasting
-# define FOV 1.047197551*2 // 60 degres, PI/3
-# define NUM_RAYS 640
+# define FOV 1.151917306 // 66 degres, 66 * pi/180
+# define NUM_RAYS 800
 
 // gere les points pour les collisions
 typedef struct s_moves
@@ -168,6 +168,7 @@ void				draw_one_ray(t_data *data, double ray_dx, double ray_dy,
 void				dist_rays_wall(t_data *data, double hit_x, double hit_y,
 						int ray_id);
 void				draw_wall(t_data *data, double dist_reel, int ray_id);
+void				draw_strips(t_data *data, int col, int y, int color);
 
 /////////////////RENDER/////////////////////
 int					render(t_data *data);

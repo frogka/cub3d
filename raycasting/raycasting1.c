@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 19:52:44 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/19 18:25:03 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/20 19:03:48 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,15 @@ void	draw_rays(t_data *data)
 	i = 0;
 	while (i < NUM_RAYS)
 	{
-		// appel fonction pour 1 rayon
 		ray_dir_x = cos(rays_angle);
 		ray_dir_y = sin(rays_angle);
-		draw_one_ray(data, ray_dir_x, ray_dir_y, i);
-		data->ray.ray_angle = rays_angle;
 		rays_angle += FOV / NUM_RAYS;
 		if (rays_angle < 0)
 			rays_angle += 2 * PI;
 		if (rays_angle > 2 * PI)
 			rays_angle -= 2 * PI;
-		// if (i % 10 == 0)
+		data->ray.ray_angle = rays_angle;
+		draw_one_ray(data, ray_dir_x, ray_dir_y, i);
 		i++;
 	}
 }
@@ -49,7 +47,7 @@ void	draw_one_ray(t_data *data, double ray_dx, double ray_dy, int ray_id)
 	pos_x = data->map->player_x;
 	pos_y = data->map->player_y;
 	step = 0;
-	while (step < 500)
+	while (step < 1000)
 	{
 		pos_x += ray_dx * 1;
 		pos_y += ray_dy * 1;
@@ -83,14 +81,14 @@ void	dist_rays_wall(t_data *data, double hit_x, double hit_y, int ray_id)
 	dy = (hit_y - data->map->player_y);
 	dist = sqrt(dx * dx + dy * dy);
 	diff = data->ray.ray_angle - data->map->player_dir;
-	if (diff < 0)
-		diff += 2 * PI;
-	if (diff > 2 * PI)
-		diff -= 2 * PI;
+	// if (diff < 0)
+	// 	diff += 2 * PI;
+	// if (diff > 2 * PI)
+	// 	diff -= 2 * PI;
 	dist_reel = dist * cos(diff);
 	draw_wall(data, dist_reel, ray_id);
-	printf("angle = %.2f°, distance brute = %.2f, corrigée = %.2f\n",
-		data->ray.ray_angle * (180 / PI), dist, dist_reel);
+	// printf("angle = %.2f°, distance brute = %.2f, corrigée = %.2f\n",
+	// 	data->ray.ray_angle * (180 / PI), dist, dist_reel);
 }
 
 void	draw_wall(t_data *data, double dist_reel, int ray_id)
@@ -110,12 +108,25 @@ void	draw_wall(t_data *data, double dist_reel, int ray_id)
 		y_start = 0;
 	if (y_end > HEIGHT)
 		y_end = HEIGHT;
-	col = ray_id * (WIDTH / NUM_RAYS);
+	col = (int)((double)ray_id / (double)NUM_RAYS * (double)WIDTH);
+	// col = ray_id * (WIDTH / NUM_RAYS);
 	y = y_start;
-	while (y++ < y_end)
-		my_mlx_pixel_put(&data->img3d, col, y, BLUE);
+	while (y++ < (int)y_end)
+		draw_strips(data, col, y, BLUE);
+		// my_mlx_pixel_put(&data->img3d, col, y, BLUE);
 }
 
+
+void draw_strips(t_data *data, int col, int y, int color)
+{
+	int x;
+	int strips;
+
+	x = 0;
+	strips = (WIDTH / NUM_RAYS)* 2;
+	while(x++ < strips)
+		my_mlx_pixel_put(&data->img3d, col + x, y, color);
+}
 // hypotenuse = Va2 + b2;
 
 //Normaliser les mur si ca ondule
