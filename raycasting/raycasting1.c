@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 19:52:44 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/18 16:18:49 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/19 18:25:03 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	draw_rays(t_data *data)
 		// appel fonction pour 1 rayon
 		ray_dir_x = cos(rays_angle);
 		ray_dir_y = sin(rays_angle);
-		draw_one_ray(data, ray_dir_x, ray_dir_y);//, i);
+		draw_one_ray(data, ray_dir_x, ray_dir_y, i);
 		data->ray.ray_angle = rays_angle;
 		rays_angle += FOV / NUM_RAYS;
 		if (rays_angle < 0)
@@ -38,7 +38,7 @@ void	draw_rays(t_data *data)
 	}
 }
 
-void	draw_one_ray(t_data *data, double ray_dx, double ray_dy)//, int ray_id)
+void	draw_one_ray(t_data *data, double ray_dx, double ray_dy, int ray_id)
 {
 	double	pos_x;
 	double	pos_y;
@@ -49,7 +49,7 @@ void	draw_one_ray(t_data *data, double ray_dx, double ray_dy)//, int ray_id)
 	pos_x = data->map->player_x;
 	pos_y = data->map->player_y;
 	step = 0;
-	while (step < 300)
+	while (step < 500)
 	{
 		pos_x += ray_dx * 1;
 		pos_y += ray_dy * 1;
@@ -62,28 +62,33 @@ void	draw_one_ray(t_data *data, double ray_dx, double ray_dy)//, int ray_id)
 			// data->ray.hit_x = pos_x;
 			// data->ray.hit_y = pos_y;
 			// data->ray.ray_id = ray_id;
-			dist_rays_wall(data, pos_x, pos_y);//, ray_id);
+			dist_rays_wall(data, pos_x, pos_y, ray_id);
 			return ;
 		}
 		else
-			my_mlx_pixel_put(&data->img, pos_x, pos_y, BLACK);
+			my_mlx_pixel_put(&data->img3d, pos_x, pos_y, BLACK);
 		step++;
 	}
 }
 
-void	dist_rays_wall(t_data *data, double hit_x, double hit_y) //int ray_id)
+void	dist_rays_wall(t_data *data, double hit_x, double hit_y, int ray_id)
 {
 	double	dx;
 	double	dy;
 	double	dist;
 	double dist_reel;
+	double diff;
 
 	dx = (hit_x - data->map->player_x);
 	dy = (hit_y - data->map->player_y);
 	dist = sqrt(dx * dx + dy * dy);
-	dist_reel = dist * cos(data->map->player_dir
-			- data->ray.ray_angle);
-	// draw_wall(data, dist_reel, ray_id);
+	diff = data->ray.ray_angle - data->map->player_dir;
+	if (diff < 0)
+		diff += 2 * PI;
+	if (diff > 2 * PI)
+		diff -= 2 * PI;
+	dist_reel = dist * cos(diff);
+	draw_wall(data, dist_reel, ray_id);
 	printf("angle = %.2f°, distance brute = %.2f, corrigée = %.2f\n",
 		data->ray.ray_angle * (180 / PI), dist, dist_reel);
 }

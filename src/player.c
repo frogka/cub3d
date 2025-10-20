@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 17:43:48 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/16 17:46:39 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/19 16:24:21 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,7 @@ void	player_position(t_map *map)
 			if (map->grid[y][x] == 'N' || map->grid[y][x] == 'S'
 				|| map->grid[y][x] == 'E' || map->grid[y][x] == 'W')
 			{
-				if (map->grid[y][x] == 'N')
-					map->player_dir = 3 * PI / 2;
-				else if (map->grid[y][x] == 'S')
-					map->player_dir = PI / 2;
-				else if (map->grid[y][x] == 'E')
-					map->player_dir = 0;
-				else if (map->grid[y][x] == 'W')
-					map->player_dir = PI;
+				set_direction(map, x, y);
 				set_player(map, x, y);
 			}
 			x++;
@@ -66,6 +59,18 @@ int	check_num_player(t_map *map)
 		return (1);
 	}
 	return (0);
+}
+
+void	set_direction(t_map *map, int x, int y)
+{
+	if (map->grid[y][x] == 'N')
+		map->player_dir = 3 * PI / 2;
+	else if (map->grid[y][x] == 'S')
+		map->player_dir = PI / 2;
+	else if (map->grid[y][x] == 'E')
+		map->player_dir = 0;
+	else if (map->grid[y][x] == 'W')
+		map->player_dir = PI;
 }
 
 void	set_player(t_map *map, int x, int y)

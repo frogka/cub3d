@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/18 16:50:51 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/19 17:41:24 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,11 +264,11 @@ int main ()
       return 1;
    }
    // free_split(copy_map(map->grid, map));
-   printf("%lf\n", map->player_x);
-   printf("%lf\n", map->player_y);
-   printf("%lf\n", map->player_dir);
-   printf("adresse data = %p\n", &data);
-   printf("adresse map  = %p\n", data.map);
+   // printf("%lf\n", map->player_x);
+   // printf("%lf\n", map->player_y);
+   // printf("%lf\n", map->player_dir);
+   // printf("adresse data = %p\n", &data);
+   // printf("adresse map  = %p\n", data.map);
    data.mlx_ptr = mlx_init();
    data.win_ptr = mlx_new_window(data.mlx_ptr, WIDTH, HEIGHT
       , "CUB3D");
@@ -281,12 +281,18 @@ data.img3d.addr = mlx_get_data_addr(data.img3d.img_ptr,
 
 //pour minimap
    data.img.img_ptr = mlx_new_image(data.mlx_ptr , WIDTH / 4, HEIGHT / 4);
-   printf("FGASDFSDF\n");
-data.img.addr = mlx_get_data_addr(data.img.img_ptr , &data.img.bpp, &data.img.line_len, &data.img.endian);
-draw_map(map, &data);
-mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.img_ptr, 0, 0);
+   // printf("FGASDFSDF\n");
+data.img.addr = mlx_get_data_addr(data.img.img_ptr , &data.img.bpp, &data.img.line_len, &data.img.endian); // printf("%lf\n", map->player_x);
+   // printf("%lf\n", map->player_y);
+   // printf("%lf\n", map->player_dir);
+   // printf("adresse data = %p\n", &data);
+   // printf("adresse map  = %p\n", data.map);
+// draw_rays(&data);
+// draw_map(map, &data);
+// mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img3d.img_ptr, 0, 0);
+// mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.img_ptr, 20, 20);
 init_hook(&data);
+mlx_loop_hook(data.mlx_ptr, render, &data);
 mlx_loop(data.mlx_ptr); //focniton pour traiter les 2 buffers
 return (0);
 }
-

@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 18:24:28 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/18 16:36:46 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/19 16:36:23 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	draw_map(t_map *map, t_data *data)
 		// / 2);
 	// ajouter un joueur en forme de cercle
 	draw_player(map, data);
-    draw_rays(data);
+    // draw_rays(data);
     // dist_rays_wall(data);
 }
 

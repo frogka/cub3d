@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/18 16:23:05 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/19 18:25:44 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@
 # define KEY_B 65364
 
 // raycasting
-# define FOV 1.047197551 // 60 degres, PI/3
+# define FOV 1.047197551*2 // 60 degres, PI/3
 # define NUM_RAYS 640
 
 // gere les points pour les collisions
@@ -146,6 +146,7 @@ void				set_player(t_map *map, int x, int y);
 int					check_num_player(t_map *map);
 void				player_position(t_map *map);
 void				is_one_player(t_map *map, char *line);
+void				set_direction(t_map *map, int x, int y);
 
 /////////////////MOOVE////////////////
 void				move_v(int keycode, t_data *data);
@@ -162,11 +163,15 @@ void				destroy(t_data *data);
 
 /////////////////RAYCASTING/////////////////
 void				draw_rays(t_data *data);
-void	draw_one_ray(t_data *data, double ray_dx, double ray_dy); //,
-																// int ray_id);
-void	dist_rays_wall(t_data *data, double hit_x, double hit_y); //,
-																// int ray_id);
+void				draw_one_ray(t_data *data, double ray_dx, double ray_dy,
+						int ray_id);
+void				dist_rays_wall(t_data *data, double hit_x, double hit_y,
+						int ray_id);
 void				draw_wall(t_data *data, double dist_reel, int ray_id);
+
+/////////////////RENDER/////////////////////
+int					render(t_data *data);
+void				clear_img(t_image *img, int height);
 
 // faire le parsing de la map
 // lecture 0 1 via gnl
