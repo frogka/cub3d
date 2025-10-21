@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/21 20:47:59 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/21 23:37:01 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@
 
 // raycasting
 # define FOV (66 * (PI / 180)) // 1.151917306 // 66 degres, 66 * pi/180
-# define NUM_RAYS 640
+# define NUM_RAYS 1200
 
 // gere les points pour les collisions
 typedef struct s_moves

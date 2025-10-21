@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 19:52:44 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/21 21:18:46 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/21 23:09:10 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,20 @@ void	draw_rays(t_data *data)
 	double	ray_dir_y;
 	int		i;
 
-	rays_angle = data->map->player_dir - FOV / 2;
 	i = 0;
 	while (i < NUM_RAYS)
 	{
+		rays_angle = data->map->player_dir - (FOV / 2) + i * (FOV / NUM_RAYS);
 		ray_dir_x = cos(rays_angle);
 		ray_dir_y = sin(rays_angle);
-		data->ray.ray_angle = rays_angle;
-		draw_one_ray(data, ray_dir_x, ray_dir_y, i);
-		rays_angle += FOV / NUM_RAYS;
+		// draw_one_ray(data, ray_dir_x, ray_dir_y, i);
+		// rays_angle += FOV / NUM_RAYS;
 		if (rays_angle < 0)
 			rays_angle += 2 * PI;
 		if (rays_angle > 2 * PI)
 			rays_angle -= 2 * PI;
+		data->ray.ray_angle = rays_angle;
+		draw_one_ray(data, ray_dir_x, ray_dir_y, i);
 		i++;
 	}
 }
@@ -60,8 +61,6 @@ void	draw_one_ray(t_data *data, double ray_dx, double ray_dy, int ray_id)
 			dist_rays_wall(data, pos_x, pos_y, ray_id);
 			return ;
 		}
-		// else
-		// 	my_mlx_pixel_put(&data->img3d, pos_x, pos_y, BLACK);
 		step++;
 	}
 }
