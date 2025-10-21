@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 18:24:28 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/19 16:36:23 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:16:10 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,42 +95,33 @@ void	draw_map(t_map *map, t_data *data)
 		while (row < map->width)
 		{
 			c = map->grid[col][row];
-			px = row * TILE;
-			py = col * TILE;
+			px = round(row * TILE * data->m->scale);
+			py = round(col * TILE * data->m->scale);
 			draw_square(data, c, px, py);
 			row++;
 		}
 		col++;
 	}
-	// draw_square(data, 'P', map->player_x - TILE / 2, map->player_y - TILE
-		// / 2);
-	// ajouter un joueur en forme de cercle
 	draw_player(map, data);
-    // draw_rays(data);
-    // dist_rays_wall(data);
 }
 
 void	draw_square(t_data *data, char c, int px, int py)
 {
-	// double mini_scale;
 	int	tx;
 	int	ty;
+	int size;
 
-	// mini_scale = 0.2;
 	ty = 0;
-	while (ty < TILE)
+	size = round(TILE * data->m->scale);
+	while (ty < size)
 	{
 		tx = 0;
-		while (tx < TILE)
+		while (tx < size)
 		{
 			if (c == '1')
-				my_mlx_pixel_put(&data->img, tx + px, ty + py, RED);
+				my_mlx_pixel_put(&data->img, tx + px , ty + py , RED);
 			else if (c == '0')
-				my_mlx_pixel_put(&data->img, tx + px, ty + py, BLUE);
-			// else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
-			// my_mlx_pixel_put(data, tx + px, ty + py, BLACK);
-			// else if (c == 'P' )//&& tx < RAYON && ty < RAYON)
-			//     my_mlx_pixel_put(data, tx + px, ty + py, GREEN);
+				my_mlx_pixel_put(&data->img, tx + px , ty + py , BLUE);
 			tx++;
 		}
 		ty++;
@@ -143,19 +134,19 @@ void	draw_player(t_map *map, t_data *data)
 	int	y;
 	int	cx;
 	int	cy;
-	// double mini_scale;
+	int radius;
 
-	// mini_scale = 0.2;
-	y = -TILE_P;
-	while (y < TILE_P)
+	radius = TILE_P * data->m->scale;
+	y = -radius;
+	while (y < radius)
 	{
-		x = -TILE_P;
-		while (x < TILE_P)
+		x = -radius;
+		while (x < radius)
 		{
-			cx = map->player_x + x;
-			cy = map->player_y + y;
-			if (x * x + y * y <= TILE_P * TILE_P)
-				my_mlx_pixel_put(&data->img, cx, cy, GREEN);
+			cx = map->player_x * data->m->scale + x;
+			cy = map->player_y * data->m->scale + y;
+			if (x * x + y * y <= radius * radius)
+				my_mlx_pixel_put(&data->img, cx , cy , GREEN);
 			x++;
 		}
 		y++;

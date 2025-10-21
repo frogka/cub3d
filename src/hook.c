@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 20:54:05 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/18 15:28:06 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/21 18:15:21 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ int	handle_input(int keycode, t_data *data)
 	printf("handle_input reçoit data = %p\n", data);
 	printf("adresse data = %p\n", data);
 	printf("adresse map  = %p\n", data->map);
-	if (keycode == KEY_UP || keycode == KEY_DOWN || keycode == KEY_H
-		|| keycode == KEY_B)
+	if (keycode == KEY_UP || keycode == KEY_DOWN || keycode == KEY_U
+		|| keycode == KEY_D)
 		move_v(keycode, data);
 	if (keycode == KEY_LEFT || keycode == KEY_RIGHT)
 		move_h(keycode, data);
-	if(keycode == KEY_G)
+	if(keycode == KEY_L)
 		pov_left(data);
-	if (keycode == KEY_D)
+	if (keycode == KEY_R)
 		pov_right(data);
 	if (keycode == KEY_ESC)
 		destroy(data);
@@ -47,6 +47,7 @@ int	close_win(t_data *data)
 {
 	free_split(data->map->grid);
 	free(data->map);
+	free(data->m);
 	mlx_destroy_image(data->mlx_ptr, data->img.img_ptr);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	mlx_destroy_display(data->mlx_ptr);
@@ -57,6 +58,7 @@ void	destroy(t_data *data)
 {
 	free_split(data->map->grid);
 	free(data->map);
+	free(data->m);
 	mlx_destroy_image(data->mlx_ptr, data->img.img_ptr);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	mlx_destroy_display(data->mlx_ptr);

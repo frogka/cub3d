@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 19:52:44 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/20 19:03:48 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/21 21:18:46 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	draw_rays(t_data *data)
 {
 	double	rays_angle;
+	double	ray_dir_x;
+	double	ray_dir_y;
 	int		i;
-	double ray_dir_x;
-	double ray_dir_y;
 
 	rays_angle = data->map->player_dir - FOV / 2;
 	i = 0;
@@ -25,13 +25,13 @@ void	draw_rays(t_data *data)
 	{
 		ray_dir_x = cos(rays_angle);
 		ray_dir_y = sin(rays_angle);
+		data->ray.ray_angle = rays_angle;
+		draw_one_ray(data, ray_dir_x, ray_dir_y, i);
 		rays_angle += FOV / NUM_RAYS;
 		if (rays_angle < 0)
 			rays_angle += 2 * PI;
 		if (rays_angle > 2 * PI)
 			rays_angle -= 2 * PI;
-		data->ray.ray_angle = rays_angle;
-		draw_one_ray(data, ray_dir_x, ray_dir_y, i);
 		i++;
 	}
 }
@@ -47,7 +47,7 @@ void	draw_one_ray(t_data *data, double ray_dx, double ray_dy, int ray_id)
 	pos_x = data->map->player_x;
 	pos_y = data->map->player_y;
 	step = 0;
-	while (step < 1000)
+	while (step < 5000)
 	{
 		pos_x += ray_dx * 1;
 		pos_y += ray_dy * 1;
@@ -57,14 +57,11 @@ void	draw_one_ray(t_data *data, double ray_dx, double ray_dy, int ray_id)
 			return ;
 		if (data->map->grid[y][x] == '1')
 		{
-			// data->ray.hit_x = pos_x;
-			// data->ray.hit_y = pos_y;
-			// data->ray.ray_id = ray_id;
 			dist_rays_wall(data, pos_x, pos_y, ray_id);
 			return ;
 		}
-		else
-			my_mlx_pixel_put(&data->img3d, pos_x, pos_y, BLACK);
+		// else
+		// 	my_mlx_pixel_put(&data->img3d, pos_x, pos_y, BLACK);
 		step++;
 	}
 }
@@ -74,21 +71,19 @@ void	dist_rays_wall(t_data *data, double hit_x, double hit_y, int ray_id)
 	double	dx;
 	double	dy;
 	double	dist;
-	double dist_reel;
-	double diff;
+	double	dist_reel;
+	double	diff;
 
 	dx = (hit_x - data->map->player_x);
 	dy = (hit_y - data->map->player_y);
 	dist = sqrt(dx * dx + dy * dy);
-	diff = data->ray.ray_angle - data->map->player_dir;
-	// if (diff < 0)
-	// 	diff += 2 * PI;
-	// if (diff > 2 * PI)
-	// 	diff -= 2 * PI;
+	diff = data->map->player_dir - data->ray.ray_angle;
+	if (diff < -PI)
+		diff += 2 * PI;
+	else if (diff > PI)
+		diff -= 2 * PI;
 	dist_reel = dist * cos(diff);
 	draw_wall(data, dist_reel, ray_id);
-	// printf("angle = %.2f°, distance brute = %.2f, corrigée = %.2f\n",
-	// 	data->ray.ray_angle * (180 / PI), dist, dist_reel);
 }
 
 void	draw_wall(t_data *data, double dist_reel, int ray_id)
@@ -108,28 +103,33 @@ void	draw_wall(t_data *data, double dist_reel, int ray_id)
 		y_start = 0;
 	if (y_end > HEIGHT)
 		y_end = HEIGHT;
-	col = (int)((double)ray_id / (double)NUM_RAYS * (double)WIDTH);
-	// col = ray_id * (WIDTH / NUM_RAYS);
+	col = ((double)ray_id / (double)NUM_RAYS * (double)WIDTH);
+	// col = ray_id * (WIDTH /NUM_RAYS);
 	y = y_start;
-	while (y++ < (int)y_end)
-		draw_strips(data, col, y, BLUE);
+	while (y < y_end)
+	{
 		// my_mlx_pixel_put(&data->img3d, col, y, BLUE);
+		draw_strips(data, col, y, BLUE);
+		y++;
+	}
 }
 
-
-void draw_strips(t_data *data, int col, int y, int color)
+void	draw_strips(t_data *data, int col, int y, int color)
 {
-	int x;
-	int strips;
+	int	x;
+	int	strips;
 
+	strips = (WIDTH / NUM_RAYS);
 	x = 0;
-	strips = (WIDTH / NUM_RAYS)* 2;
-	while(x++ < strips)
+	while (x < strips)
+	{
 		my_mlx_pixel_put(&data->img3d, col + x, y, color);
+		x++;
+	}
 }
 // hypotenuse = Va2 + b2;
 
-//Normaliser les mur si ca ondule
+// Normaliser les mur si ca ondule
 // double diff = player_dir - ray_angle;
 // if (diff < 0)
 //     diff += 2 * PI;
