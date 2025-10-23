@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 19:52:44 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/22 19:53:55 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/23 17:01:06 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	draw_rays(t_data *data)
 {
-	double	rays_angle;
 	// double	ray_dir_x;
 	// double	ray_dir_y;
 	int		i;
@@ -22,14 +21,14 @@ void	draw_rays(t_data *data)
 	i = 0;
 	while (i < NUM_RAYS)
 	{
-		rays_angle = data->map->player_dir - (FOV / 2) + i * (FOV / NUM_RAYS);
+		data->ray.ray_angle = data->map->player_dir - (FOV / 2) + i * (FOV / NUM_RAYS);
 		// ray_dir_x = cos(rays_angle);
 		// ray_dir_y = sin(rays_angle);
-		if (rays_angle < 0)
-			rays_angle += 2 * PI;
-		if (rays_angle > 2 * PI)
-			rays_angle -= 2 * PI;
-		init_dda(data->ray, data, rays_angle);
+		if (data->ray.ray_angle < 0)
+			data->ray.ray_angle += 2 * PI;
+		if (data->ray.ray_angle > 2 * PI)
+			data->ray.ray_angle -= 2 * PI;
+		init_dda(data->ray, data);
 		draw_one_ray(data, ray_dir_x, ray_dir_y, i);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/22 20:48:52 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/23 16:58:56 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ typedef struct s_ray
 	int					mapy;
 	int					hit;
 	int					side;
+	double				dist_cor;
+	double				ray_angle;
 }						t_ray;
 
 // gere la connexion au server + l'image
