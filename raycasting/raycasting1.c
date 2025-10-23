@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 19:52:44 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/21 23:09:10 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/22 19:53:55 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,21 @@
 void	draw_rays(t_data *data)
 {
 	double	rays_angle;
-	double	ray_dir_x;
-	double	ray_dir_y;
+	// double	ray_dir_x;
+	// double	ray_dir_y;
 	int		i;
 
 	i = 0;
 	while (i < NUM_RAYS)
 	{
 		rays_angle = data->map->player_dir - (FOV / 2) + i * (FOV / NUM_RAYS);
-		ray_dir_x = cos(rays_angle);
-		ray_dir_y = sin(rays_angle);
-		// draw_one_ray(data, ray_dir_x, ray_dir_y, i);
-		// rays_angle += FOV / NUM_RAYS;
+		// ray_dir_x = cos(rays_angle);
+		// ray_dir_y = sin(rays_angle);
 		if (rays_angle < 0)
 			rays_angle += 2 * PI;
 		if (rays_angle > 2 * PI)
 			rays_angle -= 2 * PI;
-		data->ray.ray_angle = rays_angle;
+		init_dda(data->ray, data, rays_angle);
 		draw_one_ray(data, ray_dir_x, ray_dir_y, i);
 		i++;
 	}
@@ -107,8 +105,8 @@ void	draw_wall(t_data *data, double dist_reel, int ray_id)
 	y = y_start;
 	while (y < y_end)
 	{
-		// my_mlx_pixel_put(&data->img3d, col, y, BLUE);
-		draw_strips(data, col, y, BLUE);
+		my_mlx_pixel_put(&data->img3d, col, y, BLUE);
+		// draw_strips(data, col, y, BLUE);
 		y++;
 	}
 }

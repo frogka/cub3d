@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/21 23:37:01 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/22 20:48:52 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,22 @@
 # define BLACK 0x000000
 
 // keycode des touches clavier
-# define KEY_ESC 65307
-# define KEY_LEFT 97
-# define KEY_RIGHT 100
-# define KEY_UP 119
-# define KEY_DOWN 115
-# define KEY_L 65361
-# define KEY_U 65362
-# define KEY_R 65363
-# define KEY_D 65364
+enum					Keycode
+{
+	KEY_ESC = 65307,
+	KEY_RIGHT = 100,
+	KEY_DOWN = 115,
+	KEY_LEFT = 97,
+	KEY_U = 65362,
+	KEY_UP = 119,
+	KEY_D = 65364,
+	KEY_L = 65361,
+	KEY_R = 65363,
+};
 
 // raycasting
 # define FOV (66 * (PI / 180)) // 1.151917306 // 66 degres, 66 * pi/180
-# define NUM_RAYS 1200
+# define NUM_RAYS 1800
 
 // gere les points pour les collisions
 typedef struct s_moves
@@ -73,16 +76,18 @@ typedef struct s_image
 
 typedef struct s_ray
 {
-	// double			ray_x;
-	// double			ray_y;
-	// double			hit_x;
-	// double			hit_y;
-	// double			ray_dir_x;
-	// double			ray_dir_y;
-	double				ray_angle;
-	// double			dist_reel;
-	// int				ray_id;
-
+	int					stepx;
+	int					stepy;
+	double				ray_dx;
+	double				ray_dy;
+	double				side_dx;
+	double				side_dy;
+	double				delta_dx;
+	double				delta_dy;
+	int					mapx;
+	int					mapy;
+	int					hit;
+	int					side;
 }						t_ray;
 
 // gere la connexion au server + l'image
@@ -90,6 +95,7 @@ typedef struct s_data
 {
 	void				*mlx_ptr;
 	void				*win_ptr;
+	double				proj_pl_dist;
 	t_image				img;
 	t_image				img3d;
 	t_moves				moves;
