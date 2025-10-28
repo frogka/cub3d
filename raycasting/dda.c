@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 19:20:12 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/23 21:26:14 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/28 18:13:49 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,8 @@ static void	init_dda_dist(t_data *data)
 	}
 }
 
-static void	dda_steps(t_ray *ray)
+static void	dda_steps(t_data *data ,t_ray *ray)
 {
-	t_data	*data;
-
 	while (ray->hit == 0)
 	{
 		if (ray->side_dx < ray->side_dy)
@@ -77,17 +75,35 @@ static void	dda_steps(t_ray *ray)
 	}
 }
 
-static void	dda_dist(t_data *data, t_ray *ray)
+double	dda_dist(t_data *data, t_ray *ray, int ray_id)
 {
-	double dist_ray;
+	double perp_dist;
+	double wall_x;
 
 	if (ray->side == 0)
-		dist_ray = (ray->mapx - data->map->player_x / TILE + (1 - ray->stepx)
+		perp_dist = (ray->mapx - data->map->player_x / TILE + (1 - ray->stepx)
 				/ 2) / ray->ray_dx;
 	else
-		dist_ray = (ray->mapy - data->map->player_y / TILE + (1 - ray->stepy
-					/ 2)) / ray->ray_dy;
-	ray->dist_cor = dist_ray * cos(ray->ray_angle - data->map->player_dir);
+		perp_dist = (ray->mapy - data->map->player_y / TILE + (1 - ray->stepy)
+					/ 2) / ray->ray_dy;
+	if (ray->side == 0)
+		wall_x = data->map->player_y / TILE + perp_dist * ray->ray_dy;
+	else 
+		wall_x = data->map->player_x / TILE + perp_dist * ray->ray_dx;
+	wall_x -= floor(wall_x);
+	data->wall_hit[ray_id] = wall_x;
+	data->wall_side[ray_id] = ray->side; 
+	return (perp_dist * TILE);
+	
+}
+
+void wall_collision(t_data *data, t_ray *ray, int ray_id)
+{
+	if (ray->side == 0)
+	{
+		if (ray->stepx == 1)
+
+	}
 }
 
 void draw_wall(t_data *data, t_ray * ray)

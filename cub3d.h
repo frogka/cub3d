@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/23 16:58:56 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/28 18:27:47 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ enum					Keycode
 };
 
 // raycasting
-# define FOV (66 * (PI / 180)) // 1.151917306 // 66 degres, 66 * pi/180
+# define FOV (60 * (PI / 180)) // 1.151917306 // 66 degres, 66 * pi/180
 # define NUM_RAYS 1800
 
 // gere les points pour les collisions
@@ -88,7 +88,7 @@ typedef struct s_ray
 	int					mapy;
 	int					hit;
 	int					side;
-	double				dist_cor;
+	double				dist_cor;//
 	double				ray_angle;
 }						t_ray;
 
@@ -98,14 +98,28 @@ typedef struct s_data
 	void				*mlx_ptr;
 	void				*win_ptr;
 	double				proj_pl_dist;
+	double *wall_hit;
+	double *wall_side;
 	t_image				img;
 	t_image				img3d;
 	t_moves				moves;
 	t_ray				ray;
+	t_tex textures[5];
 	struct s_map		*map;
 	struct s_config		*config;
 	struct s_minimap	*m;
 }						t_data;
+
+typedef struct s_tex
+{
+	void	*img;
+	int		*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+	int width;
+	int height;
+}	t_tex;
 
 typedef struct s_minimap
 {
