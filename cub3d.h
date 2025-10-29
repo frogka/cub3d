@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/28 18:27:47 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/10/29 18:55:19 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@
 # define BLUE 0x0000FF
 # define GREEN 0x00FF00
 # define BLACK 0x000000
+
+// definir les cotes
+# define NORTH 0
+# define SOUTH 1
+# define WEST 2
+# define EAST 3
 
 // keycode des touches clavier
 enum					Keycode
@@ -84,11 +90,12 @@ typedef struct s_ray
 	double				side_dy;
 	double				delta_dx;
 	double				delta_dy;
+	int					*ray_dir;
 	int					mapx;
 	int					mapy;
 	int					hit;
 	int					side;
-	double				dist_cor;//
+	double dist_cor; //
 	double				ray_angle;
 }						t_ray;
 
@@ -98,13 +105,13 @@ typedef struct s_data
 	void				*mlx_ptr;
 	void				*win_ptr;
 	double				proj_pl_dist;
-	double *wall_hit;
-	double *wall_side;
+	double				*wall_hit;
+	double				*wall_side;
 	t_image				img;
 	t_image				img3d;
 	t_moves				moves;
 	t_ray				ray;
-	t_tex textures[5];
+	t_tex				tex[4];
 	struct s_map		*map;
 	struct s_config		*config;
 	struct s_minimap	*m;
@@ -112,14 +119,14 @@ typedef struct s_data
 
 typedef struct s_tex
 {
-	void	*img;
-	int		*addr;
-	int		bpp;
-	int		line_len;
-	int		endian;
-	int width;
-	int height;
-}	t_tex;
+	void				*img;
+	int					*addr;
+	int					bpp;
+	int					line_len;
+	int					endian;
+	int					width;
+	int					height;
+}						t_tex;
 
 typedef struct s_minimap
 {
