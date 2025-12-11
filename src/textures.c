@@ -6,12 +6,16 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 16:01:18 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/29 18:47:24 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/09 16:20:52 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "cub3d.h"
 
+
+// gestion des textures avant fin du projet 
+
+//
 int load_one_textures(t_data *data, int dir, char *path)
 {
     data->tex[dir].img = mlx_xpm_file_to_image(data->mlx_ptr, path, data->tex[dir].width, data->tex[dir].height);

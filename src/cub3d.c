@@ -6,12 +6,13 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/21 18:59:13 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/11 01:24:20 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+//count widht et height max de la map
 int	count_map_lines(int fd, t_map *map)
 {
 	char	*line;
@@ -41,6 +42,8 @@ int	count_map_lines(int fd, t_map *map)
 	return (count);
 }
 
+
+//forme une map de width et height identique
 char	**fill_map(int fd, t_map *map)
 {
 	int		i;
@@ -85,7 +88,8 @@ char	**fill_map(int fd, t_map *map)
 	return (grid);
 }
 
-// pbl qunas joeur est a l'extremite +P quand la lettre est != du joueur
+// pbl qunas joeur est a l'extremite + P quand la lettre est != du joueur
+//controle la validite des car de la map
 int	is_map_line(char *line)
 {
 	int	i;
@@ -128,11 +132,18 @@ int	is_config_line(char *line)
 		return (1);
 	// else
 	//   return ; //message d'erreur
+	//
+	//AJOUT d'une conditon dans le main que si on a une map line
+	//et que les configs sont != de 6 ca va pas
+	//ont doit avoir toutes les configs puis la map
 	return (0);
 }
 
 // fonction qui atttribut les config a la structure
 // ajout d'un char temporaire ??
+//
+//Faire un check prealable que la fin du passe des configs de 
+//NO EA WE SO termine bien par xpm
 void	parse_config(t_config *config, char *line)
 {
 	int	i;
@@ -165,6 +176,7 @@ int	xrgb(int r, int g, int b)
 	return (r << 16 | g << 8 | b);
 }
 
+//check la validite des couleurs de Ceil et Floor
 int	check_colors(char *line)
 {
 	char	**colors;
@@ -181,6 +193,7 @@ int	check_colors(char *line)
 	{
 		free_split(colors);
 		return (-1);
+		//message d'erreur
 	}
 	r = ft_atoi(colors[0]);
 	g = ft_atoi(colors[1]);
@@ -192,13 +205,15 @@ int	check_colors(char *line)
 	// message d'erreur sur la validite des nombres
 }
 
+//check la validite des nombres
 int	check_valid_numbers(int r, int g, int b)
 {
 	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
-		return (0);
+		return (0); //message d'erreur
 	return (1);
 }
 
+//coloris le pixel a l'endroit souhaite
 void	my_mlx_pixel_put(t_image *img, int x, int y, int color)
 {
 	char	*dst;
@@ -210,18 +225,20 @@ void	my_mlx_pixel_put(t_image *img, int x, int y, int color)
 int	main(void)
 {
 	int			fd;
-	t_data		data;
+	t_data		*data;
 	t_map		*map;
-	// t_minimap	*m;
-
-	// char *line;
-	// line = NULL;
-	// m = NULL;
+	t_ray *ray;
+	
+	data = malloc(sizeof(t_data));
+	ray = malloc(sizeof(t_ray));
+	printf("DEBUG: Ptr ray: %p\n", ray);
 	map = malloc(sizeof(t_map));
 	map->height = 0;
 	map->width = 0;
 	map->player_found = 0;
-	data.map = map;
+	map->grid = NULL;
+	data->map = map;
+	printf("DEBUG playerx : %f, playery : %f\n", data->map->player_x, data->map->player_y);
 	printf("map addr main = %p\n", map);
 	if (!map)
 		exit(1);
@@ -259,29 +276,32 @@ int	main(void)
 		free(map);
 		return (1);
 	}
-	data.m = malloc(sizeof(t_minimap));
+	data->proj_pl_dist = (WIDTH / 2) / tan(FOV / 2);
+	data->wall_hit = NULL;
+	data->wall_side = NULL;
+	data->m = malloc(sizeof(t_minimap));
 	// m->height = 0;
 	// m->width = 0;
 	// m->scale = 0;
 	// data.m = m;
-	init_minimap(map, data.m);
+	init_minimap(map, data->m);
 		// free_split(copy_map(map->grid, map));
 		// printf("%lf\n", map->player_x);
 		// printf("%lf\n", map->player_y);
 		// printf("%lf\n", map->player_dir);
 		// printf("adresse data = %p\n", &data);
 		// printf("adresse map  = %p\n", data.map);
-		data.mlx_ptr = mlx_init();
-	data.win_ptr = mlx_new_window(data.mlx_ptr, WIDTH, HEIGHT, "CUB3D");
+		data->mlx_ptr = mlx_init();
+	data->win_ptr = mlx_new_window(data->mlx_ptr, WIDTH, HEIGHT, "CUB3D");
 	// rendu 3d
-	data.img3d.img_ptr = mlx_new_image(data.mlx_ptr, WIDTH, HEIGHT);
-	data.img3d.addr = mlx_get_data_addr(data.img3d.img_ptr, &data.img3d.bpp,
-			&data.img3d.line_len, &data.img3d.endian);
+	data->img3d.img_ptr = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
+	data->img3d.addr = mlx_get_data_addr(data->img3d.img_ptr, &data->img3d.bpp,
+			&data->img3d.line_len, &data->img3d.endian);
 	// pour minimap
-	data.img.img_ptr = mlx_new_image(data.mlx_ptr, W_MINI, H_MINI);
+	data->img.img_ptr = mlx_new_image(data->mlx_ptr, W_MINI, H_MINI);
 	// printf("FGASDFSDF\n");
-	data.img.addr = mlx_get_data_addr(data.img.img_ptr, &data.img.bpp,
-			&data.img.line_len, &data.img.endian);
+	data->img.addr = mlx_get_data_addr(data->img.img_ptr, &data->img.bpp,
+			&data->img.line_len, &data->img.endian);
 			// map->player_x);
 	// map->player_y);
 	// // printf("%lf\n",
@@ -305,11 +325,9 @@ int	main(void)
 		// data.img.img_ptr,
 		// 20,
 	// 20);
-	init_hook(&data);
-	mlx_loop_hook(data.mlx_ptr,
-		render,
-		&data);
-	mlx_loop(data.mlx_ptr);
+	init_hook(data);
+	mlx_loop_hook(data->mlx_ptr, render,	&data);
+	mlx_loop(data->mlx_ptr);
 		// focniton pour traiter les 2 buffers
 	return (0);
 }

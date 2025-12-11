@@ -6,12 +6,13 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 21:13:10 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/21 16:48:11 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/10 23:06:07 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+//gestion des deplacements sur l'axe vertical
 void	move_v(int keycode, t_data *data)
 {
 	double	next_x;
@@ -21,13 +22,13 @@ void	move_v(int keycode, t_data *data)
 	printf("adresse map  = %p\n", data->map);
 	if (keycode == KEY_UP || keycode == KEY_U)
 	{
-		next_x = data->map->player_x + cos(data->map->player_dir) * SPEED;
-		next_y = data->map->player_y + sin(data->map->player_dir) * SPEED;
+		next_x = data->map->player_x; // + data->map->dirX * SPEED;
+		next_y = data->map->player_y - data->map->dirY * SPEED;
 	}
 	else
 	{
-		next_x = data->map->player_x - cos(data->map->player_dir) * SPEED;
-		next_y = data->map->player_y - sin(data->map->player_dir) * SPEED;
+		next_x = data->map->player_x; // - data->map->dirX * SPEED;
+		next_y = data->map->player_y + data->map->dirY * SPEED;
 	}
 	if ((check_collision(data, next_x, next_y)) == 0)
 	{
@@ -39,6 +40,7 @@ void	move_v(int keycode, t_data *data)
 	}
 }
 
+//gestion des deplacements sur l'axe horizontal
 void	move_h(int keycode, t_data *data)
 {
 	double	next_x;
@@ -46,17 +48,13 @@ void	move_h(int keycode, t_data *data)
 
 	if (keycode == KEY_RIGHT || keycode == KEY_R)
 	{
-		next_x = data->map->player_x - cos(data->map->player_dir - PI / 2)
-			* SPEED;
-		next_y = data->map->player_y - sin(data->map->player_dir - PI / 2)
-			* SPEED;
+		next_x = data->map->player_x + data->map->dirX * SPEED;
+		next_y = data->map->player_y; // - data->map->dirY * SPEED;
 	}
 	else
 	{
-		next_x = data->map->player_x + cos(data->map->player_dir - PI / 2)
-			* SPEED;
-		next_y = data->map->player_y + sin(data->map->player_dir - PI / 2)
-			* SPEED;
+		next_x = data->map->player_x - data->map->dirX * SPEED;
+		next_y = data->map->player_y; // + data->map->dirY * SPEED;
 	}
 	if ((check_collision(data, next_x, next_y)) == 0)
 	{
@@ -68,28 +66,32 @@ void	move_h(int keycode, t_data *data)
 	}
 }
 
+//rotation du joueur sur la gauche
 void pov_left(t_data *data)
 {
 	double next_pov;
 
-	next_pov = data->map->player_dir - 0.05;
-	data->map->player_dir = next_pov;
+	next_pov = data->map->dirX / 0.05; //cos a - sin a
+	data->map->dirX = next_pov;
 	draw_map(data->map, data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_ptr,
 			0, 0);
 }
 
+//rotation du joueur sur la droite
 void pov_right(t_data *data)
 {
 	double next_pov;
 
-	next_pov = data->map->player_dir + 0.05;
-	data->map->player_dir = next_pov;
+	next_pov = data->map->dirX * 0.05;
+	data->map->dirX = next_pov;
 	draw_map(data->map, data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_ptr,
 			0, 0);
 }
 
+//gestion des collisions
+//?????????????
 int	check_collision(t_data *data, double n_x, double n_y)
 {
 	int	check_x;
@@ -110,7 +112,7 @@ int	check_collision(t_data *data, double n_x, double n_y)
 		check_x = (n_x + data->moves.dx[i]) / TILE;
 		check_y = (n_y + data->moves.dy[i]) / TILE;
 		if (check_x < 0 || check_x > data->map->width || check_y < 0
-			|| check_y > data->map->height)
+			|| check_y > data->map->height) //=
 			return (1);
 		if (data->map->grid[check_y][check_x] == '1')
 			return (1);

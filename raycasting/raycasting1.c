@@ -6,12 +6,13 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 19:52:44 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/23 17:01:06 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/10 17:04:11 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
+//lance les rayon par la FOV
 void	draw_rays(t_data *data)
 {
 	// double	ray_dir_x;
@@ -22,46 +23,46 @@ void	draw_rays(t_data *data)
 	while (i < NUM_RAYS)
 	{
 		data->ray.ray_angle = data->map->player_dir - (FOV / 2) + i * (FOV / NUM_RAYS);
-		// ray_dir_x = cos(rays_angle);
-		// ray_dir_y = sin(rays_angle);
 		if (data->ray.ray_angle < 0)
 			data->ray.ray_angle += 2 * PI;
 		if (data->ray.ray_angle > 2 * PI)
 			data->ray.ray_angle -= 2 * PI;
 		init_dda(data->ray, data);
-		draw_one_ray(data, ray_dir_x, ray_dir_y, i);
 		i++;
 	}
 }
 
-void	draw_one_ray(t_data *data, double ray_dx, double ray_dy, int ray_id)
-{
-	double	pos_x;
-	double	pos_y;
-	int		x;
-	int		y;
-	int		step;
+//fonction a remplacer par le dda
+//NUL
+// void	draw_one_ray(t_data *data, double ray_dx, double ray_dy, int ray_id)
+// {
+// 	double	pos_x;
+// 	double	pos_y;
+// 	int		x;
+// 	int		y;
+// 	int		step;
 
-	pos_x = data->map->player_x;
-	pos_y = data->map->player_y;
-	step = 0;
-	while (step < 5000)
-	{
-		pos_x += ray_dx * 1;
-		pos_y += ray_dy * 1;
-		x = pos_x / TILE;
-		y = pos_y / TILE;
-		if (x < 0 || x >= data->map->width || y < 0 || y >= data->map->height)
-			return ;
-		if (data->map->grid[y][x] == '1')
-		{
-			dist_rays_wall(data, pos_x, pos_y, ray_id);
-			return ;
-		}
-		step++;
-	}
-}
+// 	pos_x = data->map->player_x;
+// 	pos_y = data->map->player_y;
+// 	step = 0;
+// 	while (step < 5000)
+// 	{
+// 		pos_x += ray_dx * 1;
+// 		pos_y += ray_dy * 1;
+// 		x = pos_x / TILE;
+// 		y = pos_y / TILE;
+// 		if (x < 0 || x >= data->map->width || y < 0 || y >= data->map->height)
+// 			return ;
+// 		if (data->map->grid[y][x] == '1')
+// 		{
+// 			dist_rays_wall(data, pos_x, pos_y, ray_id);
+// 			return ;
+// 		}
+// 		step++;
+// 	}
+// }
 
+//calcul la distance entre le joueur et le mur 
 void	dist_rays_wall(t_data *data, double hit_x, double hit_y, int ray_id)
 {
 	double	dx;
@@ -82,6 +83,7 @@ void	dist_rays_wall(t_data *data, double hit_x, double hit_y, int ray_id)
 	draw_wall(data, dist_reel, ray_id);
 }
 
+//dessine le mur en fonction de la distance du joueur/mur
 void	draw_wall(t_data *data, double dist_reel, int ray_id)
 {
 	double	wall_h;
@@ -110,6 +112,7 @@ void	draw_wall(t_data *data, double dist_reel, int ray_id)
 	}
 }
 
+//comble les trous mais pas bon 
 void	draw_strips(t_data *data, int col, int y, int color)
 {
 	int	x;

@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/29 18:55:19 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/11 01:11:58 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ enum					Keycode
 };
 
 // raycasting
-# define FOV (60 * (PI / 180)) // 1.151917306 // 66 degres, 66 * pi/180
-# define NUM_RAYS 1800
+# define FOV (66 * (PI / 180)) // 1.151917306 // 66 degres, 66 * pi/180
+# define NUM_RAYS 1200
 
 // gere les points pour les collisions
 typedef struct s_moves
@@ -69,6 +69,17 @@ typedef struct s_moves
 	int					dx[4];
 	int					dy[4];
 }						t_moves;
+
+typedef struct s_tex
+{
+	void				*img;
+	int					*addr;
+	int					bpp;
+	int					line_len;
+	int					endian;
+	int					width;
+	int					height;
+}						t_tex;
 
 // structure qui gere l'affichage
 typedef struct s_image
@@ -90,13 +101,13 @@ typedef struct s_ray
 	double				side_dy;
 	double				delta_dx;
 	double				delta_dy;
-	int					*ray_dir;
+	// int					*ray_dir;
 	int					mapx;
 	int					mapy;
 	int					hit;
 	int					side;
 	double dist_cor; //
-	double				ray_angle;
+	// double				ray_angle;
 }						t_ray;
 
 // gere la connexion au server + l'image
@@ -117,16 +128,6 @@ typedef struct s_data
 	struct s_minimap	*m;
 }						t_data;
 
-typedef struct s_tex
-{
-	void				*img;
-	int					*addr;
-	int					bpp;
-	int					line_len;
-	int					endian;
-	int					width;
-	int					height;
-}						t_tex;
 
 typedef struct s_minimap
 {
@@ -143,7 +144,11 @@ typedef struct s_map
 	int					width;
 	double				player_x;
 	double				player_y;
-	double				player_dir;
+	double				dirX;
+	double dirY;
+	double planeX;
+	double planeY;
+	double cameraX;
 	int					player_found;
 	// ajouter position du joueur
 }						t_map;
@@ -187,6 +192,9 @@ void					player_position(t_map *map);
 void					is_one_player(t_map *map, char *line);
 void					set_direction(t_map *map, int x, int y);
 
+void set_virtual_plan(t_map *map, int x, int y);
+
+
 /////////////////MOOVE////////////////
 void					move_v(int keycode, t_data *data);
 void					move_h(int keycode, t_data *data);
@@ -201,13 +209,22 @@ int						close_win(t_data *data);
 void					destroy(t_data *data);
 
 /////////////////RAYCASTING/////////////////
-void					draw_rays(t_data *data);
-void					draw_one_ray(t_data *data, double ray_dx, double ray_dy,
-							int ray_id);
-void					dist_rays_wall(t_data *data, double hit_x, double hit_y,
-							int ray_id);
-void					draw_wall(t_data *data, double dist_reel, int ray_id);
-void					draw_strips(t_data *data, int col, int y, int color);
+// void					draw_rays(t_data *data);
+// void					draw_one_ray(t_data *data, double ray_dx, double ray_dy,
+							// int ray_id);
+// void					dist_rays_wall(t_data *data, double hit_x, double hit_y,
+							// int ray_id);
+// void					draw_wall(t_data *data, double dist_reel, int ray_id);
+// void					draw_strips(t_data *data, int col, int y, int color);
+
+////////////////////DDA/////////////////////
+void	draw_wall(t_data *data, t_ray *ray, int ray_id);
+double	dda_dist(t_data *data, t_ray *ray, int ray_id);
+void	init_dda(t_map *map, t_ray *ray, t_data *data);
+void	dda_steps(t_data *data, t_ray *ray);
+
+void raycast_main(t_data *data);
+
 
 /////////////////RENDER/////////////////////
 int						render(t_data *data);

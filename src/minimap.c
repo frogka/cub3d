@@ -6,12 +6,14 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 17:55:13 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/21 19:47:37 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/09 16:13:04 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+//initialissation des elemetns pour la map 2d
+//??????????????
 void init_minimap(t_map *map, t_minimap *mini)
 {
     double scalex;

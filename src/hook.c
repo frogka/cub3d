@@ -6,12 +6,14 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 20:54:05 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/21 18:15:21 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/09 13:27:54 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+//recup les event claviers pour les deplacements
+//changer car deplacements simultanee en focntionnent pas
 int	handle_input(int keycode, t_data *data)
 {
 	printf("handle_input reçoit data = %p\n", data);
@@ -32,6 +34,7 @@ int	handle_input(int keycode, t_data *data)
 	return (0);
 }
 
+//initilalise les events claviers + la fermeture de la fenetre
 void	init_hook(t_data *data)
 {
 	printf("init_hook reçoit un t_data* ? data = %p, &data = %p\n", data,
@@ -43,6 +46,7 @@ void	init_hook(t_data *data)
 	// mlx_mouse_hook(data->win_ptr, mouse_hook, data);
 }
 
+//fermeture de la fenetre via la X
 int	close_win(t_data *data)
 {
 	free_split(data->map->grid);
@@ -54,6 +58,8 @@ int	close_win(t_data *data)
 	free(data->mlx_ptr);
 	exit(0);
 }
+
+//fermeture de la fenetre via ESC
 void	destroy(t_data *data)
 {
 	free_split(data->map->grid);

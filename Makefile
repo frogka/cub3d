@@ -8,8 +8,8 @@ SRCS = src/cub3d.c \
 	   src/hook.c \
 	   src/moove.c \
 	   src/minimap.c \
-	   raycasting/raycasting1.c \
-	   raycasting/render.c
+	   raycasting/render.c \
+	   raycasting/dda.c \
 
 # Compilateur
 CC = cc
@@ -82,4 +82,4 @@ fclean: clean
 # Recompile tout
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re 

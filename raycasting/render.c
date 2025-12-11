@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 16:32:29 by jdutille          #+#    #+#             */
-/*   Updated: 2025/10/21 19:48:22 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/11 00:55:17 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	clear_img(t_image *img, int height)
 
 int	render(t_data *data)
 {
-	clear_img(&data->img3d, HEIGHT);
-	clear_img(&data->img, H_MINI);
-	draw_rays(data);
+	// clear_img(&data->img3d, HEIGHT);
+	// clear_img(&data->img, H_MINI);
+	raycast_main(data);
 	draw_map(data->map, data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img3d.img_ptr,
 		0, 0);
