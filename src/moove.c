@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 21:13:10 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/10 23:06:07 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/11 21:52:20 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ void	move_v(int keycode, t_data *data)
 	double	next_x;
 	double	next_y;
 
-	printf("adresse data = %p\n", data);
-	printf("adresse map  = %p\n", data->map);
+	// printf("adresse data = %p\n", data);
+	// printf("adresse map  = %p\n", data->map);
 	if (keycode == KEY_UP || keycode == KEY_U)
 	{
-		next_x = data->map->player_x; // + data->map->dirX * SPEED;
+		next_x = data->map->player_x;// + data->map->dirX * SPEED;
 		next_y = data->map->player_y - data->map->dirY * SPEED;
 	}
 	else
 	{
-		next_x = data->map->player_x; // - data->map->dirX * SPEED;
+		next_x = data->map->player_x;// - data->map->dirX * SPEED;
 		next_y = data->map->player_y + data->map->dirY * SPEED;
 	}
 	if ((check_collision(data, next_x, next_y)) == 0)
@@ -49,12 +49,12 @@ void	move_h(int keycode, t_data *data)
 	if (keycode == KEY_RIGHT || keycode == KEY_R)
 	{
 		next_x = data->map->player_x + data->map->dirX * SPEED;
-		next_y = data->map->player_y; // - data->map->dirY * SPEED;
+		next_y = data->map->player_y - data->map->dirY * SPEED;
 	}
 	else
 	{
 		next_x = data->map->player_x - data->map->dirX * SPEED;
-		next_y = data->map->player_y; // + data->map->dirY * SPEED;
+		next_y = data->map->player_y + data->map->dirY * SPEED;
 	}
 	if ((check_collision(data, next_x, next_y)) == 0)
 	{
@@ -71,7 +71,7 @@ void pov_left(t_data *data)
 {
 	double next_pov;
 
-	next_pov = data->map->dirX / 0.05; //cos a - sin a
+	next_pov = data->map->dirX * 0.05; //cos a - sin a
 	data->map->dirX = next_pov;
 	draw_map(data->map, data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_ptr,

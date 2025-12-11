@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 19:20:12 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/11 01:18:34 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/11 21:41:01 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,10 @@ static void	init_dda_dist(t_data *data)
 void	init_dda(t_map *map, t_ray *ray, t_data *data)
 {
 	// Dans init_dda, juste avant les lignes que vous avez montrées
-printf("DEBUG: player_x: %f, player_y: %f\n", data->map->player_x, data->map->player_y);
+// printf("DEBUG: player_x: %f, player_y: %f\n", data->map->player_x, data->map->player_y);
 	ray->ray_dx = map->dirX + map->planeX * map->cameraX; //cos(ray->ray_angle);
 	ray->ray_dy = map->dirY + map->planeY * map->cameraX; //sin(ray->ray_angle); 
+	// printf("DEBUG: map_x: %d, map_y: %d\n", ray->mapx, ray->mapy);
 	ray->mapx = (int)(data->map->player_x);
 	ray->mapy = (int)(data->map->player_y);
 	ray->delta_dx = fabs(1 / ray->ray_dx);
@@ -78,13 +79,13 @@ void	dda_steps(t_data *data, t_ray *ray)
 			ray->mapy += ray->stepy;
 			ray->side = 1;
 		}
-		printf("DEBUG: data: %p\n", data);
+		// printf("DEBUG: data: %p\n", data);
 		if (!data) return; // ou gérez l'erreur
-		printf("DEBUG: data->map: %p\n", data->map);
+		// printf("DEBUG: data->map: %p\n", data->map);
 		if (!data->map) return;
-		printf("DEBUG: data->map->grid: %p\n", data->map->grid);
+		// printf("DEBUG: data->map->grid: %p\n", data->map->grid);
 		if (!data->map->grid) return;
-		printf("DEBUG: mapy: %d, mapx: %d\n", ray->mapy, ray->mapx);
+		// printf("DEBUG: mapy: %d, mapx: %d\n", ray->mapy, ray->mapx);
 		if (data->map->grid[ray->mapy][ray->mapx] == '1')
 			ray->hit = 1;
 	}
@@ -97,6 +98,7 @@ double	dda_dist(t_data *data, t_ray *ray, int ray_id)
 	double	perp_dist;
 	double	wall_x;
 
+		// printf("SALUT\n");
 	if (ray->side == 0)
 		perp_dist = (ray->mapx - data->map->player_x + (1 - ray->stepx)
 				/ 2) / ray->ray_dx;
@@ -134,9 +136,9 @@ void	draw_wall(t_data *data, t_ray *ray, int ray_id)
 	if (d_end >= HEIGHT)
 		d_end = HEIGHT - 1;
 	if (ray->side == 0)
-		color = 0xFF0000;
+		color = GREEN; //VERTICAL
 	else	
-		color = 0x0000FF;
+		color = 0x0000FF; //HORIZONTALE
 	int y = d_start;
 	while (y <= d_end )
 	{

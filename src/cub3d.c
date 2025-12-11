@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/11 01:24:20 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/11 21:35:52 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	count_map_lines(int fd, t_map *map)
 		{
 			count++;
 			len = ft_strlen(line);
-			printf("%d\n", len);
+			// printf("%d\n", len);
 			if (len > map->width)
 				map->width = len;
 			free(line);
@@ -35,7 +35,7 @@ int	count_map_lines(int fd, t_map *map)
 		else
 		{
 			free(line);
-			return (-1);
+			// return (-1);
 		}
 	}
 	map->height = count;
@@ -47,7 +47,7 @@ int	count_map_lines(int fd, t_map *map)
 char	**fill_map(int fd, t_map *map)
 {
 	int		i;
-	int		j;
+	// int		j;
 	int		len;
 	char	*line;
 	char	**grid;
@@ -57,7 +57,7 @@ char	**fill_map(int fd, t_map *map)
 	if (!grid)
 		return (NULL);
 	i = 0;
-	j = 0;
+	// j = 0;
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		if (line[ft_strlen(line) - 1] == '\n')
@@ -77,14 +77,14 @@ char	**fill_map(int fd, t_map *map)
 		free(line);
 	}
 	grid[i] = NULL;
-	printf("2width = %d, height = %d\n", map->width, map->height);
-	j = 0;
-	while (grid[j])
-	{
-		printf("%s\n", grid[j]);
-		printf("%zu\n", ft_strlen(grid[j]));
-		j++;
-	}
+	// printf("2width = %d, height = %d\n", map->width, map->height);
+	// j = 0;
+	// while (grid[j])
+	// {
+	// 	printf("%s\n", grid[j]);
+	// 	printf("%zu\n", ft_strlen(grid[j]));
+	// 	j++;
+	// }
 	return (grid);
 }
 
@@ -97,17 +97,17 @@ int	is_map_line(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] != '1' && line[i] != '0' && line[i] != ' ' && line[i] != 'N'
+		if (line[i] == '1' && line[i] != '0' && line[i] != ' ' && line[i] != 'N'
 			&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W'
 			&& line[i] != '\n')
 		{
-			printf("Caractere non valable\n");
-			return (1);
+			return (0);
 			// fonction pour free grid et line et quitter le programme;
 		}
 		i++;
 	}
-	return (0);
+	printf("Caractere non valable\n");
+	return (1);
 }
 
 // fonction qui check la validite des config
@@ -231,15 +231,26 @@ int	main(void)
 	
 	data = malloc(sizeof(t_data));
 	ray = malloc(sizeof(t_ray));
-	printf("DEBUG: Ptr ray: %p\n", ray);
+	// printf("DEBUG: Ptr ray: %p\n", ray);
 	map = malloc(sizeof(t_map));
 	map->height = 0;
 	map->width = 0;
 	map->player_found = 0;
-	map->grid = NULL;
+	map->player_x = 0;
+	map->player_y = 0;
+	data->ray.mapx = 0;
+	data->ray.mapy = 0;
+	data->wall_hit = malloc(sizeof(double) * WIDTH);
+	data->wall_side = malloc(sizeof(int) * WIDTH);
+	if(!data->wall_hit || !data->wall_side)
+	{
+		printf("ZEUB\n");
+		return(1);
+	}
+	// map->grid = NULL;
 	data->map = map;
-	printf("DEBUG playerx : %f, playery : %f\n", data->map->player_x, data->map->player_y);
-	printf("map addr main = %p\n", map);
+	// printf("DEBUG playerx : %f, playery : %f\n", data->map->player_x, data->map->player_y);
+	// printf("map addr main = %p\n", map);
 	if (!map)
 		exit(1);
 	// faire une condition qui ouvre seulement si .cub
@@ -257,7 +268,7 @@ int	main(void)
 	// }
 	if (count_map_lines(fd, map) == -1)
 		return (1);
-	printf("width = %d, height = %d\n", map->width, map->height);
+	// printf("width = %d, height = %d\n", map->width, map->height);
 	close(fd);
 	fd = open("map.cub", O_RDONLY);
 	// fill_map(fd, map);
@@ -277,56 +288,56 @@ int	main(void)
 		return (1);
 	}
 	data->proj_pl_dist = (WIDTH / 2) / tan(FOV / 2);
-	data->wall_hit = NULL;
-	data->wall_side = NULL;
 	data->m = malloc(sizeof(t_minimap));
 	// m->height = 0;
 	// m->width = 0;
 	// m->scale = 0;
 	// data.m = m;
 	init_minimap(map, data->m);
-		// free_split(copy_map(map->grid, map));
-		// printf("%lf\n", map->player_x);
-		// printf("%lf\n", map->player_y);
-		// printf("%lf\n", map->player_dir);
-		// printf("adresse data = %p\n", &data);
-		// printf("adresse map  = %p\n", data.map);
-		data->mlx_ptr = mlx_init();
+	
+	// free_split(copy_map(map->grid, map));
+	// printf("%lf\n", map->player_x);
+	// printf("%lf\n", map->player_y);
+	// printf("%lf\n", map->player_dir);
+	// printf("adresse data = %p\n", &data);
+	// printf("adresse map  = %p\n", data.map);
+	data->mlx_ptr = mlx_init();
 	data->win_ptr = mlx_new_window(data->mlx_ptr, WIDTH, HEIGHT, "CUB3D");
 	// rendu 3d
 	data->img3d.img_ptr = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
 	data->img3d.addr = mlx_get_data_addr(data->img3d.img_ptr, &data->img3d.bpp,
-			&data->img3d.line_len, &data->img3d.endian);
-	// pour minimap
-	data->img.img_ptr = mlx_new_image(data->mlx_ptr, W_MINI, H_MINI);
-	// printf("FGASDFSDF\n");
-	data->img.addr = mlx_get_data_addr(data->img.img_ptr, &data->img.bpp,
+		&data->img3d.line_len, &data->img3d.endian);
+		// pour minimap
+		data->img.img_ptr = mlx_new_image(data->mlx_ptr, W_MINI, H_MINI);
+		// printf("FGASDFSDF\n");
+		data->img.addr = mlx_get_data_addr(data->img.img_ptr, &data->img.bpp,
 			&data->img.line_len, &data->img.endian);
 			// map->player_x);
-	// map->player_y);
-	// // printf("%lf\n",
-	// map->player_dir);
-	// // printf("adresse data =
-	// %p\n",
-	// &data);
-	// // printf("adresse map  =
-	// %p\n",
-	// data.map);
-	// draw_rays(&data);
-	// draw_map(map,
-		// &data);
-	// mlx_put_image_to_window(data.mlx_ptr,
-		// data.win_ptr,
-		// data.img3d.img_ptr,
-	// 0,
-		// 0);
-	// mlx_put_image_to_window(data.mlx_ptr,
-		// data.win_ptr,
-		// data.img.img_ptr,
-		// 20,
-	// 20);
+			// map->player_y);
+			// // printf("%lf\n",
+			// map->player_dir);
+			// // printf("adresse data =
+			// %p\n",
+			// &data);
+			// // printf("adresse map  =
+			// %p\n",
+			// data.map);
+			// draw_rays(&data);
+			// draw_map(map,
+			// &data);
+			// mlx_put_image_to_window(data.mlx_ptr,
+			// data.win_ptr,
+			// data.img3d.img_ptr,
+			// 0,
+			// 0);
+			// mlx_put_image_to_window(data.mlx_ptr,
+			// data.win_ptr,
+			// data.img.img_ptr,
+			// 20,
+			// 20);
 	init_hook(data);
-	mlx_loop_hook(data->mlx_ptr, render,	&data);
+	// printf("DEBUG 33: player_x: %f, player_y: %f\n", data->map->player_x, data->map->player_y);
+	mlx_loop_hook(data->mlx_ptr, render, data);
 	mlx_loop(data->mlx_ptr);
 		// focniton pour traiter les 2 buffers
 	return (0);

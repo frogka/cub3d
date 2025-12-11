@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 16:32:29 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/11 00:55:17 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/11 20:49:45 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	render(t_data *data)
 {
 	// clear_img(&data->img3d, HEIGHT);
 	// clear_img(&data->img, H_MINI);
+	// printf("DEBUG 4 : posx = %f posy = %f\n", data->map->player_x, data->map->player_y);
 	raycast_main(data);
 	draw_map(data->map, data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img3d.img_ptr,

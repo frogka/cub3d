@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/11 01:11:58 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/11 21:44:42 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define TILE_P 7 // 7 15 ou 11, uneven numbers
 // # define RAYON TILE / 6 // cahnger ca
 # define PI 3.1415926
-# define SPEED 2
+# define SPEED 0.3
 # define D_P_PROJECT \
 	((WIDTH / 2) / tan(FOV / 2)) // 32795.157510769
 									// dist plqyer projection
@@ -117,7 +117,7 @@ typedef struct s_data
 	void				*win_ptr;
 	double				proj_pl_dist;
 	double				*wall_hit;
-	double				*wall_side;
+	int				*wall_side;
 	t_image				img;
 	t_image				img3d;
 	t_moves				moves;

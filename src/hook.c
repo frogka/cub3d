@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 20:54:05 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/09 13:27:54 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/11 17:59:07 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 //changer car deplacements simultanee en focntionnent pas
 int	handle_input(int keycode, t_data *data)
 {
-	printf("handle_input reçoit data = %p\n", data);
-	printf("adresse data = %p\n", data);
-	printf("adresse map  = %p\n", data->map);
+	// printf("handle_input reçoit data = %p\n", data);
+	// printf("adresse data = %p\n", data);
+	// printf("adresse map  = %p\n", data->map);
 	if (keycode == KEY_UP || keycode == KEY_DOWN || keycode == KEY_U
 		|| keycode == KEY_D)
 		move_v(keycode, data);

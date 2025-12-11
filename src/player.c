@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 17:43:48 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/11 00:05:02 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/11 21:37:11 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,12 @@ void	player_position(t_map *map)
 			if (map->grid[y][x] == 'N' || map->grid[y][x] == 'S'
 				|| map->grid[y][x] == 'E' || map->grid[y][x] == 'W')
 			{
+				// printf("DEBUG: player_x: %f, player_y: %f\n", map->player_x, map->player_y);
 				set_direction(map, x, y);
 				set_virtual_plan(map, x, y);
 				set_player(map, x, y);
+				// printf("DEBUG 2 : player_x: %f, player_y: %f\n", map->player_x, map->player_y);
+
 			}
 			x++;
 		}
@@ -129,13 +132,18 @@ void raycast_main(t_data *data)
 {
 	int x;
 
+	// printf("DEBUG 5 : posx = %f posy = %f\n", data->map->player_x, data->map->player_y);
 	x = 0;
 	while (x < WIDTH)
 	{
 		data->map->cameraX = 2.0 * x / (double)WIDTH - 1.0;
+		// printf("FERME\n");
 		init_dda(data->map, &data->ray, data);
+		// printf("TA\n");
 		dda_steps(data, &data->ray);
+		// printf("GUEULE\n");
 		draw_wall(data, &data->ray, x);
+		// printf("L\n");
 		x++;
 	}
 }

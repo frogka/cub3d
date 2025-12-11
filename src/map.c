@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 18:24:28 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/10 22:35:31 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/11 18:40:34 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,12 @@ char	**copy_map(char **grid, t_map *map)
 	}
 	cpy_grid[i] = NULL;
 	i = 0;
-	printf("voici la copie\n");
-	while (cpy_grid[i])
-	{
-		printf("%s\n", cpy_grid[i]);
-		printf("%zu\n", ft_strlen(cpy_grid[i++]));
-	}
+	// printf("voici la copie\n");
+	// while (cpy_grid[i])
+	// {
+	// 	printf("%s\n", cpy_grid[i]);
+	// 	printf("%zu\n", ft_strlen(cpy_grid[i++]));
+	// }
 	return (cpy_grid);
 }
 
