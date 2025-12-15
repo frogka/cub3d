@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 17:43:48 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/11 21:37:11 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/15 01:42:19 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void	player_position(t_map *map)
 			if (map->grid[y][x] == 'N' || map->grid[y][x] == 'S'
 				|| map->grid[y][x] == 'E' || map->grid[y][x] == 'W')
 			{
-				// printf("DEBUG: player_x: %f, player_y: %f\n", map->player_x, map->player_y);
+				// printf("DEBUG: posX: %f, posY: %f\n", map->posX, map->posY);
 				set_direction(map, x, y);
 				set_virtual_plan(map, x, y);
 				set_player(map, x, y);
-				// printf("DEBUG 2 : player_x: %f, player_y: %f\n", map->player_x, map->player_y);
+				// printf("DEBUG 2 : posX: %f, posY: %f\n", map->posX, map->posY);
 
 			}
 			x++;
@@ -132,7 +132,7 @@ void raycast_main(t_data *data)
 {
 	int x;
 
-	// printf("DEBUG 5 : posx = %f posy = %f\n", data->map->player_x, data->map->player_y);
+	// printf("DEBUG 5 : posx = %f posy = %f\n", data->map->posX, data->map->posY);
 	x = 0;
 	while (x < WIDTH)
 	{
@@ -142,6 +142,7 @@ void raycast_main(t_data *data)
 		// printf("TA\n");
 		dda_steps(data, &data->ray);
 		// printf("GUEULE\n");
+		
 		draw_wall(data, &data->ray, x);
 		// printf("L\n");
 		x++;
@@ -151,7 +152,9 @@ void raycast_main(t_data *data)
 //centre la pov du P selon sa position dans la map
 void	set_player(t_map *map, int x, int y)
 {
-	map->player_x = x + 0.5; // centre pour la pov
-	map->player_y = y + 0.5;
+	map->posX = x + 0.5; // centre pour la pov
+	map->posY = y + 0.5;
+	printf("POSX = %f\n ",map->posX);
+	printf("POSY = %f\n ",map->posY);
 	map->grid[y][x] = '0'; // stocker dans une variable
 }

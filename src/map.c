@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 18:24:28 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/11 18:40:34 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/12 19:58:07 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	check_map_closed(t_map *map)
 	cpy_grid = copy_map(map->grid, map);
 	if (!cpy_grid)
 		return (1);
-	if (flood_fill(cpy_grid, map, map->player_x, map->player_y))
+	if (flood_fill(cpy_grid, map, map->posX, map->posY))
 	{
 		free_split(cpy_grid);
 		return (1);
@@ -150,8 +150,8 @@ void	draw_player(t_map *map, t_data *data)
 		x = -radius;
 		while (x < radius)
 		{
-			cx = map->player_x * data->m->scale + x;
-			cy = map->player_y * data->m->scale + y;
+			cx = map->posX * data->m->scale + x;
+			cy = map->posY * data->m->scale + y;
 			if (x * x + y * y <= radius * radius)
 				my_mlx_pixel_put(&data->img, cx , cy , GREEN);
 			x++;

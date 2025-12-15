@@ -6,7 +6,7 @@ SRCS = src/cub3d.c \
        src/map.c \
        src/player.c \
 	   src/hook.c \
-	   src/moove.c \
+	   src/move.c \
 	   src/minimap.c \
 	   raycasting/render.c \
 	   raycasting/dda.c \
@@ -82,4 +82,4 @@ fclean: clean
 # Recompile tout
 re: fclean all
 
-.PHONY: all clean fclean re 
+.PHONY: all clean fclean re minilibx

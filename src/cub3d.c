@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/11 21:35:52 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/15 00:57:09 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,19 +227,26 @@ int	main(void)
 	int			fd;
 	t_data		*data;
 	t_map		*map;
-	t_ray *ray;
+	// t_ray *ray;
 	
 	data = malloc(sizeof(t_data));
-	ray = malloc(sizeof(t_ray));
+	// ray = malloc(sizeof(t_ray));
 	// printf("DEBUG: Ptr ray: %p\n", ray);
 	map = malloc(sizeof(t_map));
 	map->height = 0;
 	map->width = 0;
 	map->player_found = 0;
-	map->player_x = 0;
-	map->player_y = 0;
+	map->posX = 0;
+	map->posY = 0;
 	data->ray.mapx = 0;
 	data->ray.mapy = 0;
+	data->right = 0;
+	data->left = 0;
+	data->up = 0;
+	data->down = 0;
+	data->pov_l = 0;
+	data->pov_l = 0;
+	data->esc = 0;
 	data->wall_hit = malloc(sizeof(double) * WIDTH);
 	data->wall_side = malloc(sizeof(int) * WIDTH);
 	if(!data->wall_hit || !data->wall_side)
@@ -249,7 +256,7 @@ int	main(void)
 	}
 	// map->grid = NULL;
 	data->map = map;
-	// printf("DEBUG playerx : %f, playery : %f\n", data->map->player_x, data->map->player_y);
+	// printf("DEBUG playerx : %f, playery : %f\n", data->map->posX, data->map->posY);
 	// printf("map addr main = %p\n", map);
 	if (!map)
 		exit(1);
@@ -288,6 +295,8 @@ int	main(void)
 		return (1);
 	}
 	data->proj_pl_dist = (WIDTH / 2) / tan(FOV / 2);
+	printf("DEBUG : %f\n", tan(FOV/2));
+	printf("DEBUG 2 : %f\n", data->proj_pl_dist);
 	data->m = malloc(sizeof(t_minimap));
 	// m->height = 0;
 	// m->width = 0;
@@ -296,8 +305,8 @@ int	main(void)
 	init_minimap(map, data->m);
 	
 	// free_split(copy_map(map->grid, map));
-	// printf("%lf\n", map->player_x);
-	// printf("%lf\n", map->player_y);
+	// printf("%lf\n", map->posX);
+	// printf("%lf\n", map->posY);
 	// printf("%lf\n", map->player_dir);
 	// printf("adresse data = %p\n", &data);
 	// printf("adresse map  = %p\n", data.map);
@@ -312,8 +321,8 @@ int	main(void)
 		// printf("FGASDFSDF\n");
 		data->img.addr = mlx_get_data_addr(data->img.img_ptr, &data->img.bpp,
 			&data->img.line_len, &data->img.endian);
-			// map->player_x);
-			// map->player_y);
+			// map->posX);
+			// map->posY);
 			// // printf("%lf\n",
 			// map->player_dir);
 			// // printf("adresse data =
@@ -336,8 +345,11 @@ int	main(void)
 			// 20,
 			// 20);
 	init_hook(data);
-	// printf("DEBUG 33: player_x: %f, player_y: %f\n", data->map->player_x, data->map->player_y);
+	// printf("DEBUG 33: posX: %f, posY: %f\n", data->map->posX, data->map->posY);
 	mlx_loop_hook(data->mlx_ptr, render, data);
+
+	mlx_loop_hook(data->mlx_ptr, handle_input, data);
+
 	mlx_loop(data->mlx_ptr);
 		// focniton pour traiter les 2 buffers
 	return (0);

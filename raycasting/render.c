@@ -6,16 +6,16 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 16:32:29 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/11 20:49:45 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/12 20:50:17 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	clear_img(t_image *img, int height)
-{
-	ft_bzero(img->addr, height * img->line_len);
-}
+// void	clear_img(t_image *img, int height)
+// {
+// 	ft_bzero(img->addr, height * img->line_len);
+// }
 
 // void clear_img(t_image *img, int height)
 // {
@@ -40,9 +40,8 @@ void	clear_img(t_image *img, int height)
 
 int	render(t_data *data)
 {
-	// clear_img(&data->img3d, HEIGHT);
 	// clear_img(&data->img, H_MINI);
-	// printf("DEBUG 4 : posx = %f posy = %f\n", data->map->player_x, data->map->player_y);
+	// printf("DEBUG 4 : posx = %f posy = %f\n", data->map->posX, data->map->posY);
 	raycast_main(data);
 	draw_map(data->map, data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img3d.img_ptr,

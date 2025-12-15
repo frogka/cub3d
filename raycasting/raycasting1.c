@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 19:52:44 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/10 17:04:11 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/12 19:58:07 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	draw_rays(t_data *data)
 // 	int		y;
 // 	int		step;
 
-// 	pos_x = data->map->player_x;
-// 	pos_y = data->map->player_y;
+// 	pos_x = data->map->posX;
+// 	pos_y = data->map->posY;
 // 	step = 0;
 // 	while (step < 5000)
 // 	{
@@ -71,8 +71,8 @@ void	dist_rays_wall(t_data *data, double hit_x, double hit_y, int ray_id)
 	double	dist_reel;
 	double	diff;
 
-	dx = (hit_x - data->map->player_x);
-	dy = (hit_y - data->map->player_y);
+	dx = (hit_x - data->map->posX);
+	dy = (hit_y - data->map->posY);
 	dist = sqrt(dx * dx + dy * dy);
 	diff = data->map->player_dir - data->ray.ray_angle;
 	if (diff < -PI)

@@ -1,0 +1,10 @@
+Ta Définition,Précision (Contexte Technique)
+dirX/Y,C'est le vecteur de direction unitaire du joueur. Il indique où se trouve le centre exact du regard.
+planeX/Y,C'est le vecteur du plan de la caméra (ou plan de projection). Il est perpendiculaire à dirX/Y et sa longueur détermine le FOV.
+cameraX,"C'est le coefficient qui, multiplié par le planeX/Y, définit la position exacte du rayon sur l'écran. Il va de -1 (gauche) à +1 (droite)."
+perpDist,"C'est la distance perpendiculaire (corrigée) entre le joueur et le mur. C'est elle, et non la distance réelle (euclidean distance), qui élimine l'effet ""fish-eye"" et garantit une projection 3D correcte."
+rayDirX/Y,Le vecteur de direction du rayon. Il est recalculé pour chaque colonne en combinant dirX/Y et planeX/Y pondéré par cameraX.
+deltaDX/Y,La distance que le rayon doit parcourir pour traverser exactement une unité entière sur l'axe X ou Y de la grille. C'est une constante (pour un angle de rayon donné) : $\frac{1}{
+sideDX/Y,"La distance que le rayon doit parcourir depuis sa position actuelle jusqu'à la prochaine frontière X ou Y de la grille. Il est calculé une fois puis incrémenté par deltaDX/Y dans la boucle DDA. (Il ne sert pas à calculer delta, c'est l'inverse : il est calculé avec delta)."
+mapX/Y,Les coordonnées de la case actuelle du rayon sur la grille (en entiers).
+stepX/Y,Indique la direction ( +1 ou −1 ) dans laquelle le DDA doit se déplacer sur les axes X et Y (déterminé par le signe de rayDirX/Y).

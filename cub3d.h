@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/11 21:44:42 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/15 01:40:38 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "libft/libft.h"
 # include "minilibx-linux/mlx.h"
+# include <stdbool.h>
+#include <sys/time.h>
 
 // taille de l'ecran
 # define WIDTH 1200
@@ -28,7 +30,8 @@
 # define TILE_P 7 // 7 15 ou 11, uneven numbers
 // # define RAYON TILE / 6 // cahnger ca
 # define PI 3.1415926
-# define SPEED 0.3
+# define SPEED 0.05
+# define ROT_SPEED 0.05
 # define D_P_PROJECT \
 	((WIDTH / 2) / tan(FOV / 2)) // 32795.157510769
 									// dist plqyer projection
@@ -45,8 +48,8 @@
 # define WEST 2
 # define EAST 3
 
-// keycode des touches clavier
-enum					Keycode
+// key des touches clavier
+enum					key
 {
 	KEY_ESC = 65307,
 	KEY_RIGHT = 100,
@@ -107,7 +110,7 @@ typedef struct s_ray
 	int					hit;
 	int					side;
 	double dist_cor; //
-	// double				ray_angle;
+						// double				ray_angle;
 }						t_ray;
 
 // gere la connexion au server + l'image
@@ -117,7 +120,16 @@ typedef struct s_data
 	void				*win_ptr;
 	double				proj_pl_dist;
 	double				*wall_hit;
-	int				*wall_side;
+	int					*wall_side;
+	bool				up;
+	bool				down;
+	bool				left;
+	bool				right;
+	bool				pov_l;
+	bool				pov_r;
+	bool				esc;
+	double				delta_h;
+	double				delta_v;
 	t_image				img;
 	t_image				img3d;
 	t_moves				moves;
@@ -127,7 +139,6 @@ typedef struct s_data
 	struct s_config		*config;
 	struct s_minimap	*m;
 }						t_data;
-
 
 typedef struct s_minimap
 {
@@ -142,13 +153,13 @@ typedef struct s_map
 	char				**grid;
 	int					height;
 	int					width;
-	double				player_x;
-	double				player_y;
+	double				posX;
+	double				posY;
 	double				dirX;
-	double dirY;
-	double planeX;
-	double planeY;
-	double cameraX;
+	double				dirY;
+	double				planeX;
+	double				planeY;
+	double				cameraX;
 	int					player_found;
 	// ajouter position du joueur
 }						t_map;
@@ -192,43 +203,45 @@ void					player_position(t_map *map);
 void					is_one_player(t_map *map, char *line);
 void					set_direction(t_map *map, int x, int y);
 
-void set_virtual_plan(t_map *map, int x, int y);
+void					set_virtual_plan(t_map *map, int x, int y);
 
+long long	timestamp(void); ////////////////////////////////////////////////////
 
 /////////////////MOOVE////////////////
-void					move_v(int keycode, t_data *data);
-void					move_h(int keycode, t_data *data);
+void					move_forw_back(t_data *data);
+void					move_rig_left(t_data *data);
 void					pov_left(t_data *data);
 void					pov_right(t_data *data);
 int						check_collision(t_data *data, double n_x, double n_y);
 
 //////////////////HOOK/////////////////
-int						handle_input(int keycode, t_data *data);
+int						handle_input(t_data *data);
 void					init_hook(t_data *data);
 int						close_win(t_data *data);
 void					destroy(t_data *data);
+int						key_release(int key, t_data *data);
+int						key_press(int key, t_data *data);
+void					normalize_move(t_data *data);
 
 /////////////////RAYCASTING/////////////////
 // void					draw_rays(t_data *data);
 // void					draw_one_ray(t_data *data, double ray_dx, double ray_dy,
-							// int ray_id);
+// int ray_id);
 // void					dist_rays_wall(t_data *data, double hit_x, double hit_y,
-							// int ray_id);
+// int ray_id);
 // void					draw_wall(t_data *data, double dist_reel, int ray_id);
 // void					draw_strips(t_data *data, int col, int y, int color);
 
 ////////////////////DDA/////////////////////
-void	draw_wall(t_data *data, t_ray *ray, int ray_id);
-double	dda_dist(t_data *data, t_ray *ray, int ray_id);
-void	init_dda(t_map *map, t_ray *ray, t_data *data);
-void	dda_steps(t_data *data, t_ray *ray);
+void					draw_wall(t_data *data, t_ray *ray, int ray_id);
+double					dda_dist(t_data *data, t_ray *ray, int ray_id);
+void					init_dda(t_map *map, t_ray *ray, t_data *data);
+void					dda_steps(t_data *data, t_ray *ray);
 
-void raycast_main(t_data *data);
-
+void					raycast_main(t_data *data);
 
 /////////////////RENDER/////////////////////
 int						render(t_data *data);
-void					clear_img(t_image *img, int height);
 
 /////////////////MINIMAP///////////////////
 void					init_minimap(t_map *map, t_minimap *mini);
