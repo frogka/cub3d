@@ -10,6 +10,7 @@ SRCS = src/cub3d.c \
 	   src/minimap.c \
 	   raycasting/render.c \
 	   raycasting/dda.c \
+	   src/textures.c \
 
 # Compilateur
 CC = cc
@@ -49,12 +50,12 @@ $(NAME): $(MLX_LIB) $(LIBFT) $(OBJS)
 # Règle pour compiler la MiniLibX
 $(MLX_LIB):
 	@echo "$(GREEN)🔨 Compilation de la MiniLibX...$(RESET)"
-	@$(MAKE) -C $(MLX_DIR) --silent
+	@$(MAKE) -C $(MLX_DIR) -s
 
 # Règle pour compiler la Libft
 $(LIBFT):
 	@echo "$(GREEN)🔨 Compilation de la Libft...$(RESET)"
-	@$(MAKE) -C $(LIBFT_DIR) --silent
+	@$(MAKE) -C $(LIBFT_DIR) -s
 
 # Crée le dossier obj si nécessaire
 $(OBJ_DIR):
@@ -68,15 +69,15 @@ $(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
 # Nettoyage des objets
 clean:
 	@echo "$(RED)🗑️  Nettoyage des objets...$(RESET)"
-	@$(MAKE) clean -C $(LIBFT_DIR) --silent
-	@$(MAKE) clean -C $(MLX_DIR) --silent
+	@$(MAKE) clean -C $(LIBFT_DIR) -s
+	@$(MAKE) clean -C $(MLX_DIR) -s
 	@rm -rf $(OBJ_DIR)
 
 # Nettoyage complet
 fclean: clean
 	@echo "$(RED)🗑️  Nettoyage complet...$(RESET)"
-	@$(MAKE) fclean -C $(LIBFT_DIR) --silent
-	@$(MAKE) fclean -C $(MLX_DIR) --silent	
+	@$(MAKE) fclean -C $(MLX_DIR) -s
+	@$(MAKE) fclean -C $(LIBFT_DIR) -s
 	@rm -f $(NAME)
 
 # Recompile tout

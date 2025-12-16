@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 20:54:05 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/15 01:14:34 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/16 01:24:33 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	handle_input(t_data *data)
 {
 	// long long start = timestamp();
 	// printf("TIME 1 : %lld\n", timestamp() - start );
-	
 	normalize_move(data);
 	if (data->delta_v != 0.0)
 		move_forw_back(data);
@@ -41,15 +40,14 @@ int	handle_input(t_data *data)
 	raycast_main(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img3d.img_ptr,
 		0, 0);
-		// printf("TIME 2 : %lld\n",timestamp() - start );
-		return (0);
-
+	// printf("TIME 2 : %lld\n",timestamp() - start );
+	return (0);
 }
 
 void	normalize_move(t_data *data)
 {
-	double L;
-	
+	double	l;
+
 	data->delta_h = 0.0;
 	data->delta_v = 0.0;
 	if (data->up == true)
@@ -60,11 +58,11 @@ void	normalize_move(t_data *data)
 		data->delta_h += 1;
 	if (data->left == true)
 		data->delta_h -= 1;
-	L = sqrt(data->delta_h * data->delta_h + data->delta_v * data->delta_v);
-	if (L > 1.0)
+	l = sqrt(data->delta_h * data->delta_h + data->delta_v * data->delta_v);
+	if (l > 1.0)
 	{
-		data->delta_h = data->delta_h / L;
-		data->delta_v = data->delta_v / L;
+		data->delta_h = data->delta_h / l;
+		data->delta_v = data->delta_v / l;
 	}
 	data->delta_h = data->delta_h * SPEED;
 	data->delta_v = data->delta_v * SPEED;
@@ -75,7 +73,7 @@ int	key_press(int key, t_data *data)
 	if (key == KEY_UP || key == KEY_U)
 	{
 		if (data->up == true)
-			return 0;
+			return (0);
 		data->up = true;
 	}
 	else if (key == KEY_RIGHT)

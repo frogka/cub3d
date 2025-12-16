@@ -6,13 +6,13 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 18:24:28 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/12 19:58:07 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/16 00:41:13 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-//check la que la map est bien bornee
+// check la que la map est bien bornee
 int	check_map_closed(t_map *map)
 {
 	char	**cpy_grid;
@@ -29,8 +29,8 @@ int	check_map_closed(t_map *map)
 	return (0);
 }
 
-//check que la map est correcte
-//pas de trou, pas de joueur a la limite ou hors cadre
+// check que la map est correcte
+// pas de trou, pas de joueur a la limite ou hors cadre
 int	flood_fill(char **cpy_grid, t_map *map, int x, int y)
 {
 	if (x < 0 || x >= map->width || y < 0 || y >= map->height)
@@ -55,10 +55,10 @@ int	flood_fill(char **cpy_grid, t_map *map, int x, int y)
 	if (flood_fill(cpy_grid, map, x, y - 1) == 1)
 		return (1);
 	return (0);
-	//message d'erreur
+	// message d'erreur
 }
 
-//copy la map pour le flood fill
+// copy la map pour le flood fill
 char	**copy_map(char **grid, t_map *map)
 {
 	int		i;
@@ -84,7 +84,7 @@ char	**copy_map(char **grid, t_map *map)
 	return (cpy_grid);
 }
 
-//dessin de la map en 2d
+// dessin de la map en 2d
 void	draw_map(t_map *map, t_data *data)
 {
 	int		row;
@@ -110,12 +110,12 @@ void	draw_map(t_map *map, t_data *data)
 	draw_player(map, data);
 }
 
-//dessin de la map en 2d
+// dessin de la map en 2d
 void	draw_square(t_data *data, char c, int px, int py)
 {
 	int	tx;
 	int	ty;
-	int size;
+	int	size;
 
 	ty = 0;
 	size = round(TILE * data->m->scale);
@@ -125,25 +125,25 @@ void	draw_square(t_data *data, char c, int px, int py)
 		while (tx < size)
 		{
 			if (c == '1')
-				my_mlx_pixel_put(&data->img, tx + px , ty + py , RED);
+				my_mlx_pixel_put(&data->img, tx + px, ty + py, RED);
 			else if (c == '0')
-				my_mlx_pixel_put(&data->img, tx + px , ty + py , BLUE);
+				my_mlx_pixel_put(&data->img, tx + px, ty + py, BLUE);
 			tx++;
 		}
 		ty++;
 	}
 }
 
-//dessin du joueur dans la map 2d
+// dessin du joueur dans la map 2d
 void	draw_player(t_map *map, t_data *data)
 {
 	int	x;
 	int	y;
 	int	cx;
 	int	cy;
-	int radius;
+	int	radius;
 
-	radius = TILE_P * data->m->scale;
+	radius = R * data->m->scale;
 	y = -radius;
 	while (y < radius)
 	{
@@ -153,7 +153,7 @@ void	draw_player(t_map *map, t_data *data)
 			cx = map->posX * data->m->scale + x;
 			cy = map->posY * data->m->scale + y;
 			if (x * x + y * y <= radius * radius)
-				my_mlx_pixel_put(&data->img, cx , cy , GREEN);
+				my_mlx_pixel_put(&data->img, cx, cy, GREEN);
 			x++;
 		}
 		y++;

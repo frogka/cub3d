@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 16:32:29 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/12 20:50:17 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/16 00:41:55 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,14 @@
 int	render(t_data *data)
 {
 	// clear_img(&data->img, H_MINI);
-	// printf("DEBUG 4 : posx = %f posy = %f\n", data->map->posX, data->map->posY);
+	// printf("DEBUG 4 : posx = %f posy = %f\n", data->map->posX,
+		// data->map->posY);
 	raycast_main(data);
 	draw_map(data->map, data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img3d.img_ptr,
 		0, 0);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_ptr, 0,
-		0); // valeur oporu decaler a la marge
+							0); // valeur oporu decaler a la marge
 	return (0);
 }
 

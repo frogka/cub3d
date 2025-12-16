@@ -6,13 +6,13 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 17:43:48 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/15 01:42:19 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/16 01:25:37 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-//determine l'orientation du joueur dans la map
+// determine l'orientation du joueur dans la map
 void	player_position(t_map *map)
 {
 	int	x;
@@ -31,8 +31,8 @@ void	player_position(t_map *map)
 				set_direction(map, x, y);
 				set_virtual_plan(map, x, y);
 				set_player(map, x, y);
-				// printf("DEBUG 2 : posX: %f, posY: %f\n", map->posX, map->posY);
-
+				// printf("DEBUG 2 : posX: %f, posY: %f\n", map->posX,
+				// map->posY);
 			}
 			x++;
 		}
@@ -40,7 +40,7 @@ void	player_position(t_map *map)
 	}
 }
 
-//compte le nombre de joueurs dasn la map
+// compte le nombre de joueurs dasn la map
 void	is_one_player(t_map *map, char *line)
 {
 	int	i;
@@ -55,10 +55,10 @@ void	is_one_player(t_map *map, char *line)
 	}
 }
 
-//controle d'un unique joueur
+// controle d'un unique joueur
 int	check_num_player(t_map *map)
 {
-	//condition pour aucun joueur + message specifique
+	// condition pour aucun joueur + message specifique
 	if (map->player_found < 1)
 	{
 		printf("Error\n");
@@ -77,7 +77,7 @@ int	check_num_player(t_map *map)
 	return (0);
 }
 
-//positionne dasn la bonne direction la pov du joueur
+// positionne dasn la bonne direction la pov du joueur
 void	set_direction(t_map *map, int x, int y)
 {
 	if (map->grid[y][x] == 'N')
@@ -102,9 +102,9 @@ void	set_direction(t_map *map, int x, int y)
 	}
 }
 
-//rapport a 90 avec la dir vers ou regarde le joueur
-//mur virtuel ou va etre projeter l'image
-void set_virtual_plan(t_map *map, int x, int y)
+// rapport a 90 avec la dir vers ou regarde le joueur
+// mur virtuel ou va etre projeter l'image
+void	set_virtual_plan(t_map *map, int x, int y)
 {
 	if (map->grid[y][x] == 'N')
 	{
@@ -128,11 +128,12 @@ void set_virtual_plan(t_map *map, int x, int y)
 	}
 }
 
-void raycast_main(t_data *data)
+void	raycast_main(t_data *data)
 {
-	int x;
+	int	x;
 
-	// printf("DEBUG 5 : posx = %f posy = %f\n", data->map->posX, data->map->posY);
+	// printf("DEBUG 5 : posx = %f posy = %f\n", data->map->posX,
+	// data->map->posY);
 	x = 0;
 	while (x < WIDTH)
 	{
@@ -142,19 +143,18 @@ void raycast_main(t_data *data)
 		// printf("TA\n");
 		dda_steps(data, &data->ray);
 		// printf("GUEULE\n");
-		
 		draw_wall(data, &data->ray, x);
 		// printf("L\n");
 		x++;
 	}
 }
 
-//centre la pov du P selon sa position dans la map
+// centre la pov du P selon sa position dans la map
 void	set_player(t_map *map, int x, int y)
 {
 	map->posX = x + 0.5; // centre pour la pov
 	map->posY = y + 0.5;
-	printf("POSX = %f\n ",map->posX);
-	printf("POSY = %f\n ",map->posY);
+	printf("POSX = %f\n ", map->posX);
+	printf("POSY = %f\n ", map->posY);
 	map->grid[y][x] = '0'; // stocker dans une variable
 }

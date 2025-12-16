@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/15 01:40:38 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/16 02:40:23 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@
 # define SCALE
 
 # define TILE 64
-# define TILE_P 7 // 7 15 ou 11, uneven numbers
+# define R 0.45
 // # define RAYON TILE / 6 // cahnger ca
 # define PI 3.1415926
-# define SPEED 0.05
-# define ROT_SPEED 0.05
+# define SPEED 0.03
+# define ROT_SPEED 0.02
 # define D_P_PROJECT \
 	((WIDTH / 2) / tan(FOV / 2)) // 32795.157510769
 									// dist plqyer projection
@@ -67,11 +67,11 @@ enum					key
 # define NUM_RAYS 1200
 
 // gere les points pour les collisions
-typedef struct s_moves
-{
-	int					dx[4];
-	int					dy[4];
-}						t_moves;
+// typedef struct s_moves
+// {
+// 	double				dx[4];
+// 	double					dy[4];
+// }						t_moves;
 
 typedef struct s_tex
 {
@@ -132,7 +132,7 @@ typedef struct s_data
 	double				delta_v;
 	t_image				img;
 	t_image				img3d;
-	t_moves				moves;
+	// t_moves				moves;
 	t_ray				ray;
 	t_tex				tex[4];
 	struct s_map		*map;
@@ -245,6 +245,10 @@ int						render(t_data *data);
 
 /////////////////MINIMAP///////////////////
 void					init_minimap(t_map *map, t_minimap *mini);
+
+////////////////TEXTURES///////////////////////
+int sotck_config( int fd);
+
 
 // faire le parsing de la map
 // lecture 0 1 via gnl
