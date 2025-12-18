@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 17:43:48 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/16 01:25:37 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/18 16:46:46 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,8 @@ void	set_virtual_plan(t_map *map, int x, int y)
 	}
 	else if (map->grid[y][x] == 'W')
 	{
-		map->planeX = -FOV;
-		map->planeY = 0;
+		map->planeX = 0;
+		map->planeY = -FOV;
 	}
 }
 

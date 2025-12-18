@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 16:01:18 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/16 02:42:29 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/18 19:05:05 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,30 @@
 
 // gestion des textures avant fin du projet
 
-int sotck_config( int fd)
+int sotck_config( int fd, t_config *cfg)
 {
 	char *line;
 	int i;
 
 	i = 0;
 	line = get_next_line(fd);
-	if (is_config_line(&line[i]))
+	while(line && ft_isspace(ft_isalpha(line[i])))
 	{
-		printf("%s\n", line);
+		if (is_config_line(&line[i]))
+		{
+			if (parse_config(cfg, &line[i]))
+			{
+				printf("%s\n", cfg->no_text);
+				// printf("%s\n", cfg->so_text);
+			}
+		}
+		else
+			free(line);
+		line = get_next_line(fd);
+		if (line == NULL)
+			break;
 	}
+	// i++;
 	return 0;
 }
 

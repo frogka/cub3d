@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/16 02:40:23 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/18 17:16:45 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ void					my_mlx_pixel_put(t_image *img, int x, int y, int color);
 int						check_valid_numbers(int r, int g, int b);
 int						check_colors(char *line);
 int						xrgb(int r, int g, int b);
-void					parse_config(t_config *config, char *line);
+void					*parse_config(t_config *config, char *line);
 int						is_config_line(char *line);
 int						is_map_line(char *line);
 char					**fill_map(int fd, t_map *map);
@@ -247,7 +247,7 @@ int						render(t_data *data);
 void					init_minimap(t_map *map, t_minimap *mini);
 
 ////////////////TEXTURES///////////////////////
-int sotck_config( int fd);
+int sotck_config( int fd, t_config *cfg);
 
 
 // faire le parsing de la map

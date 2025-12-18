@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/16 02:41:35 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/18 19:03:30 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	count_map_lines(int fd, t_map *map)
 
 	len = 0;
 	count = 0;
+	line = NULL;
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		if (is_map_line(line) == 0)
@@ -143,7 +144,7 @@ int	is_config_line(char *line)
 //
 // Faire un check prealable que la fin du passe des configs de
 // NO EA WE SO termine bien par xpm
-void	parse_config(t_config *config, char *line)
+void	*parse_config(t_config *config, char *line)
 {
 	int	i;
 
@@ -162,6 +163,7 @@ void	parse_config(t_config *config, char *line)
 		config->ceiling = check_colors(ft_skip_spaces(&line[i + 1]));
 	else if (line[i] == 'F' && ft_isspace(&line[i + 1]))
 		config->floor = check_colors(ft_skip_spaces(&line[i + 1]));
+	return (config);
 }
 
 // faire une focntin qui check tout le .cub et qui appelle les fonctions annexes
@@ -226,7 +228,11 @@ int	main(void)
 	int		fd;
 	t_data	*data;
 	t_map	*map;
+	t_config *cfg;
 
+cfg = malloc(sizeof(cfg));
+cfg->floor = 0;
+cfg->ceiling = 0;
 	// t_ray *ray;
 	data = malloc(sizeof(t_data));
 	// ray = malloc(sizeof(t_ray));
@@ -273,7 +279,7 @@ int	main(void)
 	//    }
 	//    free(line);
 	// }
-	sotck_config(fd);
+	sotck_config(fd, cfg);
 	if (count_map_lines(fd, map) == -1)
 		return (1);
 	// printf("width = %d, height = %d\n", map->width, map->height);
