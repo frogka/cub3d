@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/18 19:03:30 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/19 18:37:18 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,27 +144,27 @@ int	is_config_line(char *line)
 //
 // Faire un check prealable que la fin du passe des configs de
 // NO EA WE SO termine bien par xpm
-void	*parse_config(t_config *config, char *line)
-{
-	int	i;
+// void	*parse_config(t_config *config, char *line)
+// {
+// 	int	i;
 
-	i = 0;
-	while (ft_isspace(&line[i]))
-		i++;
-	if (ft_strncmp(&line[i], "NO", 2) == 0 && ft_isspace(&line[i + 2]))
-		config->no_text = ft_strdup(ft_skip_spaces(&line[i + 2]));
-	else if (ft_strncmp(&line[i], "EA", 2) == 0 && ft_isspace(&line[i + 2]))
-		config->ea_text = ft_strdup(ft_skip_spaces(&line[i + 2]));
-	else if (ft_strncmp(&line[i], "WE", 2) == 0 && ft_isspace(&line[i + 2]))
-		config->we_text = ft_strdup(ft_skip_spaces(&line[i + 2]));
-	else if (ft_strncmp(line + i, "SO", 2) == 0 && ft_isspace(&line[i + 2]))
-		config->so_text = ft_strdup(ft_skip_spaces(&line[i + 2]));
-	else if (line[i] == 'C' && ft_isspace(&line[i + 1]))
-		config->ceiling = check_colors(ft_skip_spaces(&line[i + 1]));
-	else if (line[i] == 'F' && ft_isspace(&line[i + 1]))
-		config->floor = check_colors(ft_skip_spaces(&line[i + 1]));
-	return (config);
-}
+// 	i = 0;
+// 	while (ft_isspace(&line[i]))
+// 		i++;
+// 	if (ft_strncmp(&line[i], "NO", 2) == 0 && ft_isspace(&line[i + 2]))
+// 		config->no_text = ft_strdup(ft_skip_spaces(&line[i + 2]));
+// 	else if (ft_strncmp(&line[i], "EA", 2) == 0 && ft_isspace(&line[i + 2]))
+// 		config->ea_text = ft_strdup(ft_skip_spaces(&line[i + 2]));
+// 	else if (ft_strncmp(&line[i], "WE", 2) == 0 && ft_isspace(&line[i + 2]))
+// 		config->we_text = ft_strdup(ft_skip_spaces(&line[i + 2]));
+// 	else if (ft_strncmp(line + i, "SO", 2) == 0 && ft_isspace(&line[i + 2]))
+// 		config->so_text = ft_strdup(ft_skip_spaces(&line[i + 2]));
+// 	else if (line[i] == 'C' && ft_isspace(&line[i + 1]))
+// 		config->ceiling = check_colors(ft_skip_spaces(&line[i + 1]));
+// 	else if (line[i] == 'F' && ft_isspace(&line[i + 1]))
+// 		config->floor = check_colors(ft_skip_spaces(&line[i + 1]));
+// 	return (config);
+// }
 
 // faire une focntin qui check tout le .cub et qui appelle les fonctions annexes
 // a chque etapes
@@ -230,9 +230,7 @@ int	main(void)
 	t_map	*map;
 	t_config *cfg;
 
-cfg = malloc(sizeof(cfg));
-cfg->floor = 0;
-cfg->ceiling = 0;
+	cfg = malloc(sizeof(t_config));
 	// t_ray *ray;
 	data = malloc(sizeof(t_data));
 	// ray = malloc(sizeof(t_ray));
@@ -279,12 +277,14 @@ cfg->ceiling = 0;
 	//    }
 	//    free(line);
 	// }
+	// while (init_textures(data, cfg) != 0)
 	sotck_config(fd, cfg);
 	if (count_map_lines(fd, map) == -1)
 		return (1);
 	// printf("width = %d, height = %d\n", map->width, map->height);
 	close(fd);
 	fd = open("map.cub", O_RDONLY);
+	
 	// fill_map(fd, map);
 	map->grid = fill_map(fd, map);
 	if (check_num_player(map))

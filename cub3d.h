@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/18 17:16:45 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/19 17:27:26 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "libft/libft.h"
 # include "minilibx-linux/mlx.h"
 # include <stdbool.h>
-#include <sys/time.h>
+# include <sys/time.h>
 
 // taille de l'ecran
 # define WIDTH 1200
@@ -80,8 +80,8 @@ typedef struct s_tex
 	int					bpp;
 	int					line_len;
 	int					endian;
-	int					width;
-	int					height;
+	int					*width;
+	int					*height;
 }						t_tex;
 
 // structure qui gere l'affichage
@@ -171,8 +171,8 @@ typedef struct s_config
 	char				*so_text;
 	char				*ea_text;
 	char				*we_text;
-	int					floor;
-	int					ceiling;
+	char				*floor;
+	char				*ceiling;
 }						t_config;
 
 ///////////////CUB3D////////////////
@@ -205,7 +205,8 @@ void					set_direction(t_map *map, int x, int y);
 
 void					set_virtual_plan(t_map *map, int x, int y);
 
-long long	timestamp(void); ////////////////////////////////////////////////////
+long long	timestamp(void);
+		////////////////////////////////////////////////////
 
 /////////////////MOOVE////////////////
 void					move_forw_back(t_data *data);
@@ -247,8 +248,11 @@ int						render(t_data *data);
 void					init_minimap(t_map *map, t_minimap *mini);
 
 ////////////////TEXTURES///////////////////////
-int sotck_config( int fd, t_config *cfg);
+// int	init_textures(t_data *data, t_config *cfg);
+// int	load_one_textures(t_data *data, int dir, char *path);
+int						count_textures(t_config *cfg, int count);
 
+int						sotck_config(int fd, t_config *cfg);
 
 // faire le parsing de la map
 // lecture 0 1 via gnl
