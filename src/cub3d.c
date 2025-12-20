@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/20 20:57:21 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/20 21:10:18 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ int	is_map_line(char *line)
 	int	i;
 
 	i = 0;
-	// while (line[i])
-	// {
+	while (line[i])
+	{
 		if (line[i] == '1')// && line[i] != '0' && line[i] != ' ' && line[i] != 'N'
 			//&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W'
 			//&& line[i] != '\n')
@@ -105,9 +105,9 @@ int	is_map_line(char *line)
 			return (0);
 			// fonction pour free grid et line et quitter le programme;
 		}
-		// i++;
-	// }
-	printf("Caractere non valable\n");
+		i++;
+	}
+	// printf("Caractere non valable\n");
 	return (1);
 }
 
@@ -286,7 +286,7 @@ int	main(void)
 	// }
 	// while (init_textures(data, cfg) != 0)
 	//
-	store_config(file, cfg);
+	// store_config(file, cfg);
 	printf("DEBUG 1 : %s\n", cfg->ea_text);
 	printf("DEBUG 2 : %s\n", cfg->so_text);
 	printf("DEBUG 3 : %s\n", cfg->we_text);
@@ -297,6 +297,7 @@ int	main(void)
 	// printf("width = %d, height = %d\n", map->width, map->height);
 	close(file);
 	file = open("map.cub", O_RDONLY);
+	store_config(file, cfg);
 	
 	// fill_map(file, map);
 	map->grid = fill_map(file, map);

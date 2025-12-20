@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 16:01:18 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/20 20:57:21 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/20 21:06:03 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	store_config(int file, t_config *cfg)
 			else if (strncmp(tab[0], "C", 2) == 0 && tab[1]
 				&& cfg->ceiling == NULL)
 				cfg->ceiling = ft_strtrim(tab[1], "\n");
+			else
+				printf("DOUBLONS %s\n", line);
 		}
 		free_split(tab);
 		free(line);
