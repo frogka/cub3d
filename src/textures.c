@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 16:01:18 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/20 19:05:49 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/20 20:57:21 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,41 +14,56 @@
 
 // gestion des textures avant fin du projet
 
-int sotck_config( int fd, t_config *cfg)
+int	store_config(int file, t_config *cfg)
 {
-	char *line;
-	char **tab;
+	char	*line;
+	char	**tab;
 
-	line = get_next_line(fd);
-	while(line)
+	line = get_next_line(file);
+	while (is_map_line(line) == 1)
 	{
+		if (config_full(cfg))
+		{
+			free(line);
+			break;
+		}
 		tab = ft_split(line, ' ');
 		if (tab && tab[0])
 		{
 			if (strncmp(tab[0], "NO", 3) == 0 && tab[1] && cfg->no_text == NULL)
 				cfg->no_text = ft_strtrim(tab[1], "\n");
-			else if (strncmp(tab[0], "SO", 3) == 0 && tab[1] && cfg->so_text == NULL)
+			else if (strncmp(tab[0], "SO", 3) == 0 && tab[1]
+				&& cfg->so_text == NULL)
 				cfg->so_text = ft_strtrim(tab[1], "\n");
-			else if (strncmp(tab[0], "EA", 3) == 0 && tab[1] && cfg->ea_text == NULL)
+			else if (strncmp(tab[0], "EA", 3) == 0 && tab[1]
+				&& cfg->ea_text == NULL)
 				cfg->ea_text = ft_strtrim(tab[1], "\n");
-			else if (strncmp(tab[0], "WE", 3) == 0 && tab[1] && cfg->we_text == NULL)
+			else if (strncmp(tab[0], "WE", 3) == 0 && tab[1]
+				&& cfg->we_text == NULL)
 				cfg->we_text = ft_strtrim(tab[1], "\n");
-			else if (strncmp(tab[0], "F", 2) == 0 && tab[1] && cfg->floor == NULL)
+			else if (strncmp(tab[0], "F", 2) == 0 && tab[1]
+				&& cfg->floor == NULL)
 				cfg->floor = ft_strtrim(tab[1], "\n");
-			else if (strncmp(tab[0], "C", 2) == 0 && tab[1] && cfg->ceiling == NULL)
-				cfg->ceiling = ft_strtrim(tab[1], "\n");	
+			else if (strncmp(tab[0], "C", 2) == 0 && tab[1]
+				&& cfg->ceiling == NULL)
+				cfg->ceiling = ft_strtrim(tab[1], "\n");
 		}
 		free_split(tab);
 		free(line);
-		line = get_next_line(fd);
+		line = get_next_line(file);
 	}
-	return 0;
+	return (0);
 }
 
+int	config_full(t_config *cfg)
+{
+	return (cfg->ceiling  && cfg->floor && cfg->no_text
+		&& cfg->so_text && cfg->ea_text && cfg->we_text);
+}
 
 /*
 
-int count_textures(t_config *cfg , int count)
+int	count_textures(t_config *cfg , int count)
 {
 	if (cfg->ea_text == NULL)
 		return (1);
@@ -88,9 +103,9 @@ int count_textures(t_config *cfg , int count)
 // 			&data->tex[dir].endian);
 // 	return (1);
 // }
-	
 
-// //controle que les text aient ete chargees 
+
+// //controle que les text aient ete chargees
 // int	init_textures(t_data *data, t_config *cfg)
 // {
 // 	if (!load_one_textures(data, NORTH, cfg->no_text))

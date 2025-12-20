@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/20 19:06:14 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/20 20:57:21 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,8 +183,8 @@ int						xrgb(int r, int g, int b);
 void					*parse_config(t_config *config, char *line);
 int						is_config_line(char *line);
 int						is_map_line(char *line);
-char					**fill_map(int fd, t_map *map);
-int						count_map_lines(int fd, t_map *map);
+char					**fill_map(int file, t_map *map);
+int						count_map_lines(int file, t_map *map);
 // char				**map_space(t_map *map, char **grid);
 
 ///////////MAP/////////////
@@ -252,7 +252,9 @@ void					init_minimap(t_map *map, t_minimap *mini);
 // int	load_one_textures(t_data *data, int dir, char *path);
 //int						count_textures(t_config *cfg, int count);
 //
-int						sotck_config(int fd, t_config *cfg);
+int						store_config(int file, t_config *cfg);
+int	config_full(t_config *cfg);
+
 
 // faire le parsing de la map
 // lecture 0 1 via gnl

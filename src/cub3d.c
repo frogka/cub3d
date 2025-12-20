@@ -6,14 +6,14 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/20 19:20:00 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/20 20:57:21 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 // count widht et height max de la map
-int	count_map_lines(int fd, t_map *map)
+int	count_map_lines(int file, t_map *map)
 {
 	char	*line;
 	int		len;
@@ -22,7 +22,7 @@ int	count_map_lines(int fd, t_map *map)
 	len = 0;
 	count = 0;
 	line = NULL;
-	while ((line = get_next_line(fd)) != NULL)
+	while ((line = get_next_line(file)) != NULL)
 	{
 		if (is_map_line(line) == 0)
 		{
@@ -44,7 +44,7 @@ int	count_map_lines(int fd, t_map *map)
 }
 
 // forme une map de width et height identique
-char	**fill_map(int fd, t_map *map)
+char	**fill_map(int file, t_map *map)
 {
 	int		i;
 	int		len;
@@ -58,7 +58,7 @@ char	**fill_map(int fd, t_map *map)
 		return (NULL);
 	i = 0;
 	// j = 0;
-	while ((line = get_next_line(fd)) != NULL)
+	while ((line = get_next_line(file)) != NULL)
 	{
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
@@ -66,6 +66,7 @@ char	**fill_map(int fd, t_map *map)
 		{
 			// tout le if peut tenir dans une fontion pour < 25 lignes
 			len = ft_strlen(line);
+			printf("DEBUG : TAILLE de width: %d\n", map->width);
 			grid[i] = malloc(sizeof(char) * (map->width + 1));
 			ft_memcpy(grid[i], line, len);
 			while (len < map->width)
@@ -95,17 +96,17 @@ int	is_map_line(char *line)
 	int	i;
 
 	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '1' && line[i] != '0' && line[i] != ' ' && line[i] != 'N'
-			&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W'
-			&& line[i] != '\n')
+	// while (line[i])
+	// {
+		if (line[i] == '1')// && line[i] != '0' && line[i] != ' ' && line[i] != 'N'
+			//&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W'
+			//&& line[i] != '\n')
 		{
 			return (0);
 			// fonction pour free grid et line et quitter le programme;
 		}
-		i++;
-	}
+		// i++;
+	// }
 	printf("Caractere non valable\n");
 	return (1);
 }
@@ -225,7 +226,7 @@ void	my_mlx_pixel_put(t_image *img, int x, int y, int color)
 
 int	main(void)
 {
-	int		fd;
+	int		file;
 	t_data	*data;
 	t_map	*map;
 	t_config *cfg;
@@ -271,9 +272,9 @@ int	main(void)
 	if (!map)
 		exit(1);
 	// faire une condition qui ouvre seulement si .cub
-	fd = open("map.cub", O_RDONLY);
-	// printf("after open: fd = %d\n", fd);
-	// while ((line = get_next_line(fd)))
+	file = open("map.cub", O_RDONLY);
+	// printf("after open: file = %d\n", file);
+	// while ((line = get_next_line(file)))
 	// {
 	//    printf("%s\n", line);
 	//    if (is_map_line(line))
@@ -285,15 +286,20 @@ int	main(void)
 	// }
 	// while (init_textures(data, cfg) != 0)
 	//
-	sotck_config(fd, cfg);
-	if (count_map_lines(fd, map) == -1)
+	store_config(file, cfg);
+	printf("DEBUG 1 : %s\n", cfg->ea_text);
+	printf("DEBUG 2 : %s\n", cfg->so_text);
+	printf("DEBUG 3 : %s\n", cfg->we_text);
+	printf("DEBUG 4 : %s\n", cfg->no_text);
+	
+	if (count_map_lines(file, map) == -1)
 		return (1);
 	// printf("width = %d, height = %d\n", map->width, map->height);
-	close(fd);
-	fd = open("map.cub", O_RDONLY);
+	close(file);
+	file = open("map.cub", O_RDONLY);
 	
-	// fill_map(fd, map);
-	map->grid = fill_map(fd, map);
+	// fill_map(file, map);
+	map->grid = fill_map(file, map);
 	if (check_num_player(map))
 		return (1);
 	if (!map->grid)
