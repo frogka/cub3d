@@ -6,53 +6,53 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 18:24:28 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/16 00:41:13 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/20 18:00:37 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-// check la que la map est bien bornee
+// check que la map est bien bornee
 int	check_map_closed(t_map *map)
 {
-	char	**cpy_grid;
+	char	**copy_grid;
 
-	cpy_grid = copy_map(map->grid, map);
-	if (!cpy_grid)
+	copy_grid = copy_map(map->grid, map);
+	if (!copy_grid)
 		return (1);
-	if (flood_fill(cpy_grid, map, map->posX, map->posY))
+	if (flood_fill(copy_grid, map, map->posX, map->posY))
 	{
-		free_split(cpy_grid);
+		free_split(copy_grid);
 		return (1);
 	}
-	free_split(cpy_grid);
+	free_split(copy_grid);
 	return (0);
 }
 
 // check que la map est correcte
 // pas de trou, pas de joueur a la limite ou hors cadre
-int	flood_fill(char **cpy_grid, t_map *map, int x, int y)
+int	flood_fill(char **copy_grid, t_map *map, int x, int y)
 {
 	if (x < 0 || x >= map->width || y < 0 || y >= map->height)
 	{
 		printf("Playeur hors cadre\n");
 		return (1);
 	}
-	if (cpy_grid[y][x] == ' ' || cpy_grid[y][x] == '\0')
+	if (copy_grid[y][x] == ' ' || copy_grid[y][x] == '\0')
 	{
 		printf("Map avec un trou\n");
 		return (1);
 	}
-	if (cpy_grid[y][x] == '1' || cpy_grid[y][x] == 'V')
+	if (copy_grid[y][x] == '1' || copy_grid[y][x] == 'V')
 		return (0);
-	cpy_grid[y][x] = 'V';
-	if (flood_fill(cpy_grid, map, x + 1, y) == 1)
+	copy_grid[y][x] = 'V';
+	if (flood_fill(copy_grid, map, x + 1, y) == 1)
 		return (1);
-	if (flood_fill(cpy_grid, map, x - 1, y) == 1)
+	if (flood_fill(copy_grid, map, x - 1, y) == 1)
 		return (1);
-	if (flood_fill(cpy_grid, map, x, y + 1) == 1)
+	if (flood_fill(copy_grid, map, x, y + 1) == 1)
 		return (1);
-	if (flood_fill(cpy_grid, map, x, y - 1) == 1)
+	if (flood_fill(copy_grid, map, x, y - 1) == 1)
 		return (1);
 	return (0);
 	// message d'erreur
@@ -62,26 +62,26 @@ int	flood_fill(char **cpy_grid, t_map *map, int x, int y)
 char	**copy_map(char **grid, t_map *map)
 {
 	int		i;
-	char	**cpy_grid;
+	char	**copy_grid;
 
 	i = 0;
-	cpy_grid = malloc(sizeof(char *) * (map->height + 1));
-	if (!cpy_grid)
+	copy_grid = malloc(sizeof(char *) * (map->height + 1));
+	if (!copy_grid)
 		return (NULL);
 	while (i < map->height)
 	{
-		cpy_grid[i] = ft_strdup(grid[i]);
+		copy_grid[i] = ft_strdup(grid[i]);
 		i++;
 	}
-	cpy_grid[i] = NULL;
+	copy_grid[i] = NULL;
 	i = 0;
 	// printf("voici la copie\n");
-	// while (cpy_grid[i])
+	// while (copy_grid[i])
 	// {
-	// 	printf("%s\n", cpy_grid[i]);
-	// 	printf("%zu\n", ft_strlen(cpy_grid[i++]));
+	// 	printf("%s\n", copy_grid[i]);
+	// 	printf("%zu\n", ft_strlen(copy_grid[i++]));
 	// }
-	return (cpy_grid);
+	return (copy_grid);
 }
 
 // dessin de la map en 2d

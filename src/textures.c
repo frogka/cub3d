@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 16:01:18 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/19 18:43:09 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/20 19:05:49 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int sotck_config( int fd, t_config *cfg)
 }
 
 
-
+/*
 
 int count_textures(t_config *cfg , int count)
 {
@@ -107,3 +107,4 @@ int count_textures(t_config *cfg , int count)
 // 		return (0);
 // 	return (1);
 // }
+*/

@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/19 18:37:18 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/20 19:20:00 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,8 +229,14 @@ int	main(void)
 	t_data	*data;
 	t_map	*map;
 	t_config *cfg;
-
+//
 	cfg = malloc(sizeof(t_config));
+	cfg->ea_text = 0;
+	cfg->so_text = 0;
+	cfg->no_text = 0;
+	cfg->we_text = 0;
+	cfg->ceiling = 0;
+	cfg->floor = 0;
 	// t_ray *ray;
 	data = malloc(sizeof(t_data));
 	// ray = malloc(sizeof(t_ray));
@@ -278,6 +284,7 @@ int	main(void)
 	//    free(line);
 	// }
 	// while (init_textures(data, cfg) != 0)
+	//
 	sotck_config(fd, cfg);
 	if (count_map_lines(fd, map) == -1)
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/19 17:27:26 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/20 19:06:14 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ int						count_map_lines(int fd, t_map *map);
 
 ///////////MAP/////////////
 int						check_map_closed(t_map *map);
-int						flood_fill(char **cpy_grid, t_map *map, int x, int y);
+int						flood_fill(char **copy_grid, t_map *map, int x, int y);
 char					**copy_map(char **grid, t_map *map);
 void					draw_square(t_data *data, char c, int x, int y);
 void					draw_map(t_map *map, t_data *data);
@@ -250,8 +250,8 @@ void					init_minimap(t_map *map, t_minimap *mini);
 ////////////////TEXTURES///////////////////////
 // int	init_textures(t_data *data, t_config *cfg);
 // int	load_one_textures(t_data *data, int dir, char *path);
-int						count_textures(t_config *cfg, int count);
-
+//int						count_textures(t_config *cfg, int count);
+//
 int						sotck_config(int fd, t_config *cfg);
 
 // faire le parsing de la map
