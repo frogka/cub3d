@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/20 21:10:18 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/21 23:55:52 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ int	count_map_lines(int file, t_map *map)
 	line = NULL;
 	while ((line = get_next_line(file)) != NULL)
 	{
-		if (is_map_line(line) == 0)
+		printf("DEBUG LINE MAP : %s\n", line);
+		if (is_map_line(line) && line[0] != 0)
 		{
+		printf("DEBUG LINE MAP 2 : %s\n", line);
 			count++;
 			len = ft_strlen(line);
 			// printf("%d\n", len);
@@ -62,7 +64,7 @@ char	**fill_map(int file, t_map *map)
 	{
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
-		if (is_map_line(line) == 0)
+		if (is_map_line(line))
 		{
 			// tout le if peut tenir dans une fontion pour < 25 lignes
 			len = ft_strlen(line);
@@ -98,9 +100,9 @@ int	is_map_line(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '1')// && line[i] != '0' && line[i] != ' ' && line[i] != 'N'
-			//&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W'
-			//&& line[i] != '\n')
+		if (line[0] != 0 && line[i] != '1' && line[i] != '0' && line[i] != ' ' && line[i] != 'N'
+			&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W'
+			&& line[i] != '\n')
 		{
 			return (0);
 			// fonction pour free grid et line et quitter le programme;
@@ -119,20 +121,18 @@ int	is_config_line(char *line)
 	i = 0;
 	while (ft_isspace(&line[i])) // mettre les \n et \0 ??
 		i++;
-	if (ft_strncmp(line, "NO", 2) == 0 && ft_isspace(&line[i + 2]))
+	if (ft_strncmp(&line[i], "NO", 2) == 0 && ft_isspace(&line[i + 2]))
 		return (1);
-	else if (ft_strncmp(line, "EA", 2) == 0 && ft_isspace(&line[i + 2]))
+	else if (ft_strncmp(&line[i], "EA", 2) == 0 && ft_isspace(&line[i + 2]))
 		return (1);
-	else if (ft_strncmp(line, "WE", 2) == 0 && ft_isspace(&line[i + 2]))
+	else if (ft_strncmp(&line[i], "WE", 2) == 0 && ft_isspace(&line[i + 2]))
 		return (1);
-	else if (ft_strncmp(line, "SO", 2) == 0 && ft_isspace(&line[i + 2]))
+	else if (ft_strncmp(&line[i], "SO", 2) == 0 && ft_isspace(&line[i + 2]))
 		return (1);
-	else if (line[i] == 'C' && ft_isspace(&line[i + 1]))
+	else if (ft_strncmp(&line[i], "C", 1) == 0  && ft_isspace(&line[i + 1]))
 		return (1);
-	else if (line[i] == 'F' && ft_isspace(&line[i + 1]))
+	else if (ft_strncmp(&line[i], "F", 1) == 0 && ft_isspace(&line[i + 1]))
 		return (1);
-	// else
-	//   return ; //message d'erreur
 	//
 	// AJOUT d'une conditon dans le main que si on a une map line
 	// et que les configs sont != de 6 ca va pas
@@ -287,19 +287,22 @@ int	main(void)
 	// while (init_textures(data, cfg) != 0)
 	//
 	// store_config(file, cfg);
-	printf("DEBUG 1 : %s\n", cfg->ea_text);
-	printf("DEBUG 2 : %s\n", cfg->so_text);
-	printf("DEBUG 3 : %s\n", cfg->we_text);
-	printf("DEBUG 4 : %s\n", cfg->no_text);
+	
 	
 	if (count_map_lines(file, map) == -1)
 		return (1);
 	// printf("width = %d, height = %d\n", map->width, map->height);
 	close(file);
 	file = open("map.cub", O_RDONLY);
-	store_config(file, cfg);
+	if (store_config(file, cfg))
+		return (1);
+	printf("DEBUG 1 : %s\n", cfg->ea_text);
+	printf("DEBUG 2 : %s\n", cfg->so_text);
+	printf("DEBUG 3 : %s\n", cfg->we_text);
+	printf("DEBUG 4 : %s\n", cfg->no_text);
+	printf("DEBUG 5 : %s\n", cfg->floor);
+	printf("DEBUG 6 : %s\n", cfg->ceiling);
 	
-	// fill_map(file, map);
 	map->grid = fill_map(file, map);
 	if (check_num_player(map))
 		return (1);
@@ -308,6 +311,8 @@ int	main(void)
 		perror("fill_map failed");
 		return (1);
 	}
+	if (data->map == NULL)
+    	printf("ERREUR : La map n'a pas été allouée !\n");
 	player_position(map);
 	if (check_map_closed(map))
 	{

@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 16:01:18 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/20 21:06:03 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/21 23:46:05 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,39 +20,50 @@ int	store_config(int file, t_config *cfg)
 	char	**tab;
 
 	line = get_next_line(file);
-	while (is_map_line(line) == 1)
+	while (!config_full(cfg))
 	{
-		if (config_full(cfg))
-		{
-			free(line);
+		if (!line)
 			break;
-		}
-		tab = ft_split(line, ' ');
-		if (tab && tab[0])
+		if (is_config_line(line))
 		{
-			if (strncmp(tab[0], "NO", 3) == 0 && tab[1] && cfg->no_text == NULL)
-				cfg->no_text = ft_strtrim(tab[1], "\n");
-			else if (strncmp(tab[0], "SO", 3) == 0 && tab[1]
-				&& cfg->so_text == NULL)
-				cfg->so_text = ft_strtrim(tab[1], "\n");
-			else if (strncmp(tab[0], "EA", 3) == 0 && tab[1]
-				&& cfg->ea_text == NULL)
-				cfg->ea_text = ft_strtrim(tab[1], "\n");
-			else if (strncmp(tab[0], "WE", 3) == 0 && tab[1]
-				&& cfg->we_text == NULL)
-				cfg->we_text = ft_strtrim(tab[1], "\n");
-			else if (strncmp(tab[0], "F", 2) == 0 && tab[1]
-				&& cfg->floor == NULL)
-				cfg->floor = ft_strtrim(tab[1], "\n");
-			else if (strncmp(tab[0], "C", 2) == 0 && tab[1]
-				&& cfg->ceiling == NULL)
-				cfg->ceiling = ft_strtrim(tab[1], "\n");
-			else
-				printf("DOUBLONS %s\n", line);
+			tab = ft_split(line, ' ');
+			if (tab && tab[0])
+			{
+				if (strncmp(tab[0], "NO", 3) == 0 && tab[1] && cfg->no_text == NULL)
+					cfg->no_text = ft_strtrim(tab[1], "\n");
+				else if (strncmp(tab[0], "SO", 3) == 0 && tab[1]
+					&& cfg->so_text == NULL)
+					cfg->so_text = ft_strtrim(tab[1], "\n");
+				else if (strncmp(tab[0], "EA", 3) == 0 && tab[1]
+					&& cfg->ea_text == NULL)
+					cfg->ea_text = ft_strtrim(tab[1], "\n");
+				else if (strncmp(tab[0], "WE", 3) == 0 && tab[1]
+					&& cfg->we_text == NULL)
+					cfg->we_text = ft_strtrim(tab[1], "\n");
+				else if (strncmp(tab[0], "F", 2) == 0 && tab[1]
+					&& cfg->floor == NULL)
+					cfg->floor = ft_strtrim(tab[1], "\n");
+				else if (strncmp(tab[0], "C", 2) == 0 && tab[1]
+					&& cfg->ceiling == NULL)
+					cfg->ceiling = ft_strtrim(tab[1], "\n");
+				else
+					printf("DOUBLONS : %s\n", line); //message d'erreur + exit;
+				free(line);
+				free_split(tab);
+			}
 		}
-		free_split(tab);
-		free(line);
+		else if (!config_full(cfg) && is_map_line(line))
+		{
+			//cfg->first_map_line = ft_strdup(line);
+			//printf("CHECK : %s\n", cfg->first_map_line);
+			printf("ERREUR CFG\n");
+			free(line);
+			return (1);
+		}
+		if (config_full(cfg))
+			break;
 		line = get_next_line(file);
+		//printf("DEBUG LINE: %s\n", line);
 	}
 	return (0);
 }
