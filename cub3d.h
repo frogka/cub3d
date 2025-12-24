@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/21 22:16:42 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/24 00:26:52 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@
 # define SOUTH 1
 # define WEST 2
 # define EAST 3
+# define FLOOR 4
+# define CEILING 5
 
 // key des touches clavier
 enum					key
@@ -167,13 +169,14 @@ typedef struct s_map
 // gere les images et couleurs de la map
 typedef struct s_config
 {
-	char				*first_map_line;
-	char				*no_text;
-	char				*so_text;
-	char				*ea_text;
-	char				*we_text;
-	char				*floor;
-	char				*ceiling;
+	// char				*first_map_line;
+	// char				*no_text;
+	char				*tex[6];
+	// char				*so_text;
+	// char				*ea_text;
+	// char				*we_text;
+	// char				*floor;
+	// char				*ceiling;
 }						t_config;
 
 ///////////////CUB3D////////////////
@@ -224,6 +227,7 @@ void					destroy(t_data *data);
 int						key_release(int key, t_data *data);
 int						key_press(int key, t_data *data);
 void					normalize_move(t_data *data);
+void					free_config(t_config *config);
 
 /////////////////RAYCASTING/////////////////
 // void					draw_rays(t_data *data);
@@ -255,6 +259,12 @@ void					init_minimap(t_map *map, t_minimap *mini);
 //
 int						store_config(int file, t_config *cfg);
 int						config_full(t_config *cfg);
+void					free_config(t_config *config);
+
+///////////////INIT///////////////////////
+int						init_structure_data(t_data *data, t_map *map);
+int						init_structure_map(t_map *map);
+int						init_structure_config(t_config *config);
 
 // faire le parsing de la map
 // lecture 0 1 via gnl

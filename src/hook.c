@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 20:54:05 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/18 17:00:28 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/23 22:21:01 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,16 @@ void	init_hook(t_data *data)
 // fermeture de la fenetre via la X
 int	close_win(t_data *data)
 {
+	// free(data->config->ceiling);
+	// free(data->config->floor);
+	// free(data->config->ea_text);
+	// free(data->config->so_text);
+	// free(data->config->no_text);
+	// free(data->config->we_text);
 	free_split(data->map->grid);
 	free(data->map);
 	free(data->m);
+	free_config(data->config);
 	mlx_destroy_image(data->mlx_ptr, data->img.img_ptr);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	mlx_destroy_display(data->mlx_ptr);
@@ -140,12 +147,33 @@ int	close_win(t_data *data)
 // fermeture de la fenetre via ESC
 void	destroy(t_data *data)
 {
+	// free(data->config->ceiling);
+	// free(data->config->floor);
+	// free(data->config->ea_text);
+	// free(data->config->so_text);
+	// free(data->config->no_text);
+	// free(data->config->we_text);
 	free_split(data->map->grid);
 	free(data->map);
 	free(data->m);
+	free_config(data->config);
 	mlx_destroy_image(data->mlx_ptr, data->img.img_ptr);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	mlx_destroy_display(data->mlx_ptr);
 	free(data->mlx_ptr);
 	exit(0);
+}
+
+void	free_config(t_config *config)
+{
+	if (!config)
+		return ;
+	int i;
+	i = 0;
+	while (i < 6)
+	{
+		if (config->tex[i])
+			free(config->tex[i]);
+		i++;
+	}
 }

@@ -11,6 +11,7 @@ SRCS = src/cub3d.c \
 	   raycasting/render.c \
 	   raycasting/dda.c \
 	   src/textures.c \
+	   src/init.c \
 
 # Compilateur
 CC = cc

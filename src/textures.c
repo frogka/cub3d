@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 16:01:18 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/21 23:46:05 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/24 00:00:30 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,61 +18,97 @@ int	store_config(int file, t_config *cfg)
 {
 	char	*line;
 	char	**tab;
+	char	**text;
+	int		i;
 
+	text = ft_split("NO SO EA WE F C", ' ');
 	line = get_next_line(file);
 	while (!config_full(cfg))
 	{
 		if (!line)
-			break;
+			return(free_split(text), 1);
 		if (is_config_line(line))
 		{
+			i = 0;
 			tab = ft_split(line, ' ');
 			if (tab && tab[0])
 			{
-				if (strncmp(tab[0], "NO", 3) == 0 && tab[1] && cfg->no_text == NULL)
-					cfg->no_text = ft_strtrim(tab[1], "\n");
-				else if (strncmp(tab[0], "SO", 3) == 0 && tab[1]
-					&& cfg->so_text == NULL)
-					cfg->so_text = ft_strtrim(tab[1], "\n");
-				else if (strncmp(tab[0], "EA", 3) == 0 && tab[1]
-					&& cfg->ea_text == NULL)
-					cfg->ea_text = ft_strtrim(tab[1], "\n");
-				else if (strncmp(tab[0], "WE", 3) == 0 && tab[1]
-					&& cfg->we_text == NULL)
-					cfg->we_text = ft_strtrim(tab[1], "\n");
-				else if (strncmp(tab[0], "F", 2) == 0 && tab[1]
-					&& cfg->floor == NULL)
-					cfg->floor = ft_strtrim(tab[1], "\n");
-				else if (strncmp(tab[0], "C", 2) == 0 && tab[1]
-					&& cfg->ceiling == NULL)
-					cfg->ceiling = ft_strtrim(tab[1], "\n");
-				else
-					printf("DOUBLONS : %s\n", line); //message d'erreur + exit;
-				free(line);
+				while (text[i])
+				{
+					if (ft_strncmp(tab[0], text[i], ft_strlen(text[i]) + 1) == 0)
+					{
+						if (tab[1] && cfg->tex[i] == NULL)
+						{
+							cfg->tex[i] = ft_strtrim(tab[1], "\n");
+							break ;
+						}
+						else if (tab[1] && cfg->tex[i] != NULL)
+						{
+							printf("DOUBLONS : %s\n", line);
+							return (free_split(tab), free(line), free_split(text), 1);
+						}
+					}
+					i++;
+				}
 				free_split(tab);
 			}
 		}
 		else if (!config_full(cfg) && is_map_line(line))
 		{
-			//cfg->first_map_line = ft_strdup(line);
-			//printf("CHECK : %s\n", cfg->first_map_line);
-			printf("ERREUR CFG\n");
-			free(line);
-			return (1);
+			printf("Error\nNO OR LESS CONFIGS THAN EXPECTED\n");
+			return (free(line), free_split(text), 1);
 		}
-		if (config_full(cfg))
-			break;
+		else if (config_full(cfg))
+			return(free(line), free_split(text), 0);
+		free(line);
 		line = get_next_line(file);
-		//printf("DEBUG LINE: %s\n", line);
+		// printf("DEBUG LINE: %s\n", line);
 	}
 	return (0);
 }
 
-int	config_full(t_config *cfg)
+int	config_full(t_config *config)
 {
-	return (cfg->ceiling  && cfg->floor && cfg->no_text
-		&& cfg->so_text && cfg->ea_text && cfg->we_text);
+	int	i;
+
+	i = 0;
+	while (i < 6)
+	{
+		if (config->tex[i])
+			i++;
+		else
+			return (0);
+	}
+	return (1);
 }
+
+// dans la focnitn store config
+
+// if (strncmp(tab[0], "NO", 3) == 0 && tab[1] && cfg->no_text == NULL)
+// 	cfg->no_text = ft_strtrim(tab[1], "\n");
+// else if (strncmp(tab[0], "SO", 3) == 0 && tab[1]
+// 	&& cfg->so_text == NULL)
+// 	cfg->so_text = ft_strtrim(tab[1], "\n");
+// else if (strncmp(tab[0], "EA", 3) == 0 && tab[1]
+// 	&& cfg->ea_text == NULL)
+// 	cfg->ea_text = ft_strtrim(tab[1], "\n");
+// else if (strncmp(tab[0], "WE", 3) == 0 && tab[1]
+// 	&& cfg->we_text == NULL)
+// 	cfg->we_text = ft_strtrim(tab[1], "\n");
+// else if (strncmp(tab[0], "F", 2) == 0 && tab[1]
+// 	&& cfg->floor == NULL)
+// 	cfg->floor = ft_strtrim(tab[1], "\n");
+// else if (strncmp(tab[0], "C", 2) == 0 && tab[1]
+// 	&& cfg->ceiling == NULL)
+// 	cfg->ceiling = ft_strtrim(tab[1], "\n");
+// else
+// 	printf("DOUBLONS : %s\n", line); //message d'erreur + exit;
+
+// int	config_full(t_config *cfg)
+// {
+// 	return (cfg->ceiling  && cfg->floor && cfg->no_text
+// 		&& cfg->so_text && cfg->ea_text && cfg->we_text);
+// }
 
 /*
 

@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/21 23:55:52 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/24 00:33:05 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	count_map_lines(int file, t_map *map)
 	while ((line = get_next_line(file)) != NULL)
 	{
 		printf("DEBUG LINE MAP : %s\n", line);
-		if (is_map_line(line) && line[0] != 0)
+		if (is_map_line(line))
 		{
 		printf("DEBUG LINE MAP 2 : %s\n", line);
 			count++;
@@ -100,7 +100,7 @@ int	is_map_line(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[0] != 0 && line[i] != '1' && line[i] != '0' && line[i] != ' ' && line[i] != 'N'
+		if (line[i] != '1' && line[i] != '0' && line[i] != ' ' && line[i] != 'N'
 			&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W'
 			&& line[i] != '\n')
 		{
@@ -182,9 +182,9 @@ int	xrgb(int r, int g, int b)
 int	check_colors(char *line)
 {
 	char	**colors;
-	int		r;
-	int		g;
-	int		b;
+	int		red;
+	int		green;
+	int		blue;
 	int		i;
 
 	i = 0;
@@ -197,12 +197,12 @@ int	check_colors(char *line)
 		return (-1);
 		// message d'erreur
 	}
-	r = ft_atoi(colors[0]);
-	g = ft_atoi(colors[1]);
-	b = ft_atoi(colors[2]);
+	red = ft_atoi(colors[0]);
+	green = ft_atoi(colors[1]);
+	blue = ft_atoi(colors[2]);
 	free_split(colors);
-	if (check_valid_numbers(r, g, b) == 1)
-		return (xrgb(r, g, b));
+	if (check_valid_numbers(red, green, blue) == 1)
+		return (xrgb(red, green, blue));
 	return (-1);
 	// message d'erreur sur la validite des nombres
 }
@@ -229,48 +229,23 @@ int	main(void)
 	int		file;
 	t_data	*data;
 	t_map	*map;
-	t_config *cfg;
-//
-	cfg = malloc(sizeof(t_config));
-	cfg->ea_text = 0;
-	cfg->so_text = 0;
-	cfg->no_text = 0;
-	cfg->we_text = 0;
-	cfg->ceiling = 0;
-	cfg->floor = 0;
+	t_config *config;
+
+	data = 0;
+	map = 0;
+	config = 0;
+	if (init_structure_data(data, map))
+		return 1;
+	if (init_structure_map(map))
+		return 1;
+	if (init_structure_config(config))
+		return 1;
 	// t_ray *ray;
-	data = malloc(sizeof(t_data));
+	
 	// ray = malloc(sizeof(t_ray));
 	// printf("DEBUG: Ptr ray: %p\n", ray);
-	map = malloc(sizeof(t_map));
-	map->height = 0;
-	map->width = 0;
-	map->player_found = 0;
-	map->posX = 0;
-	map->posY = 0;
-	data->ray.mapx = 0;
-	data->ray.mapy = 0;
-	data->right = 0;
-	data->left = 0;
-	data->up = 0;
-	data->down = 0;
-	data->pov_l = 0;
-	data->pov_l = 0;
-	data->esc = 0;
-	data->wall_hit = malloc(sizeof(double) * WIDTH);
-	data->wall_side = malloc(sizeof(int) * WIDTH);
-	if (!data->wall_hit || !data->wall_side)
-	{
-		printf("ZEUB\n");
-		return (1);
-	}
 	// map->grid = NULL;
-	data->map = map;
-	// printf("DEBUG playerx : %f, playery : %f\n", data->map->posX,
-	// data->map->posY);
-	// printf("map addr main = %p\n", map);
-	if (!map)
-		exit(1);
+	
 	// faire une condition qui ouvre seulement si .cub
 	file = open("map.cub", O_RDONLY);
 	// printf("after open: file = %d\n", file);
@@ -294,14 +269,8 @@ int	main(void)
 	// printf("width = %d, height = %d\n", map->width, map->height);
 	close(file);
 	file = open("map.cub", O_RDONLY);
-	if (store_config(file, cfg))
+	if (store_config(file, config))
 		return (1);
-	printf("DEBUG 1 : %s\n", cfg->ea_text);
-	printf("DEBUG 2 : %s\n", cfg->so_text);
-	printf("DEBUG 3 : %s\n", cfg->we_text);
-	printf("DEBUG 4 : %s\n", cfg->no_text);
-	printf("DEBUG 5 : %s\n", cfg->floor);
-	printf("DEBUG 6 : %s\n", cfg->ceiling);
 	
 	map->grid = fill_map(file, map);
 	if (check_num_player(map))
@@ -329,12 +298,7 @@ int	main(void)
 	// m->scale = 0;
 	// data.m = m;
 	init_minimap(map, data->m);
-	// free_split(copy_map(map->grid, map));
-	// printf("%lf\n", map->posX);
-	// printf("%lf\n", map->posY);
-	// printf("%lf\n", map->player_dir);
-	// printf("adresse data = %p\n", &data);
-	// printf("adresse map  = %p\n", data.map);
+	
 	data->mlx_ptr = mlx_init();
 	data->win_ptr = mlx_new_window(data->mlx_ptr, WIDTH, HEIGHT, "CUB3D");
 	// rendu 3d
