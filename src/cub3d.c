@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:28:46 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/24 00:33:05 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/26 16:32:42 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,12 +234,16 @@ int	main(void)
 	data = 0;
 	map = 0;
 	config = 0;
-	if (init_structure_data(data, map))
+	data = init_structure_data();
+	if (!data)	
 		return 1;
-	if (init_structure_map(map))
-		return 1;
-	if (init_structure_config(config))
-		return 1;
+	map = init_structure_map();
+	if (!map)
+		return(free(data), 1);
+	data->map = map;
+	config = init_structure_config();
+	if (!config)
+		return (free_all_structures(data, map, config), 1);
 	// t_ray *ray;
 	
 	// ray = malloc(sizeof(t_ray));
@@ -248,30 +252,18 @@ int	main(void)
 	
 	// faire une condition qui ouvre seulement si .cub
 	file = open("map.cub", O_RDONLY);
-	// printf("after open: file = %d\n", file);
-	// while ((line = get_next_line(file)))
-	// {
-	//    printf("%s\n", line);
-	//    if (is_map_line(line))
-	//    {
-	//       free(line);
-	//       break ;
-	//    }
-	//    free(line);
-	// }
-	// while (init_textures(data, cfg) != 0)
-	//
-	// store_config(file, cfg);
 	
 	
 	if (count_map_lines(file, map) == -1)
 		return (1);
+	
 	// printf("width = %d, height = %d\n", map->width, map->height);
 	close(file);
 	file = open("map.cub", O_RDONLY);
 	if (store_config(file, config))
-		return (1);
-	
+		return (free_all_structures(data, map, config) ,1);
+	close(file);
+	file = open("map.cub", O_RDONLY);
 	map->grid = fill_map(file, map);
 	if (check_num_player(map))
 		return (1);
@@ -282,6 +274,7 @@ int	main(void)
 	}
 	if (data->map == NULL)
     	printf("ERREUR : La map n'a pas été allouée !\n");
+	close(file);
 	player_position(map);
 	if (check_map_closed(map))
 	{
@@ -293,10 +286,7 @@ int	main(void)
 	printf("DEBUG : %f\n", tan(FOV / 2));
 	printf("DEBUG 2 : %f\n", data->proj_pl_dist);
 	data->m = malloc(sizeof(t_minimap));
-	// m->height = 0;
-	// m->width = 0;
-	// m->scale = 0;
-	// data.m = m;
+
 	init_minimap(map, data->m);
 	
 	data->mlx_ptr = mlx_init();
@@ -310,32 +300,9 @@ int	main(void)
 	// printf("FGASDFSDF\n");
 	data->img.addr = mlx_get_data_addr(data->img.img_ptr, &data->img.bpp,
 			&data->img.line_len, &data->img.endian);
-	// map->posX);
-	// map->posY);
-	// // printf("%lf\n",
-	// map->player_dir);
-	// // printf("adresse data =
-	// %p\n",
-	// &data);
-	// // printf("adresse map  =
-	// %p\n",
-	// data.map);
-	// draw_rays(&data);
-	// draw_map(map,
-	// &data);
-	// mlx_put_image_to_window(data.mlx_ptr,
-	// data.win_ptr,
-	// data.img3d.img_ptr,
-	// 0,
-	// 0);
-	// mlx_put_image_to_window(data.mlx_ptr,
-	// data.win_ptr,
-	// data.img.img_ptr,
-	// 20,
-	// 20);
+
 	init_hook(data);
-	// printf("DEBUG 33: posX: %f, posY: %f\n", data->map->posX,
-	// data->map->posY);
+	
 	mlx_loop_hook(data->mlx_ptr, render, data);
 	mlx_loop_hook(data->mlx_ptr, handle_input, data);
 	mlx_loop(data->mlx_ptr);

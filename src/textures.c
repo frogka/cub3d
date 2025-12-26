@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 16:01:18 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/24 00:00:30 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/26 16:31:05 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	store_config(int file, t_config *cfg)
 			return(free(line), free_split(text), 0);
 		free(line);
 		line = get_next_line(file);
-		// printf("DEBUG LINE: %s\n", line);
 	}
 	return (0);
 }

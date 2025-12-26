@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 19:20:12 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/15 19:11:44 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/26 17:03:05 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,11 @@ double	dda_dist(t_data *data, t_ray *ray, int ray_id)
 		wall_x = data->map->posX + perp_dist * ray->ray_dx;
 	wall_x -= floor(wall_x);
 	data->wall_hit[ray_id] = wall_x;
+	if (!data->wall_hit)
+		printf("SEB EST UN CON");
 	data->wall_side[ray_id] = ray->side;
+	if (!data->wall_side)
+		printf("PROBLEME");
 	return (perp_dist);
 }
 

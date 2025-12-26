@@ -6,7 +6,7 @@
 /*   By: jdutille <jdutille@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:37:57 by jdutille          #+#    #+#             */
-/*   Updated: 2025/12/24 00:26:52 by jdutille         ###   ########.fr       */
+/*   Updated: 2025/12/24 16:06:23 by jdutille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,9 +262,10 @@ int						config_full(t_config *cfg);
 void					free_config(t_config *config);
 
 ///////////////INIT///////////////////////
-int						init_structure_data(t_data *data, t_map *map);
-int						init_structure_map(t_map *map);
-int						init_structure_config(t_config *config);
+t_data					*init_structure_data(void);
+t_map					*init_structure_map(void);
+t_config				*init_structure_config(void);
+void					free_all_structures(t_data *data, t_map *map, t_config *config);
 
 // faire le parsing de la map
 // lecture 0 1 via gnl
